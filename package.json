@@ -1,0 +1,39 @@
+{
+  "name": "claulet1.2",
+  "version": "1.0.0",
+  "description": "Claulet Eventos",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "keywords": [
+    "MVC",
+    "ejs",
+    "Tailwind",
+    "Postgres",
+    "Sequelize"
+  ],
+  "author": "Hub-code https://hub--code.com/",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^17.2.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.2.1",
+    "multer": "^2.0.2",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0",
+    "pg": "^8.16.3",
+    "sequelize": "^6.37.7",
+    "shortid": "^2.2.17"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}

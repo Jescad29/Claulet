@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Invitaciones Digitales</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: #ffffff;
+            min-height: 100vh;
+            padding-top: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: #adb5bd;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #495057;
+            color: #ffffff;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            background-color: #6f42c1;
+            /* Un tono de morado/púrpura */
+            border-color: #6f42c1;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a36a0;
+            border-color: #5a36a0;
+        }
+
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+            /* Para que los bordes redondeados se apliquen a la tabla */
+        }
+
+        .table thead {
+            background-color: #e9ecef;
+        }
+
+        /* Estilos para pestañas */
+        .nav-pills .nav-link {
+            border-radius: 8px;
+            color: #343a40;
+        }
+
+        .nav-pills .nav-link.active,
+        .nav-pills .nav-link:hover {
+            background-color: #6f42c1;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="sidebar d-none d-md-block">
+            <div class="sidebar-heading text-center py-4 fs-5 fw-bold">Admin Panel</div>
+            <div class="list-group list-group-flush" id="sidebar-nav" role="tablist">
+                <a href="#dashboard-tab" class="nav-link active" id="dashboard-link" data-bs-toggle="pill" role="tab"
+                    aria-controls="dashboard-tab" aria-selected="true"><i class="fas fa-tachometer-alt me-2"></i>
+                    Dashboard</a>
+                <a href="#events-tab" class="nav-link" id="events-link" data-bs-toggle="pill" role="tab"
+                    aria-controls="events-tab" aria-selected="false"><i class="fas fa-calendar-alt me-2"></i>
+                    Eventos</a>
+                <a href="#guests-tab" class="nav-link" id="guests-link" data-bs-toggle="pill" role="tab"
+                    aria-controls="guests-tab" aria-selected="false"><i class="fas fa-users me-2"></i> Invitados</a>
+                <a href="#templates-tab" class="nav-link" id="templates-link" data-bs-toggle="pill" role="tab"
+                    aria-controls="templates-tab" aria-selected="false"><i class="fas fa-paint-brush me-2"></i>
+                    Plantillas</a>
+                <a href="#settings-tab" class="nav-link" id="settings-link" data-bs-toggle="pill" role="tab"
+                    aria-controls="settings-tab" aria-selected="false"><i class="fas fa-cogs me-2"></i>
+                    Configuración</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="flex-grow-1">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary d-md-none" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2 class="navbar-brand mb-0 ms-3 d-none d-md-block">Dashboard Administrativo</h2>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-user-circle me-1"></i> Administrador
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Perfil</a>
+                                    <a class="dropdown-item" href="#">Cerrar Sesión</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid p-4">
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- Dashboard Tab Content -->
+                    <div class="tab-pane fade show active" id="dashboard-tab" role="tabpanel"
+                        aria-labelledby="dashboard-link">
+                        <div class="row mb-4">
+                            <div class="col-md-4">
+                                <div class="card text-center p-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-muted">Eventos Activos</h5>
+                                        <p class="card-text fs-2 fw-bold text-primary">3</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center p-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-muted">Invitados Totales</h5>
+                                        <p class="card-text fs-2 fw-bold text-info">1250</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card text-center p-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-muted">Plantillas Guardadas</h5>
+                                        <p class="card-text fs-2 fw-bold text-success">7</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Puedes añadir más contenido al dashboard aquí si es necesario -->
+
+                        <!-- Sección de Configuración de Diseño (No tiene funcionalidad por el momento) -->
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Configuración de Diseño (Interfaz Organizadores)</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="colorScheme" class="form-label">Esquema de Color</label>
+                                        <select class="form-select" id="colorScheme">
+                                            <option selected>Minimalista Azul</option>
+                                            <option>Elegante Gris</option>
+                                            <option>Vivo Púrpura</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="logoUpload" class="form-label">Logo para Organizadores</label>
+                                        <input class="form-control" type="file" id="logoUpload">
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary">Guardar Configuración</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Events Tab Content -->
+                    <div class="tab-pane fade" id="events-tab" role="tabpanel" aria-labelledby="events-link">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Gestión de Eventos</h5>
+                                <button class="btn btn-primary btn-sm" id="nuevoEvento" data-bs-toggle="modal"
+                                    data-bs-target="#newEventModal"><i class="fas fa-plus me-1"></i> Nuevo
+                                    Evento</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0" id="tablaEventos">
+                                        <thead>
+                                            <tr>
+                                                <th>Evento</th>
+                                                <th>Fecha</th>
+                                                <th>Confirmados</th>
+                                                <th>Pendientes</th>
+                                                <th>Declinados</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">No hay eventos
+                                                    registrados.</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-secondary me-1 btn-editar"
+                                                        title="Editar" data-bs-toggle="modal"
+                                                        data-bs-target="#editEventModal"><i
+                                                            class="fas fa-edit"></i></button>
+
+                                                    <button class="btn btn-sm btn-outline-secondary me-1 btn-invitados"
+                                                        title="Gestionar Invitados">
+                                                        <i class="fas fa-users"></i></button>
+
+                                                    <button class="btn btn-sm btn-outline-secondary me-1 btn-contrasena"
+                                                        title="Contraseñas" data-bs-toggle="modal"
+                                                        data-bs-target="#passwordModal"><i
+                                                            class="fas fa-key"></i></button>
+
+                                                    <button class="btn btn-sm btn-outline-danger btn-eliminar"
+                                                        title="Eliminar">
+                                                        <i class="fas fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Guests Tab Content -->
+                    <div class="tab-pane fade" id="guests-tab" role="tabpanel" aria-labelledby="guests-link">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Gestión de Invitados por Evento</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label for="selectEventGuests" class="form-label">Seleccionar Evento</label>
+                                    <select class="form-select" id="selectEventGuests">
+                                        <!-- % eventos.forEach(evento=> { %>
+                                                <option value="%= evento.usuario %>">
+                                                    %= evento.titulo %>
+                                                </option>
+                                                % }) %> -->
+                                    </select>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6>Lista de Invitados</h6>
+                                    <div>
+                                        <input type="file" id="inputSubirLista" accept=".xlsx,.csv"
+                                            style="display: none;">
+                                        <button class="btn btn-outline-primary btn-sm me-2" id="btnSubirLista"><i
+                                                class="fas fa-upload me-1"></i> Subir Lista (CSV/Excel)</button>
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#modalAgregarInvitado"><i class="fas fa-plus me-1"></i>
+                                            Añadir
+                                            Invitado</button>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>WhatsApp</th>
+                                                <th>Estatus</th>
+                                                <th>QR</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- <tr>
+                                                    <td>María García</td>
+                                                    <td>maria.g@email.com</td>
+                                                    <td>Confirmado</td>
+                                                    <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i
+                                                                class="fas fa-qrcode"></i></button></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-secondary me-1"
+                                                            title="Editar"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"
+                                                            title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Carlos López</td>
+                                                    <td>carlos.l@email.com</td>
+                                                    <td>Pendiente</td>
+                                                    <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i
+                                                                class="fas fa-qrcode"></i></button></td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-secondary me-1"
+                                                            title="Editar"><i class="fas fa-edit"></i></button>
+                                                        <button class="btn btn-sm btn-outline-danger"
+                                                            title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+                                                    </td>
+                                                </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Templates Tab Content -->
+                    <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Gestión de Plantillas de Invitación</h5>
+                                <button class="btn btn-primary btn-sm"><i class="fas fa-upload me-1"></i> Subir
+                                    Nueva
+                                    Plantilla</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+1"
+                                                class="card-img-top" alt="Plantilla 1">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Clásica Elegante</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+2"
+                                                class="card-img-top" alt="Plantilla 2">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Moderna Minimalista</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+3"
+                                                class="card-img-top" alt="Plantilla 3">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Temática Floral</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab Content -->
+                    <div class="tab-pane fade" id="settings-tab" role="tabpanel" aria-labelledby="settings-link">
+                        <div class="card">
+                            <div class="card-header bg-white">
+                                <h5 class="mb-0">Configuración General</h5>
+                            </div>
+                            <div class="card-body">
+                                <h6 class="mb-3 mt-4">Creación de usuarios</h6>
+                                <div class="mb-6">
+                                    <button class="btn btn-primary btn-sm mb-6" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario"><i class="fas fa-plus me-1"></i>Añadir Usuario</button>
+                                </div>
+                                <h6 class="mb-3">Configuración de Diseño (Interfaz Organizadores)</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="colorScheme" class="form-label">Esquema de Color</label>
+                                        <select class="form-select" id="colorScheme">
+                                            <option selected>Minimalista Azul</option>
+                                            <option>Elegante Gris</option>
+                                            <option>Vivo Púrpura</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="logoUpload" class="form-label">Logo para Organizadores</label>
+                                        <input class="form-control" type="file" id="logoUpload">
+                                    </div>
+                                </div>
+                                <h6 class="mb-3 mt-4">Configuración de Acceso</h6>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="adminEmail" class="form-label">Correo de Administrador</label>
+                                        <input type="email" class="form-control" id="adminEmail"
+                                            value="admin@invitaciones.com">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="adminPassword" class="form-label">Cambiar Contraseña de
+                                            Administrador</label>
+                                        <input type="password" class="form-control" id="adminPassword"
+                                            placeholder="********">
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <button class="btn btn-primary">Guardar Configuración</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+
+    <!-- Modals for Event Management -->
+    <!-- MODAL: Crear Usuario -->
+    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarUsuarioLabel">Crear Nuevo Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-usuarios" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="userName" class="form-label">Nombre</label>
+                            <input name="nombre" type="text" class="form-control" id="userName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input name="email" type="text" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userRol" class="form-label">Rol</label>
+                            <select name="rol" id="userRol" required>
+                                <option value="">Selecciona</option>
+                                <option value="admin">admin</option>
+                                <option value="organizador">organizador</option>
+                                <option value="anfitrion">anfitrion</option>
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="userImagen" class="form-label">Subir Imagen/Logo</label>
+                            <input name="imagen" type="file" class="form-control" id="userImagen" required>
+                        </div> -->
+                        <div class="mb-3">
+                            <label for="userPassword" class="form-label">Contraseña</label>
+                            <input name="password" type="password" class="form-control" id="userPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userConfirmarPassword" class="form-label">Repetir Contraseña</label>
+                            <input name="userConfirmarPassword" type="password" class="form-control" id="userRepeatPassword" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Crear Evento -->
+    <div class="modal fade" id="newEventModal" tabindex="-1" aria-labelledby="newEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newEventModalLabel">Crear Nuevo Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-evento">
+                        <div class="mb-3">
+                            <label for="eventName" class="form-label">Nombre del Evento</label>
+                            <input name="nombre" type="text" class="form-control" id="eventName" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="eventDate" class="form-label">Fecha</label>
+                                <input name="fecha" type="date" class="form-control" id="eventDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="eventTime" class="form-label">Hora</label>
+                                <input name="hora" type="time" class="form-control" id="eventTime" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="invitationMessage" class="form-label">Descripción del evento</label>
+                            <textarea name="descripcion" class="form-control" id="invitationMessage" rows="3"
+                            required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventLocation" class="form-label">Lugar</label>
+                            <input name="lugar" type="text" class="form-control" id="eventLocation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventUrl" class="form-label">Url del evento</label>
+                            <input name="eventUrl" type="text" class="form-control" id="eventUrl" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventOrganizador" class="form-label">Organizador:</label>
+                            <select name="organizador" type="text" class="form-control" id="eventOrganizador" required><option value="">Selecciona</option></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="eventAnfitrion" class="form-label">Anfitrion:</label>
+                            <select name="anfitrion" type="text" class="form-control" id="eventAnfitrion" required><option value="">Selecciona</option></select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Crear evento</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Editar Evento -->
+    <div class="modal fade" id="editEventModal" tabindex="-1" aria-labelledby="editEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editEventModalLabel">Editar Evento✨</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarEvento">
+                        <input type="hidden" id="editEventUsuario">
+                        <div class="mb-3">
+                            <label for="editEventName" class="form-label">Nombre del Evento</label>
+                            <input type="text" class="form-control" id="editEventName" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="editEventDate" class="form-label">Fecha</label>
+                                <input type="date" class="form-control" id="editEventDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="editEventTime" class="form-label">Hora</label>
+                                <input type="time" class="form-control" id="editEventTime" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEventLocation" class="form-label">Lugar</label>
+                            <input type="text" class="form-control" id="editEventLocation" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editInvitationMessage" class="form-label">Mensaje de Bienvenida
+                                (Invitación)</label>
+                            <textarea class="form-control" id="editInvitationMessage"
+                                rows="3">¡Nos encantaría que nos acompañaras en este día tan especial!</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editHtmlTemplateUpload" class="form-label">Cambiar Plantilla HTML de
+                                Invitación</label>
+                            <input class="form-control" type="file" id="editHtmlTemplateUpload" accept=".html">
+                            <small class="text-muted">Plantilla actual: boda_template.html</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="formEditarEvento" class="btn btn-primary">Actualizar Evento</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Modificar Contraseña -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Contraseñas del Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCambiarContrasena">
+                        <input type="hidden" id="usuarioParaContrasena">
+
+                        <div class="mb-3">
+                            <label for="organizerPass" class="form-label">Contraseña para Organizadores</label>
+                            <input type="password" class="form-control" id="organizerPass">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar Contraseñas</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Añadir Invitado -->
+    <div class="modal fade" id="modalAgregarInvitado" tabindex="-1" aria-labelledby="modalAgregarInvitadoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formAgregarInvitado" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAgregarInvitadoLabel">Añadir Invitado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="eventoSeleccionadoInput">
+                    <div class="mb-3">
+                        <label for="nombreInvitado" class="form-label">Nombre del invitado</label>
+                        <input type="text" class="form-control" id="nombreInvitado" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmarPor" class="form-label">Confirmar Por</label>
+                        <input type="text" class="form-control" id="confirmarPor" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codPais" class="form-label">LADA</label>
+                        <select id="lada" name="lada" required>
+                            <option value="">Selecciona</option>
+                            <option value="+52">🇲🇽 México (+52)</option>
+                            <option value="+1">🇺🇸 USA (+1)</option>
+                            <option value="+34">🇪🇸 España (+34)</option>
+                            <option value="+57">🇨🇴 Colombia (+57)</option>
+                            <option value="+54">🇦🇷 Argentina (+54)</option>
+                            <!-- Queda pendiente agregar mas ladas... -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cellInv" class="form-label">Celular</label>
+                        <input type="tel" class="form-control" id="cellInv" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="urlInv" class="form-label">URL de invitación</label>
+                        <input type="url" class="form-control" id="urlInv" placeholder="https://tusitio.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comentariosInv" class="form-label">Comentarios</label>
+                        <input type="text" class="form-control" id="comentariosInv" required>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Guardar Invitado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Modificar Invitado-->
+    <div class="modal fade" id="modalEditarInvitado" tabindex="-1" aria-labelledby="modalEditarInvitadoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <form id="formEditarInvitado" class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarInvitado">Editar Invitado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="inputEventIv" name="evento" />
+
+                    <div class="mb-3">
+                        <label for="nombreInvitadoEditar" class="form-label">Nombre del invitado</label>
+                        <input type="text" class="form-control" id="editNombreIv" name="nombre" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmarPorEditar" class="form-label">Confirmar Por</label>
+                        <input type="text" class="form-control" id="editConfirmar" name="confirmar" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="ladaEditar" class="form-label">LADA</label>
+                        <select id="editLadaIv" name="lada" required class="form-control">
+                            <option value="">Selecciona</option>
+                            <option value="+52">🇲🇽 México (+52)</option>
+                            <option value="+1">🇺🇸 USA (+1)</option>
+                            <option value="+34">🇪🇸 España (+34)</option>
+                            <option value="+57">🇨🇴 Colombia (+57)</option>
+                            <option value="+54">🇦🇷 Argentina (+54)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="cellInvEditar" class="form-label">Celular</label>
+                        <input type="tel" class="form-control" id="editWhatsIv" name="whats" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="urlInvEditar" class="form-label">URL de invitación</label>
+                        <input type="url" class="form-control" id="editURLIv" name="editURLIv"
+                            placeholder="https://tusitio.com">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comentariosInvEditar" class="form-label">Comentarios</label>
+                        <input type="text" class="form-control" id="editComentsIv" name="coments">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estatusInv" class="form-label">Estatus</label>
+                        <input type="text" class="form-control" id="editEstatusIv" name="estatus">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Actualizar Invitado</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: Mostrar Codigo QR -->
+    <div class="modal fade" id="modalQrInvitado" tabindex="-1" aria-labelledby="modalQrInvitadoLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4 text-center">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title w-100 text-center fw-bold" id="modalQrInvitadoLabel">Código QR de Invitado
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="qrContainer" class="d-flex justify-content-center mb-3"></div>
+                    <p id="nombreInvitadoQR" class="fw-semibold fs-5 text-capitalize"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <script src="/adminPublic.js"></script>
+
+    <script>
+        // Script para alternar la barra lateral en pantallas pequeñas
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        if (sidebarToggle) {
+            sidebarToggle.addEventListener('click', function () {
+                document.getElementById('wrapper').classList.toggle('toggled');
+            });
+        }
+
+        // Script para activar las pestañas desde la barra lateral
+        var triggerTabList = [].slice.call(document.querySelectorAll('#sidebar-nav a'))
+        triggerTabList.forEach(function (triggerEl) {
+            var tabTrigger = new bootstrap.Tab(triggerEl)
+
+            triggerEl.addEventListener('click', function (event) {
+                event.preventDefault()
+                tabTrigger.show()
+            })
+        })
+
+    </script>
+</body>
+
+</html>

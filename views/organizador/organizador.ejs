@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Organizador - Boda Ana y Juan</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            /* Un gris claro suave */
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .card {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .btn-primary {
+            background-color: #4CAF50;
+            /* Verde para acciones principales */
+            border-color: #4CAF50;
+            border-radius: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 8px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background-color: #e9ecef;
+        }
+
+        .status-confirmed {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Verde */
+        .status-pending {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        /* Amarillo */
+        .status-declined {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        /* Rojo */
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">
+                <img src="https://placehold.co/40x40/6f42c1/ffffff?text=Logo" alt="Logo" class="me-2 rounded-full">
+                Gestión de Invitados
+            </a>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-user-circle me-1"></i> Organizador</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container p-4">
+        <h1 class="mb-4 text-center">Boda de Ana y Juan <small class="text-muted fs-5">(15/08/2025)</small></h1>
+
+        <!-- Tarjetas de Resumen de Estatus -->
+        <div class="row text-center mb-4">
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Total Invitados</h5>
+                        <p class="card-text fs-2 fw-bold">155</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Confirmados</h5>
+                        <p class="card-text fs-2 fw-bold status-confirmed">120</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Pendientes</h5>
+                        <p class="card-text fs-2 fw-bold status-pending">30</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <h5 class="card-title text-muted">Declinados</h5>
+                        <p class="card-text fs-2 fw-bold status-declined">5</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Filtros y Búsqueda -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Buscar invitado por nombre...">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select">
+                            <option selected>Todos los estatus</option>
+                            <option>Confirmado</option>
+                            <option>Pendiente</option>
+                            <option>Declinado</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <button class="btn btn-primary me-2"><i class="fas fa-file-pdf me-1"></i> Exportar PDF</button>
+                        <button class="btn btn-outline-secondary"><i class="fas fa-file-excel me-1"></i> Exportar
+                            Excel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Invitados -->
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Nombre del Invitado</th>
+                                <th>Estatus</th>
+                                <th>Mensaje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>María García</td>
+                                <td class="status-confirmed"><i class="fas fa-check-circle me-1"></i> Confirmado</td>
+                                <td>"¡Felicidades a los novios! Les deseo lo mejor."</td>
+                            </tr>
+                            <tr>
+                                <td>Carlos López</td>
+                                <td class="status-pending"><i class="fas fa-hourglass-half me-1"></i> Pendiente</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Sofía Martínez</td>
+                                <td class="status-declined"><i class="fas fa-times-circle me-1"></i> Declinado</td>
+                                <td>"Lamentablemente no podré asistir."</td>
+                            </tr>
+                            <tr>
+                                <td>Jorge Pérez</td>
+                                <td class="status-confirmed"><i class="fas fa-check-circle me-1"></i> Confirmado</td>
+                                <td>"Que su amor dure para siempre."</td>
+                            </tr>
+                            <tr>
+                                <td>Laura Ramírez</td>
+                                <td class="status-confirmed"><i class="fas fa-check-circle me-1"></i> Confirmado</td>
+                                <td>"Un abrazo fuerte para ambos."</td>
+                            </tr>
+                            <tr>
+                                <td>Daniel Vargas</td>
+                                <td class="status-pending"><i class="fas fa-hourglass-half me-1"></i> Pendiente</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
