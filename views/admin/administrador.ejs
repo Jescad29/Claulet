@@ -563,33 +563,30 @@
                         <input type="hidden" id="editEventUsuario">
                         <div class="mb-3">
                             <label for="editEventName" class="form-label">Nombre del Evento</label>
-                            <input type="text" class="form-control" id="editEventName" required>
+                            <input type="text" name="nombre" class="form-control" id="editEventName" required>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="editEventDate" class="form-label">Fecha</label>
-                                <input type="date" class="form-control" id="editEventDate" required>
+                                <label for="editEventDate" name="fecha" class="form-label">Fecha</label>
+                                <input type="date" name="fecha" class="form-control" id="editEventDate" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="editEventTime" class="form-label">Hora</label>
-                                <input type="time" class="form-control" id="editEventTime" required>
+                                <input type="time" name="hora" class="form-control" id="editEventTime" required>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="editEventLocation" class="form-label">Lugar</label>
-                            <input type="text" class="form-control" id="editEventLocation" required>
+                            <input type="text" name="lugar" class="form-control" id="editEventLocation" required>
                         </div>
                         <div class="mb-3">
-                            <label for="editInvitationMessage" class="form-label">Mensaje de Bienvenida
-                                (Invitación)</label>
-                            <textarea class="form-control" id="editInvitationMessage"
-                                rows="3">¡Nos encantaría que nos acompañaras en este día tan especial!</textarea>
+                            <label for="editEventDescription" class="form-label">Descripción del evento</label>
+                            <textarea name="descripcion" class="form-control" id="editEventDescription" rows="3"
+                            required></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="editHtmlTemplateUpload" class="form-label">Cambiar Plantilla HTML de
-                                Invitación</label>
-                            <input class="form-control" type="file" id="editHtmlTemplateUpload" accept=".html">
-                            <small class="text-muted">Plantilla actual: boda_template.html</small>
+                            <label for="editEventUrl" class="form-label">Url del evento</label>
+                            <input name="urlBase" type="text" class="form-control" id="editEventUrlBase" required>
                         </div>
                     </form>
                 </div>

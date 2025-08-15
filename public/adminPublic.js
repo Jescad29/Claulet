@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-editar"
                         title="Editar" data-bs-toggle="modal"
-                        data-bs-target="#editEventModal"><i
+                        data-bs-target="#editEventModal" data-evento-id="${evento.id}"><i
                             class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-invitados"
                         title="Gestionar Invitados">
@@ -134,5 +134,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Editar Formulario
+  document
+    .querySelector("#tablaEventos tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-editar");
+      if (!btn) return;
+
+      const eventoId = btn.getAttribute("data-evento-id");
+
+      try {
+        const res = await axios.get(
+          `/claulet/admin/api/editarEvento/${eventoId}`
+        );
+        const evento = res.data;
+
+        // Llenar modal usando name
+        document.querySelector("#editEventModal input[name='nombre']").value =
+          evento.nombre || "";
+        document.querySelector("#editEventModal input[name='fecha']").value =
+          evento.fecha || "";
+        document.querySelector("#editEventModal input[name='hora']").value =
+          evento.hora || "";
+        document.querySelector("#editEventModal input[name='lugar']").value =
+          evento.lugar || "";
+        document.querySelector(
+          "#editEventModal textarea[name='descripcion']"
+        ).value = evento.descripcion || "";
+        document.querySelector("#editEventModal input[name='urlBase']").value =
+          evento.urlBase;
+        document.querySelector("#editEventModal input[name='id']").value =
+          evento.id;
+      } catch (err) {
+        console.error("Error al obtener evento:", err);
+      }
+    });
   // Siguiente Formulario
 });

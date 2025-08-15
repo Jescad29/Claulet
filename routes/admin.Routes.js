@@ -1,6 +1,6 @@
 import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
-import { crearEvento, obtenerEventos } from "../controllers/eventos.Controller.js";
+import { crearEvento, obtenerEventos, editarEvento } from "../controllers/eventos.Controller.js";
 import { crearUsuario, obtenerUsuarios, subirImagen } from "../controllers/usuario.Controller.js";
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.get('/admin', mostrarAdmin);
 router.get('/admin/api/crearEvento', obtenerUsuarios);
 
 router.get('/admin/api/obtenerEventos', obtenerEventos);
+
+router.get('/admin/api/editarEvento/:eventoId', editarEvento);
 
 router.post('/admin/api/eventos', crearEvento);
 

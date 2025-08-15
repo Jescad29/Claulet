@@ -93,3 +93,16 @@ export const obtenerEventos = async (req, res) => {
     res.status(500).json({ error: "Hubo un error al obtener los eventos" });
   }
 };
+
+export const editarEvento = async (req, res) => {
+  try {
+    const evento = await Eventos.findByPk(req.params.eventoId); // nota que el parámetro es eventoId
+    if (!evento) {
+      return res.status(404).json({ error: "Evento no encontrado" });
+    }
+    res.json(evento); // enviamos los datos al frontend
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error al obtener el evento" });
+  }
+};
