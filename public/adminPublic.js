@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         data-bs-target="#passwordModal"><i
                             class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar"
-                        data-evento-id="4"
+                        data-evento-id="${evento.id}"
                         title="Eliminar">
                         <i class="fas fa-trash-alt"></i></button>
                 </td>

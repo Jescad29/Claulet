@@ -137,6 +137,7 @@ export const editarEvento = async (req, res) => {
 };
 
 export const eliminarEvento = async (req, res) => {
+    console.log("📥 Datos recibidos en /claulet/admin/api/eventos/:eventoId", req.params)
   try {
     const { eventoId } = req.params;
     const evento = await Eventos.findByPk(eventoId);
