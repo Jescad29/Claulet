@@ -1,6 +1,7 @@
 import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento } from "../controllers/eventos.Controller.js";
+import { obtenerInvitados } from "../controllers/invitados.Controller.js";
 import { crearUsuario, obtenerUsuarios, subirImagen } from "../controllers/usuario.Controller.js";
 
 const router = express.Router();
@@ -19,5 +20,7 @@ router.post('/admin/api/eventos', crearEvento);
 router.delete("/admin/api/eventos/:eventoId", eliminarEvento);
 
 router.post('/admin/api/usuarios', crearUsuario);
+
+router.get('/admin/api/invitados/:eventoId', obtenerInvitados);
 
 export default router

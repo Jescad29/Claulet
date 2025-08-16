@@ -225,5 +225,62 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+  // Obtener Invitados por evento
+
+  const selectEventGuests = document.getElementById("selectEventGuests");
+  const tbodyInvitados = document.querySelector("#guests-tab tbody");
+
+  // Llenar select con eventos
+  axios.get("/claulet/admin/api/obtenerEventos").then((res) => {
+    res.data.forEach((evento) => {
+      const option = document.createElement("option");
+      option.value = evento.id;
+      option.textContent = evento.nombre;
+      selectEventGuests.appendChild(option);
+    });
+  });
+
+  // Cuando se selecciona un evento, mostrar invitados
+  selectEventGuests.addEventListener("change", async () => {
+    const eventoId = selectEventGuests.value;
+
+    try {
+      const res = await axios.get(`/claulet/admin/api/invitados/${eventoId}`);
+      const invitados = res.data;
+
+      tbodyInvitados.innerHTML = "";
+
+      // Si no hay invitados, mostrar la leyenda, comienza a agregar invitados
+
+      // if (invitados.length === 0) {
+      //   const tr = document.createElement("tr");
+      //   tr.innerHTML=`
+      //   <td colspan="5" style="text-align:center; color: #777;">
+      //     No hay invitados. ¡Agrega invitados al evento!
+      //   </td>
+      //   `;
+      //   tbodyInvitados.appendChild(tr);
+      //   return;
+      // }
+
+      invitados.forEach((inv) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+        <td>${inv.nombre} ${inv.apellidos}</td>
+        <td>${inv.telefono || "-"}</td>
+        <td>${inv.estado}</td>
+        <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i class="fas fa-qrcode"></i></button></td>
+        <td>
+          <button class="btn btn-sm btn-outline-secondary me-1" title="Editar"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+        </td>
+      `;
+        tbodyInvitados.appendChild(tr);
+      });
+    } catch (error) {
+      console.error("Error al obtener invitados:", error);
+    }
+  });
+
   // Siguiente Formulario
 });
