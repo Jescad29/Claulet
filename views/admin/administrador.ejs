@@ -560,7 +560,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="formEditarEvento">
-                        <input type="hidden" id="editEventUsuario">
+                        <input type="hidden" id="editEventUsuario" name="id">
                         <div class="mb-3">
                             <label for="editEventName" class="form-label">Nombre del Evento</label>
                             <input type="text" name="nombre" class="form-control" id="editEventName" required>
@@ -592,7 +592,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" form="formEditarEvento" class="btn btn-primary">Actualizar Evento</button>
+                    <button type="submit" form="formEditarEvento" class="btn btn-primary" id="btneditarEvento">Actualizar Evento</button>
                 </div>
             </div>
         </div>

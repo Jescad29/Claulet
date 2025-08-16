@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         data-bs-target="#passwordModal"><i
                             class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar"
+                        data-evento-id="4"
                         title="Eliminar">
                         <i class="fas fa-trash-alt"></i></button>
                 </td>
@@ -134,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Editar Formulario
+  // LLenar formulario editar evento
   document
     .querySelector("#tablaEventos tbody")
     .addEventListener("click", async (e) => {
@@ -169,5 +170,60 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error al obtener evento:", err);
       }
     });
+
+  // Editar evento
+
+  const formEditarEvento = document.getElementById("formEditarEvento");
+
+  formEditarEvento.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const datosEditarEvento = Object.fromEntries(
+      new FormData(formEditarEvento).entries()
+    );
+
+    try {
+      const res = await axios.put(
+        "/claulet/admin/api/editarEvento/${datosEditarEvento.id}",
+        datosEditarEvento
+      );
+      alert("Evento Actualizado");
+      window.location.href = "/claulet/admin";
+    } catch (error) {
+      console.error("Error al editar el evento", err.response?.data || err);
+      alert("Error al editar el evento");
+    }
+  });
+
+  // Eliminar el evento
+
+  document
+    .querySelector("#tablaEventos tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-eliminar"); // detecta si se hizo clic en un botón eliminar
+      if (!btn) return;
+
+      //  pedir confirmación al usuario
+      const confirmDelete = confirm("¿Estás seguro de eliminar este evento?");
+      if (!confirmDelete) return;
+
+      // Obtenemos el id del evento
+      const eventoId = btn.getAttribute("data-evento-id");
+
+      try {
+        await axios.delete(`/claulet/admin/api/eventos/${eventoId}`);
+        alert("Evento eliminado correctamente");
+
+        // eliminar la fila del DOM sin recargar
+        const fila = btn.closest("tr");
+        if (fila) fila.remove();
+      } catch (error) {
+        console.error(
+          "Error al eliminar el evento",
+          error.response?.data || error
+        );
+        alert("Error al eliminar el evento");
+      }
+    });
+
   // Siguiente Formulario
 });

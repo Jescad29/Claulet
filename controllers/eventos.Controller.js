@@ -94,9 +94,9 @@ export const obtenerEventos = async (req, res) => {
   }
 };
 
-export const editarEvento = async (req, res) => {
+export const obtenerEvento = async (req, res) => {
   try {
-    const evento = await Eventos.findByPk(req.params.eventoId); // nota que el parámetro es eventoId
+    const evento = await Eventos.findByPk(req.params.eventoId); 
     if (!evento) {
       return res.status(404).json({ error: "Evento no encontrado" });
     }
@@ -104,5 +104,49 @@ export const editarEvento = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error al obtener el evento" });
+  }
+};
+
+export const editarEvento = async (req, res) => {
+  console.log("📥 Datos recibidos en /claulet/admin/api/editarEvento/:eventoId:", req.body);
+
+  try {
+    const { id, nombre, fecha, hora, lugar, descripcion, urlBase } = req.body;
+
+    const evento = await Eventos.findByPk(id);
+
+    if (!evento) {
+      return res.status(404).json({ msg: "Evento no encontrado" });
+    }
+
+    // Actualizamos con los datos nuevos
+    await evento.update({
+      nombre,
+      fecha,
+      hora,
+      lugar,
+      descripcion,
+      urlBase
+    })
+
+    return res.status(200).json({ msg: "Evento actualizado correctamente", evento });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Error al actualizar el evento" });
+  }
+};
+
+export const eliminarEvento = async (req, res) => {
+  try {
+    const { eventoId } = req.params;
+    const evento = await Eventos.findByPk(eventoId);
+    if (!evento) return res.status(400).json({ msg: "Evento no encontrado" });
+
+    await evento.destroy();
+
+    res.json({ msg: "Evento eliminado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Error al eliminar el evento" });
   }
 };
