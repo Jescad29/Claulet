@@ -225,9 +225,89 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+  // Agregar un nuevo Invitado
+  const selectEventGuests = document.getElementById("selectEventGuests");
+  const formAgregarInvitado = document.getElementById("formAgregarInvitado");
+  const eventoSeleccionado = document.getElementById("eventoSeleccionado");
+
+  if (selectEventGuests.value) {
+    eventoSeleccionado.value = selectEventGuests.value;
+  }
+
+  selectEventGuests.addEventListener("change", () => {
+    eventoSeleccionado.value = selectEventGuests.value;
+  });
+
+  formAgregarInvitado.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(formAgregarInvitado);
+    const data = Object.fromEntries(formData.entries());
+
+    // Aquí ya contiene eventoId gracias al input hidden
+    try {
+      const res = await axios.post("/claulet/admin/api/invitados", data);
+      alert("✅ Invitado agregado con éxito");
+
+      // cerrar modal
+      const modal = bootstrap.Modal.getInstance(
+        document.getElementById("modalAgregarInvitado")
+      );
+      modal.hide();
+
+      // refrescar invitados del evento
+      selectEventGuests.dispatchEvent(new Event("change"));
+    } catch (error) {
+      console.error(
+        "❌ Error al agregar invitado:",
+        error.response?.data || error
+      );
+      alert("Error al agregar invitado");
+    }
+  });
+
+  //Importar lista de invitados en excel
+  const archivoInput = document.getElementById("archivoExcel");
+  const btnSubirExcel = document.getElementById("btnSubirExcel");
+
+  btnSubirExcel.addEventListener("click", () => {
+    archivoInput.click(); // abre el explorador de archivos
+  });
+
+  archivoInput.addEventListener("change", async () => {
+    const archivo = archivoInput.files[0];
+    const eventoId = selectEventGuests.value;
+
+    if (!archivo) return alert("Selecciona un archivo");
+    if (!eventoId) return alert("Selecciona un evento");
+
+    const formData = new FormData();
+    formData.append("file", archivo);
+    formData.append("eventoId", eventoId);
+
+    try {
+      const res = await axios.post(
+        "/claulet/admin/api/invitados/import",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      alert(`✅ Invitados importados: ${res.data.count}`);
+
+      // refrescar invitados del evento
+      selectEventGuests.dispatchEvent(new Event("change"));
+    } catch (error) {
+      console.error(
+        "❌ Error al importar invitados:",
+        error.response?.data || error
+      );
+      alert("Error al importar invitados");
+    }
+  });
+
   // Obtener Invitados por evento
 
-  const selectEventGuests = document.getElementById("selectEventGuests");
   const tbodyInvitados = document.querySelector("#guests-tab tbody");
 
   // Llenar select con eventos
@@ -281,6 +361,8 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error al obtener invitados:", error);
     }
   });
+
+  // Subir plantillas invitaciones
 
   // Siguiente Formulario
 });

@@ -2,6 +2,7 @@ import { Usuarios, Eventos, Invitados } from "../models/Relaciones.js";
 import { Sequelize } from "sequelize";
 import { check, validationResult } from "express-validator";
 
+// Crear Eventos
 export const crearEvento = async (req, res) => {
   const {nombre} = req.body;
   console.log("📥 Datos recibidos en /api/eventos:", req.body);
@@ -42,6 +43,7 @@ export const crearEvento = async (req, res) => {
   }
 };
 
+// Obtener eventos
 export const obtenerEventos = async (req, res) => {
   try {
     const eventos = await Eventos.findAll({
@@ -94,6 +96,7 @@ export const obtenerEventos = async (req, res) => {
   }
 };
 
+// obtener un solo evento
 export const obtenerEvento = async (req, res) => {
   try {
     const evento = await Eventos.findByPk(req.params.eventoId); 
@@ -107,6 +110,7 @@ export const obtenerEvento = async (req, res) => {
   }
 };
 
+// Editar evento
 export const editarEvento = async (req, res) => {
   console.log("📥 Datos recibidos en /claulet/admin/api/editarEvento/:eventoId:", req.body);
 
@@ -136,6 +140,7 @@ export const editarEvento = async (req, res) => {
   }
 };
 
+// Eliminar evento
 export const eliminarEvento = async (req, res) => {
     console.log("📥 Datos recibidos en /claulet/admin/api/eventos/:eventoId", req.params)
   try {

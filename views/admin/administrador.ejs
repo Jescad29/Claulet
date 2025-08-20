@@ -267,19 +267,15 @@
                                 <div class="mb-3">
                                     <label for="selectEventGuests" class="form-label">Seleccionar Evento</label>
                                     <select class="form-select" id="selectEventGuests">
-                                        <!-- % eventos.forEach(evento=> { %>
-                                                <option value="%= evento.usuario %>">
-                                                    %= evento.titulo %>
-                                                </option>
-                                        % }) %> -->
+                                        <option value="" disabled selected>Elige tu evento...</option>
                                     </select>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h6>Lista de Invitados</h6>
                                     <div>
-                                        <input type="file" id="inputSubirLista" accept=".xlsx,.csv"
+                                        <input type="file" id="archivoExcel" accept=".xlsx,.csv"
                                             style="display: none;">
-                                        <button class="btn btn-outline-primary btn-sm me-2" id="btnSubirLista"><i
+                                        <button class="btn btn-outline-primary btn-sm me-2" id="btnSubirExcel"><i
                                                 class="fas fa-upload me-1"></i> Subir Lista (CSV/Excel)</button>
                                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                             data-bs-target="#modalAgregarInvitado"><i class="fas fa-plus me-1"></i>
@@ -332,12 +328,74 @@
                         </div>
                     </div>
 
-                    <!-- Templates Tab Content -->
+                    <!-- Templates Tab Content Plantillas -->
+                     
                     <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
+
+                        <!-- Plantillas invitaciones -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de Invitación</h5>
-                                <button class="btn btn-primary btn-sm"><i class="fas fa-upload me-1"></i> Subir
+                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion"><i class="fas fa-upload me-1"></i> Subir
+                                    Nueva
+                                    Plantilla</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+1"
+                                                class="card-img-top" alt="Plantilla 1">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Clásica Elegante</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+2"
+                                                class="card-img-top" alt="Plantilla 2">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Moderna Minimalista</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card h-100">
+                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+3"
+                                                class="card-img-top" alt="Plantilla 3">
+                                            <div class="card-body text-center">
+                                                <h5 class="card-title">Temática Floral</h5>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
+                                                <button class="btn btn-sm btn-outline-secondary me-1"
+                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
+                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
+                                                        class="fas fa-trash-alt"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Plantillas anfitriones -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Gestión de Plantillas de anfitrion</h5>
+                                <button class="btn btn-primary btn-sm subir-plantilla-anfitrion"><i class="fas fa-upload me-1"></i> Subir
                                     Nueva
                                     Plantilla</button>
                             </div>
@@ -634,18 +692,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="eventoSeleccionadoInput">
+                    <input type="hidden" id="eventoSeleccionado" name="eventoId">
                     <div class="mb-3">
                         <label for="nombreInvitado" class="form-label">Nombre del invitado</label>
-                        <input type="text" class="form-control" id="nombreInvitado" required>
+                        <input type="text" class="form-control" id="nombreInvitado" name="nombre" required>
                     </div>
                     <div class="mb-3">
-                        <label for="confirmarPor" class="form-label">Confirmar Por</label>
-                        <input type="text" class="form-control" id="confirmarPor" required>
+                        <label for="apellidoInvitado" class="form-label">Apellido del invitado</label>
+                        <input name="apellidos" type="text" class="form-control" id="apellidoInvitado" required>
                     </div>
                     <div class="mb-3">
-                        <label for="codPais" class="form-label">LADA</label>
-                        <select id="lada" name="lada" required>
+                        <label for="edadInvitado" class="form-label">Edad</label>
+                        <input name="edad" type="text" class="form-control" id="edadInvitado" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codigo_pais" class="form-label">LADA</label>
+                        <select id="lada" name="codigo_pais" required>
                             <option value="">Selecciona</option>
                             <option value="+52">🇲🇽 México (+52)</option>
                             <option value="+1">🇺🇸 USA (+1)</option>
@@ -656,17 +718,20 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="cellInv" class="form-label">Celular</label>
-                        <input type="tel" class="form-control" id="cellInv" required>
+                        <label for="telefonoInvitado" class="form-label">Celular</label>
+                        <input type="tel" class="form-control" id="telefonoInvitado" name="telefono" required>
                     </div>
                     <div class="mb-3">
-                        <label for="urlInv" class="form-label">URL de invitación</label>
-                        <input type="url" class="form-control" id="urlInv" placeholder="https://tusitio.com">
+                        <label for="pasesInvitado" class="form-label">Pases del invitado</label>
+                        <input name="pases" type="text" class="form-control" id="pasesInvitado" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="comentariosInv" class="form-label">Comentarios</label>
-                        <input type="text" class="form-control" id="comentariosInv" required>
+                        <label for="seccionInvitado" class="form-label">Sección del Invitado</label>
+                        <input name="seccion" type="text" class="form-control" id="seccionInvitado" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comentariosInvitado" class="form-label">Comentarios</label>
+                        <input name="comentarios" type="text" class="form-control" id="comentariosInvitado" required>
                     </div>
 
                 </div>
