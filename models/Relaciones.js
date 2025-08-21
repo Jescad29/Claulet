@@ -11,7 +11,7 @@ Eventos.belongsTo(Usuarios, { as: 'organizador', foreignKey: 'organizadorId' });
 Eventos.belongsTo(Usuarios, { as: 'anfitrion', foreignKey: 'anfitrionId' });
 
 // Relaciones entre Eventos e Invitados
-Eventos.hasMany(Invitados, { foreignKey: 'eventoId' });
+Eventos.hasMany(Invitados, { foreignKey: 'eventoId', onDelete: "CASCADE" });
 
 Invitados.belongsTo(Eventos, { foreignKey: 'eventoId', allowNull: false });
 
