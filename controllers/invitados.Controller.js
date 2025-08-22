@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import multer from "multer";
 import XLSX from "xlsx";
+import jwt from "jsonwebtoken";
 
 // Crear Nuevo invitado
 export const crearInvitado = async (req, res) => {
@@ -33,25 +34,39 @@ export const crearInvitado = async (req, res) => {
     const nuevoInvitado = await Invitados.create({
       nombre,
       apellidos,
-      edad,
+      edad: edad ? Number(edad) : null,
       telefono,
-      codigo_pais,
-      pases,
+      codigo_pais: codigo_pais || "+52",
+      pases: pases ? Number(pases) : 1,
       estado:"pendiente",
-      seccion,
-      comentarios,
+      seccion: seccion || "",
+      comentarios: comentarios || "",
       deseo: "Ingresar deseo",
       eventoId,
-      token:  uuidv4(), //Token unico para cada usuario
+      token:uuidv4(),
     });
+    
+
+    // Generar token usando el id recién creado
+    const token = jwt.sign(
+      { id: nuevoInvitado.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "365d" }
+    );
+
+    // Guardar el token en el invitado
+    nuevoInvitado.token = token;
+    await nuevoInvitado.save();
 
     res.status(201).json({
       mensaje: "Invitado agregado correctamente",
       invitado: nuevoInvitado,
     });
+  
   } catch (error) {
-    console.error("Error al agregar invitado:", error);
-    res.status(500).json({ error: "Error al agregar invitado" });
+    console.error("Error al agregar invitado:", error.message);
+    console.error(error.errors); // si es un error de validación de Sequelize
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -82,8 +97,18 @@ export const importarInvitados = async (req, res) => {
         estado: "pendiente",
         deseo: "Ingresar deseo",
         eventoId,
-        token: uuidv4()
+        token:uuidv4()
       });
+
+    const token = jwt.sign(
+      { id: nuevoInvitado.id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+      );
+      
+      nuevoInvitado.token = token;
+      await nuevoInvitado.save();
+
       invitadosCreados.push(nuevoInvitado);
     }
 

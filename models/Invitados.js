@@ -10,25 +10,25 @@ const Invitados = db.define('invitados', {
     autoIncrement: true
   },
   nombre: {
-    type: Sequelize.STRING(50),
+    type: Sequelize.STRING(255),
     allowNull: false,
     validate: {
       notEmpty: { msg: 'El nombre es obligatorio' }
     }
   },
   apellidos: {
-    type: Sequelize.STRING(80),
+    type: Sequelize.STRING(255),
     allowNull: false,
     validate: {
       notEmpty: { msg: 'Los apellidos son obligatorios' }
     }
   },
   telefono: {
-    type: Sequelize.STRING(20),
+    type: Sequelize.STRING(255),
     allowNull: true,
   },
   codigo_pais: {
-    type: Sequelize.STRING(5),
+    type: Sequelize.STRING(255),
     allowNull: true,
   },
   pases: {
@@ -37,7 +37,7 @@ const Invitados = db.define('invitados', {
     defaultValue: 1
   },
   token: {
-    type: Sequelize.STRING(100),
+    type: Sequelize.STRING(255),
     allowNull: false,
     unique: true
   },
@@ -54,7 +54,7 @@ const Invitados = db.define('invitados', {
     allowNull: true,
   },
   seccion: {
-    type: Sequelize.STRING(50),
+    type: Sequelize.STRING(255),
     allowNull: true,
   },
   estado: {
@@ -63,7 +63,7 @@ const Invitados = db.define('invitados', {
     defaultValue: 'pendiente'
   },
   deseo: {
-    type: Sequelize.TEXT,
+    type: Sequelize.STRING(255),
     allowNull: true,
   }
 });
