@@ -123,6 +123,54 @@ export const obtenerInvitados = async (req, res) => {
   }
 };
 
+// obtener Invitado
+export const obtenerInvitado = async (req, res) => {
+  console.log("Buscando Invitado para editar: ", req.params.invitadoId)
+  try {
+    const invitadoId = req.params.invitadoId;
+    const invitado = await Invitados.findByPk(invitadoId);
+    if (!invitado) return res.status(400).json({ msg: "Invitado no encontrado" });
+    res.json(invitado);
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ error: "Error al obtener el invitado" })
+  }
+}
+
+// Editar invitados
+export const editarInvitado = async (req, res) => {
+  console.log("Datos recibidos para editar invitado ", req.body)
+
+  try {
+    const { nombre, apellidos, edad, codigo_pais, telefono, pases, seccion, comentarios } = req.body;
+    const invitadoId = req.body.invitadoId;
+
+    const invitado = await Invitados.findByPk(invitadoId);
+
+    if (!invitado) {
+      return res.status(404).json({ msg: "Invitado no encontrado" });
+    }
+
+    await invitado.update({
+      nombre,
+      apellidos,
+      edad,
+      codigo_pais,
+      telefono,
+      pases,
+      seccion,
+      comentarios
+    })
+
+    return res.status(200).json({ msg: "Invitado actualizado correctamente", invitado });
+    
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Error al actualizar el evento" });
+  }
+
+};
+
 // Eliminar Invitado
 export const eliminarInvitado = async (req, res) => {
   console.log("Eliminando invitado con el Id: ", req.params.invitadoId, " ... .. .")

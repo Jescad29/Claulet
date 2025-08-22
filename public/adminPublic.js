@@ -351,10 +351,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${inv.estado}</td>
         <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i class="fas fa-qrcode"></i></button></td>
         <td>
-          <button class="btn btn-sm btn-outline-secondary me-1" title="Editar" data-invitados-id="${inv.id}"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-sm btn-outline-danger btn-eliminar" title="Eliminar" data-invitados-id="${inv.id}"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn btn-sm btn-outline-secondary me-1 btn-editar-invitado" title="Editar" data-bs-toggle="modal" data-bs-target="#modalEditarInvitado" data-invitados-id="${
+            inv.id
+          }"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-sm btn-outline-danger btn-eliminar-invitado" title="Eliminar" data-invitados-id="${
+            inv.id
+          }"><i class="fas fa-trash-alt"></i></button>
         </td>
-      `;  
+      `;
         tbodyInvitados.appendChild(tr);
       });
     } catch (error) {
@@ -362,23 +366,89 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // LLenar formulario editar invitado
+  document
+    .querySelector(".tabEditarInvitados tbody")
+    .addEventListener("click", async (e) => {
+      const btnEditarInvi = e.target.closest(".btn-editar-invitado");
+      if (!btnEditarInvi) return;
+
+      //  pedir confirmación al usuario
+      const confirmEdit = confirm("¿Estás seguro que deseas editar este Invitado?");
+      if (!confirmEdit) return;
+
+      const invitadoId = btnEditarInvi.getAttribute("data-invitados-id");
+
+      try {
+        const res = await axios.get(
+          `/claulet/admin/api/invitado/${invitadoId}`
+        );
+        const invitadoEdit = res.data;
+
+        // Llenar modal usando name
+        document.querySelector("#modalEditarInvitado input[name='nombre']").value =
+          invitadoEdit.nombre || "";
+        document.querySelector("#modalEditarInvitado input[name='apellidos']").value =
+          invitadoEdit.apellidos || "";
+        document.querySelector("#modalEditarInvitado input[name='edad']").value =
+          invitadoEdit.edad || "";
+        document.querySelector("#modalEditarInvitado select[name='codigo_pais']").value =
+          invitadoEdit.codigo_pais || "";
+        document.querySelector("#modalEditarInvitado input[name='telefono']").value =
+          invitadoEdit.telefono || "";
+        document.querySelector("#modalEditarInvitado input[name='pases']").value =
+          invitadoEdit.pases || "";
+        document.querySelector("#modalEditarInvitado input[name='seccion']").value =
+          invitadoEdit.seccion || "";
+        document.querySelector("#modalEditarInvitado input[name='comentarios']").value =
+          invitadoEdit.comentarios || "";
+        document.querySelector("#modalEditarInvitado input[name='invitadoId']").value =
+          invitadoEdit.id;
+      } catch (err) {
+        console.error("Error al obtener invitado:", err);
+      }
+    });
+  
+  // Editar Invitado
+
+  const formEditarInvitado = document.getElementById("formEditarInvitado");
+
+  formEditarInvitado.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const datosEditarInvitado = Object.fromEntries(
+      new FormData(formEditarInvitado).entries()
+    );
+
+    try {
+      await axios.put(
+        `/claulet/admin/api/invitado`,
+        datosEditarInvitado
+      );
+      alert("Invitado Actualizado Correctamente");
+      window.location.href = "/claulet/admin";
+    } catch (error) {
+      console.error("Error al editar el invitado", err.response?.data || err);
+      alert("Error al editar el invitado");
+    }
+  });
+
   // Eliminar invitado
   document
     .querySelector("#tablaInvitados tbody")
     .addEventListener("click", async (e) => {
-      const btn = e.target.closest(".btn-eliminar"); // detecta si se hizo clic en un botón eliminar
+      const btn = e.target.closest(".btn-eliminar-invitado"); // detecta si se hizo clic en un botón eliminar
       if (!btn) return;
 
       //  pedir confirmación al usuario
       const confirmDelete = confirm("¿Estás seguro de eliminar este Invitado?");
       if (!confirmDelete) return;
 
-      // Obtenemos el id del evento
+      // Obtenemos el id del invitado
       const invitadoId = btn.getAttribute("data-invitados-id");
 
       try {
-        await axios.delete(`/claulet/admin/api/invitados/${invitadoId}`);
-        alert("Evento eliminado correctamente");
+        await axios.delete(`/claulet/admin/api/invitado/${invitadoId}`);
+        alert("Invitado eliminado correctamente");
 
         // eliminar la fila del DOM sin recargar
         const fila = btn.closest("tr");

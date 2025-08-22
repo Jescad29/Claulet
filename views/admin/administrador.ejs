@@ -284,7 +284,7 @@
                                     </div>
                                 </div>
                                 <div class="table-responsive">
-                                    <table class="table table-hover mb-0" id="tablaInvitados">
+                                    <table class="table table-hover mb-0 tabEditarInvitados" id="tablaInvitados">
                                         <thead>
                                             <tr>
                                                 <th>Nombre</th>
@@ -692,7 +692,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="eventoSeleccionado" name="eventoId">
+                    <input type="hidden" id="eventoSeleccionado" name="invitadoId">
                     <div class="mb-3">
                         <label for="nombreInvitado" class="form-label">Nombre del invitado</label>
                         <input type="text" class="form-control" id="nombreInvitado" name="nombre" required>
@@ -742,64 +742,61 @@
         </div>
     </div>
 
-    <!-- MODAL: Modificar Invitado-->
+    <!-- MODAL: Editar Invitado-->
     <div class="modal fade" id="modalEditarInvitado" tabindex="-1" aria-labelledby="modalEditarInvitadoLabel"
         aria-hidden="true">
         <div class="modal-dialog">
             <form id="formEditarInvitado" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarInvitado">Editar Invitado</h5>
+                    <h5 class="modal-title" id="modalEditarInvitadoLabel">Editar Invitado</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="inputEventIv" name="evento" />
-
+                    <input type="hidden" id="invitadoSeleccionado" name="invitadoId">
                     <div class="mb-3">
-                        <label for="nombreInvitadoEditar" class="form-label">Nombre del invitado</label>
-                        <input type="text" class="form-control" id="editNombreIv" name="nombre" required>
+                        <label for="nombreInvitadoEdit" class="form-label">Nombre del invitado</label>
+                        <input type="text" class="form-control" id="nombreInvitadoEdit" name="nombre" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="confirmarPorEditar" class="form-label">Confirmar Por</label>
-                        <input type="text" class="form-control" id="editConfirmar" name="confirmar" required>
+                        <label for="apellidoInvitadoEdit" class="form-label">Apellido del invitado</label>
+                        <input name="apellidos" type="text" class="form-control" id="apellidoInvitadoEdit" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="ladaEditar" class="form-label">LADA</label>
-                        <select id="editLadaIv" name="lada" required class="form-control">
+                        <label for="edadInvitadoEdit" class="form-label">Edad</label>
+                        <input name="edad" type="text" class="form-control" id="edadInvitadoEdit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codigo_paisEdit" class="form-label">LADA</label>
+                        <select id="codigo_paisEdit" name="codigo_pais" required>
                             <option value="">Selecciona</option>
                             <option value="+52">🇲🇽 México (+52)</option>
                             <option value="+1">🇺🇸 USA (+1)</option>
                             <option value="+34">🇪🇸 España (+34)</option>
                             <option value="+57">🇨🇴 Colombia (+57)</option>
                             <option value="+54">🇦🇷 Argentina (+54)</option>
+                            <!-- Queda pendiente agregar mas ladas... -->
                         </select>
                     </div>
-
                     <div class="mb-3">
-                        <label for="cellInvEditar" class="form-label">Celular</label>
-                        <input type="tel" class="form-control" id="editWhatsIv" name="whats" required>
+                        <label for="telefonoInvitadoEdit" class="form-label">Celular</label>
+                        <input type="tel" class="form-control" id="telefonoInvitadoEdit" name="telefono" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="pasesInvitadoEdit" class="form-label">Pases del invitado</label>
+                        <input name="pases" type="text" class="form-control" id="pasesInvitadoEdit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seccionInvitadoEdit" class="form-label">Sección del Invitado</label>
+                        <input name="seccion" type="text" class="form-control" id="seccionInvitadoEdit" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comentariosInvitadoEdit" class="form-label">Comentarios</label>
+                        <input name="comentarios" type="text" class="form-control" id="comentariosInvitadoEdit" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="urlInvEditar" class="form-label">URL de invitación</label>
-                        <input type="url" class="form-control" id="editURLIv" name="editURLIv"
-                            placeholder="https://tusitio.com">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="comentariosInvEditar" class="form-label">Comentarios</label>
-                        <input type="text" class="form-control" id="editComentsIv" name="coments">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="estatusInv" class="form-label">Estatus</label>
-                        <input type="text" class="form-control" id="editEstatusIv" name="estatus">
-                    </div>
                 </div>
-
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Actualizar Invitado</button>
+                    <button type="submit" class="btn btn-primary">Guardar Invitado</button>
                 </div>
             </form>
         </div>
