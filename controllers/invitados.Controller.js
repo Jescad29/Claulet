@@ -38,31 +38,32 @@ export const crearInvitado = async (req, res) => {
       telefono,
       codigo_pais: codigo_pais || "+52",
       pases: pases ? Number(pases) : 1,
-      estado:"pendiente",
+      estado: "pendiente",
       seccion: seccion || "",
       comentarios: comentarios || "",
       deseo: "Ingresar deseo",
       eventoId,
-      token:uuidv4(),
+      token: uuidv4(),
     });
-    
 
     // Generar token usando el id recién creado
-    const token = jwt.sign(
-      { id: nuevoInvitado.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "365d" }
-    );
+    const token = jwt.sign({ id: nuevoInvitado.id }, process.env.JWT_SECRET, {
+      expiresIn: "365d",
+    });
+
+    // Crear URL personalizada con token
+    const urlPersonalizada = `${evento.urlBase}?token=${token}`;
+    console.log("Url personalizada", urlPersonalizada);
 
     // Guardar el token en el invitado
     nuevoInvitado.token = token;
+    nuevoInvitado.url_personalizada = urlPersonalizada;
     await nuevoInvitado.save();
 
     res.status(201).json({
       mensaje: "Invitado agregado correctamente",
       invitado: nuevoInvitado,
     });
-  
   } catch (error) {
     console.error("Error al agregar invitado:", error.message);
     console.error(error.errors); // si es un error de validación de Sequelize
@@ -74,8 +75,13 @@ export const crearInvitado = async (req, res) => {
 export const importarInvitados = async (req, res) => {
   try {
     const eventoId = req.body.eventoId;
-    if (!eventoId) return res.status(400).json({ error: "Debes seleccionar un evento" });
-    if (!req.file) return res.status(400).json({ error: "No se subió ningún archivo" });
+    console.log(req.body.eventoId);
+    if (!eventoId)
+      return res.status(400).json({ error: "Debes seleccionar un evento" });
+    if (!req.file)
+      return res.status(400).json({ error: "No se subió ningún archivo" });
+
+    const evento = await Eventos.findByPk(eventoId);
 
     // Leer el Excel
     const workbook = XLSX.readFile(req.file.path);
@@ -97,16 +103,20 @@ export const importarInvitados = async (req, res) => {
         estado: "pendiente",
         deseo: "Ingresar deseo",
         eventoId,
-        token:uuidv4()
+        token: uuidv4(),
+      });
+      
+
+      const token = jwt.sign({ id: nuevoInvitado.id }, process.env.JWT_SECRET, {
+        expiresIn: "365d",
       });
 
-    const token = jwt.sign(
-      { id: nuevoInvitado.id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-      );
-      
+      // Crear URL personalizada con token
+      const urlPersonalizada = `${evento.urlBase}?token=${token}`;
+      console.log("Url personalizada", urlPersonalizada);
+
       nuevoInvitado.token = token;
+      nuevoInvitado.url_personalizada = urlPersonalizada;
       await nuevoInvitado.save();
 
       invitadosCreados.push(nuevoInvitado);
@@ -150,24 +160,34 @@ export const obtenerInvitados = async (req, res) => {
 
 // obtener Invitado
 export const obtenerInvitado = async (req, res) => {
-  console.log("Buscando Invitado para editar: ", req.params.invitadoId)
+  console.log("Buscando Invitado para editar: ", req.params.invitadoId);
   try {
     const invitadoId = req.params.invitadoId;
     const invitado = await Invitados.findByPk(invitadoId);
-    if (!invitado) return res.status(400).json({ msg: "Invitado no encontrado" });
+    if (!invitado)
+      return res.status(400).json({ msg: "Invitado no encontrado" });
     res.json(invitado);
   } catch (error) {
     console.error(err);
-    res.status(500).json({ error: "Error al obtener el invitado" })
+    res.status(500).json({ error: "Error al obtener el invitado" });
   }
-}
+};
 
 // Editar invitados
 export const editarInvitado = async (req, res) => {
-  console.log("Datos recibidos para editar invitado ", req.body)
+  console.log("Datos recibidos para editar invitado ", req.body);
 
   try {
-    const { nombre, apellidos, edad, codigo_pais, telefono, pases, seccion, comentarios } = req.body;
+    const {
+      nombre,
+      apellidos,
+      edad,
+      codigo_pais,
+      telefono,
+      pases,
+      seccion,
+      comentarios,
+    } = req.body;
     const invitadoId = req.body.invitadoId;
 
     const invitado = await Invitados.findByPk(invitadoId);
@@ -184,25 +204,30 @@ export const editarInvitado = async (req, res) => {
       telefono,
       pases,
       seccion,
-      comentarios
-    })
+      comentarios,
+    });
 
-    return res.status(200).json({ msg: "Invitado actualizado correctamente", invitado });
-    
+    return res
+      .status(200)
+      .json({ msg: "Invitado actualizado correctamente", invitado });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ msg: "Error al actualizar el evento" });
   }
-
 };
 
 // Eliminar Invitado
 export const eliminarInvitado = async (req, res) => {
-  console.log("Eliminando invitado con el Id: ", req.params.invitadoId, " ... .. .")
-    try {
+  console.log(
+    "Eliminando invitado con el Id: ",
+    req.params.invitadoId,
+    " ... .. ."
+  );
+  try {
     const invitadoId = req.params.invitadoId;
     const invitado = await Invitados.findByPk(invitadoId);
-    if (!invitado) return res.status(400).json({ msg: "Invitado no encontrado" });
+    if (!invitado)
+      return res.status(400).json({ msg: "Invitado no encontrado" });
 
     await invitado.destroy();
 
@@ -211,5 +236,4 @@ export const eliminarInvitado = async (req, res) => {
     console.error(error);
     res.status(500).json({ msg: "Error al eliminar el invitado" });
   }
-
-}
+};
