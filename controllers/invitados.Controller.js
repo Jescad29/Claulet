@@ -122,3 +122,21 @@ export const obtenerInvitados = async (req, res) => {
     res.status(500).json({ msg: "Error al obtener invitados" });
   }
 };
+
+// Eliminar Invitado
+export const eliminarInvitado = async (req, res) => {
+  console.log("Eliminando invitado con el Id: ", req.params.invitadoId, " ... .. .")
+    try {
+    const invitadoId = req.params.invitadoId;
+    const invitado = await Invitados.findByPk(invitadoId);
+    if (!invitado) return res.status(400).json({ msg: "Invitado no encontrado" });
+
+    await invitado.destroy();
+
+    res.json({ msg: "Invitado eliminado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Error al eliminar el invitado" });
+  }
+
+}

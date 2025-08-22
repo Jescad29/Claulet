@@ -1,7 +1,7 @@
 import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento } from "../controllers/eventos.Controller.js";
-import { obtenerInvitados, crearInvitado, importarInvitados } from "../controllers/invitados.Controller.js";
+import { obtenerInvitados, crearInvitado, importarInvitados, eliminarInvitado } from "../controllers/invitados.Controller.js";
 import { crearUsuario, obtenerUsuarios, subirImagen } from "../controllers/usuario.Controller.js";
 import { upload } from "../middleware/upload.js";
 
@@ -25,6 +25,8 @@ router.post('/admin/api/usuarios', crearUsuario);
 router.get('/admin/api/invitados/:eventoId', obtenerInvitados);
 
 router.post('/admin/api/invitados', crearInvitado)
+
+router.delete('/admin/api/invitados/:invitadoId', eliminarInvitado)
 
 router.post('/admin/api/invitados/import',upload.single("file"), importarInvitados)
 

@@ -351,16 +351,46 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${inv.estado}</td>
         <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i class="fas fa-qrcode"></i></button></td>
         <td>
-          <button class="btn btn-sm btn-outline-secondary me-1" title="Editar"><i class="fas fa-edit"></i></button>
-          <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash-alt"></i></button>
+          <button class="btn btn-sm btn-outline-secondary me-1" title="Editar" data-invitados-id="${inv.id}"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-sm btn-outline-danger btn-eliminar" title="Eliminar" data-invitados-id="${inv.id}"><i class="fas fa-trash-alt"></i></button>
         </td>
-      `;
+      `;  
         tbodyInvitados.appendChild(tr);
       });
     } catch (error) {
       console.error("Error al obtener invitados:", error);
     }
   });
+
+  // Eliminar invitado
+  document
+    .querySelector("#tablaInvitados tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-eliminar"); // detecta si se hizo clic en un botón eliminar
+      if (!btn) return;
+
+      //  pedir confirmación al usuario
+      const confirmDelete = confirm("¿Estás seguro de eliminar este Invitado?");
+      if (!confirmDelete) return;
+
+      // Obtenemos el id del evento
+      const invitadoId = btn.getAttribute("data-invitados-id");
+
+      try {
+        await axios.delete(`/claulet/admin/api/invitados/${invitadoId}`);
+        alert("Evento eliminado correctamente");
+
+        // eliminar la fila del DOM sin recargar
+        const fila = btn.closest("tr");
+        if (fila) fila.remove();
+      } catch (error) {
+        console.error(
+          "Error al eliminar el invitado",
+          error.response?.data || error
+        );
+        alert("Error al eliminar el invitado");
+      }
+    });
 
   // Subir plantillas invitaciones
 
