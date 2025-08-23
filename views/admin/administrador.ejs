@@ -273,8 +273,7 @@
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h6>Lista de Invitados</h6>
                                     <div>
-                                        <input type="file" id="archivoExcel" accept=".xlsx,.csv"
-                                            style="display: none;">
+                                        <input type="file" id="archivoExcel" accept=".xlsx,.csv" style="display: none;">
                                         <button class="btn btn-outline-primary btn-sm me-2" id="btnSubirExcel"><i
                                                 class="fas fa-upload me-1"></i> Subir Lista (CSV/Excel)</button>
                                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -329,14 +328,15 @@
                     </div>
 
                     <!-- Templates Tab Content Plantillas -->
-                     
+
                     <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
 
                         <!-- Plantillas invitaciones -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de Invitación</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion"><i class="fas fa-upload me-1"></i> Subir
+                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion"><i
+                                        class="fas fa-upload me-1"></i> Subir
                                     Nueva
                                     Plantilla</button>
                             </div>
@@ -395,7 +395,8 @@
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de anfitrion</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-anfitrion"><i class="fas fa-upload me-1"></i> Subir
+                                <button class="btn btn-primary btn-sm subir-plantilla-anfitrion"><i
+                                        class="fas fa-upload me-1"></i> Subir
                                     Nueva
                                     Plantilla</button>
                             </div>
@@ -460,7 +461,9 @@
                             <div class="card-body">
                                 <h6 class="mb-3 mt-4">Creación de usuarios</h6>
                                 <div class="mb-6">
-                                    <button class="btn btn-primary btn-sm mb-6" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario"><i class="fas fa-plus me-1"></i>Añadir Usuario</button>
+                                    <button class="btn btn-primary btn-sm mb-6" data-bs-toggle="modal"
+                                        data-bs-target="#modalAgregarUsuario"><i class="fas fa-plus me-1"></i>Añadir
+                                        Usuario</button>
                                 </div>
                                 <h6 class="mb-3">Configuración de Diseño (Interfaz Organizadores)</h6>
                                 <div class="row">
@@ -505,7 +508,8 @@
 
     <!-- Modals for Event Management -->
     <!-- MODAL: Crear Usuario -->
-    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel" aria-hidden="true">
+    <div class="modal fade" id="modalAgregarUsuario" tabindex="-1" aria-labelledby="modalAgregarUsuarioLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -541,7 +545,8 @@
                         </div>
                         <div class="mb-3">
                             <label for="userConfirmarPassword" class="form-label">Repetir Contraseña</label>
-                            <input name="userConfirmarPassword" type="password" class="form-control" id="userRepeatPassword" required>
+                            <input name="userConfirmarPassword" type="password" class="form-control"
+                                id="userRepeatPassword" required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -580,7 +585,7 @@
                         <div class="mb-3">
                             <label for="invitationMessage" class="form-label">Descripción del evento</label>
                             <textarea name="descripcion" class="form-control" id="invitationMessage" rows="3"
-                            required></textarea>
+                                required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="eventLocation" class="form-label">Lugar</label>
@@ -592,11 +597,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="eventOrganizador" class="form-label">Organizador:</label>
-                            <select name="organizador" type="text" class="form-control" id="eventOrganizador" required><option value="">Selecciona</option></select>
+                            <select name="organizador" type="text" class="form-control" id="eventOrganizador" required>
+                                <option value="">Selecciona</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label for="eventAnfitrion" class="form-label">Anfitrion:</label>
-                            <select name="anfitrion" type="text" class="form-control" id="eventAnfitrion" required><option value="">Selecciona</option></select>
+                            <select name="anfitrion" type="text" class="form-control" id="eventAnfitrion" required>
+                                <option value="">Selecciona</option>
+                            </select>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -640,7 +649,7 @@
                         <div class="mb-3">
                             <label for="editEventDescription" class="form-label">Descripción del evento</label>
                             <textarea name="descripcion" class="form-control" id="editEventDescription" rows="3"
-                            required></textarea>
+                                required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="editEventUrl" class="form-label">Url del evento</label>
@@ -650,7 +659,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" form="formEditarEvento" class="btn btn-primary" id="btneditarEvento">Actualizar Evento</button>
+                    <button type="submit" form="formEditarEvento" class="btn btn-primary"
+                        id="btneditarEvento">Actualizar Evento</button>
                 </div>
             </div>
         </div>
@@ -791,7 +801,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="comentariosInvitadoEdit" class="form-label">Comentarios</label>
-                        <input name="comentarios" type="text" class="form-control" id="comentariosInvitadoEdit" required>
+                        <input name="comentarios" type="text" class="form-control" id="comentariosInvitadoEdit"
+                            required>
                     </div>
 
                 </div>
@@ -813,8 +824,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <div id="qrContainer" class="d-flex justify-content-center mb-3"></div>
                     <p id="nombreInvitadoQR" class="fw-semibold fs-5 text-capitalize"></p>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="qrContainer" class="d-flex justify-content-center mb-3"></div>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="d-flex justify-content-center mb-3">
+                        <!-- Campo con URL -->
+                        <input id="urlField" type="text" class="form-control me-2"
+                            value="https://invitaciones.claulet.com/tu-url-aqui" readonly style="width: 300px;">
+                        <!-- Botón para copiar -->
+                        <button id="copyBtn" class="btn btn-primary">Copiar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -826,6 +848,27 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="/adminPublic.js"></script>
+
+    <!-- Copiar Url al portapapeles -->
+    <script>
+        const copyBtn = document.getElementById("copyBtn");
+        const urlField = document.getElementById("urlField");
+
+        copyBtn.addEventListener("click", () => {
+            // Selecciona el contenido del input
+            urlField.select();
+            urlField.setSelectionRange(0, 99999); // Para móviles
+
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(urlField.value)
+                .then(() => {
+                    alert("URL copiada al portapapeles!");
+                })
+                .catch(err => {
+                    console.error("Error al copiar:", err);
+                });
+        });
+    </script>
 
     <script>
         // Script para alternar la barra lateral en pantallas pequeñas

@@ -349,7 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${inv.nombre} ${inv.apellidos}</td>
         <td>${inv.telefono || "-"}</td>
         <td>${inv.estado}</td>
-        <td><button class="btn btn-sm btn-outline-info" title="Ver QR"><i class="fas fa-qrcode"></i></button></td>
+        <td><button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalQrInvitado" data-invitados-id="${
+          inv.id
+        }" title="Ver QR"><i class="fas fa-qrcode"></i></button></td>
         <td>
           <button class="btn btn-sm btn-outline-secondary me-1 btn-editar-invitado" title="Editar" data-bs-toggle="modal" data-bs-target="#modalEditarInvitado" data-invitados-id="${
             inv.id
@@ -374,7 +376,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!btnEditarInvi) return;
 
       //  pedir confirmación al usuario
-      const confirmEdit = confirm("¿Estás seguro que deseas editar este Invitado?");
+      const confirmEdit = confirm(
+        "¿Estás seguro que deseas editar este Invitado?"
+      );
       if (!confirmEdit) return;
 
       const invitadoId = btnEditarInvi.getAttribute("data-invitados-id");
@@ -386,29 +390,38 @@ document.addEventListener("DOMContentLoaded", () => {
         const invitadoEdit = res.data;
 
         // Llenar modal usando name
-        document.querySelector("#modalEditarInvitado input[name='nombre']").value =
-          invitadoEdit.nombre || "";
-        document.querySelector("#modalEditarInvitado input[name='apellidos']").value =
-          invitadoEdit.apellidos || "";
-        document.querySelector("#modalEditarInvitado input[name='edad']").value =
-          invitadoEdit.edad || "";
-        document.querySelector("#modalEditarInvitado select[name='codigo_pais']").value =
-          invitadoEdit.codigo_pais || "";
-        document.querySelector("#modalEditarInvitado input[name='telefono']").value =
-          invitadoEdit.telefono || "";
-        document.querySelector("#modalEditarInvitado input[name='pases']").value =
-          invitadoEdit.pases || "";
-        document.querySelector("#modalEditarInvitado input[name='seccion']").value =
-          invitadoEdit.seccion || "";
-        document.querySelector("#modalEditarInvitado input[name='comentarios']").value =
-          invitadoEdit.comentarios || "";
-        document.querySelector("#modalEditarInvitado input[name='invitadoId']").value =
-          invitadoEdit.id;
+        document.querySelector(
+          "#modalEditarInvitado input[name='nombre']"
+        ).value = invitadoEdit.nombre || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='apellidos']"
+        ).value = invitadoEdit.apellidos || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='edad']"
+        ).value = invitadoEdit.edad || "";
+        document.querySelector(
+          "#modalEditarInvitado select[name='codigo_pais']"
+        ).value = invitadoEdit.codigo_pais || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='telefono']"
+        ).value = invitadoEdit.telefono || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='pases']"
+        ).value = invitadoEdit.pases || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='seccion']"
+        ).value = invitadoEdit.seccion || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='comentarios']"
+        ).value = invitadoEdit.comentarios || "";
+        document.querySelector(
+          "#modalEditarInvitado input[name='invitadoId']"
+        ).value = invitadoEdit.id;
       } catch (err) {
         console.error("Error al obtener invitado:", err);
       }
     });
-  
+
   // Editar Invitado
 
   const formEditarInvitado = document.getElementById("formEditarInvitado");
@@ -420,10 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     try {
-      await axios.put(
-        `/claulet/admin/api/invitado`,
-        datosEditarInvitado
-      );
+      await axios.put(`/claulet/admin/api/invitado`, datosEditarInvitado);
       alert("Invitado Actualizado Correctamente");
       window.location.href = "/claulet/admin";
     } catch (error) {
@@ -461,6 +471,47 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Error al eliminar el invitado");
       }
     });
+
+  // Codigo QR
+  const modalQr = document.getElementById("modalQrInvitado");
+
+  modalQr.addEventListener("show.bs.modal", async (event) => {
+    const button = event.relatedTarget; // Botón que disparó el modal
+    const invitadoId = button.getAttribute("data-invitados-id");
+
+    try {
+      // Llamada al backend con Axios
+      const response = await axios.get(
+        `/claulet/admin/api/invitado/${invitadoId}`
+      );
+      const invitado = response.data;
+      console.log("URL para QR:", invitado.url_personalizada);
+
+      // Mostrar el nombre
+      document.getElementById(
+        "nombreInvitadoQR"
+      ).textContent = `${invitado.nombre} ${invitado.apellidos}`;
+
+      // Generar QR con la URL personalizada
+      const qrContainer = document.getElementById("qrContainer");
+      qrContainer.innerHTML = ""; // limpiar QR anterior
+      const canvas = document.createElement("canvas");
+      qrContainer.appendChild(canvas);
+
+      QRCode.toCanvas(
+        canvas,
+        invitado.url_personalizada,
+        { width: 200 },
+        function (error) {
+          if (error) console.error("Error generando QR:", error);
+        }
+      );
+      // Actualizar input con URL personalizada
+      urlField.value = invitado.url_personalizada;
+    } catch (error) {
+      console.error("Error al obtener invitado:", error);
+    }
+  });
 
   // Subir plantillas invitaciones
 
