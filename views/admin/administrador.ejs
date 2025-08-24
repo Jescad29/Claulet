@@ -168,33 +168,63 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Puedes añadir más contenido al dashboard aquí si es necesario -->
-
-                        <!-- Sección de Configuración de Diseño (No tiene funcionalidad por el momento) -->
-                        <div class="card">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0">Configuración de Diseño (Interfaz Organizadores)</h5>
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Gestión de Usuarios</h5>
+                                <button class="btn btn-primary btn-sm mb-6" data-bs-toggle="modal"
+                                    data-bs-target="#modalAgregarUsuario"><i class="fasfa-plus me-1"></i>Añadir
+                                    Usuario</button>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="colorScheme" class="form-label">Esquema de Color</label>
-                                        <select class="form-select" id="colorScheme">
-                                            <option selected>Minimalista Azul</option>
-                                            <option>Elegante Gris</option>
-                                            <option>Vivo Púrpura</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="logoUpload" class="form-label">Logo para Organizadores</label>
-                                        <input class="form-control" type="file" id="logoUpload">
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary">Guardar Configuración</button>
-                                    </div>
+                                <div class="table-responsive">
+                                    <table class="table table-hover mb-0" id="tablaUsuarios">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Rol</th>
+                                                <th>Email</th>
+                                                <th>Eventos</th>
+                                                <th>Declinados</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted">No hay Usuarios
+                                                    registrados</td>
+                                            </tr>
+                                            <tr>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>0</td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-secondary me-1 btn-editar"
+                                                        title="editarUsuario" data-bs-toggle="modal"
+                                                        data-bs-target="#editarUsuario"><i
+                                                            class="fas fa-edit"></i></button>
+
+                                                    <button
+                                                        class="btn btn-sm btn-outline-secondary me-1 btn-password-usuario"
+                                                        title="passwordUsuario" data-bs-toggle="modal"
+                                                        data-bs-target="#passwordUsuario"><i
+                                                            class="fas fa-key"></i></button>
+
+                                                    <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
+                                                        title="eliminarUsuario">
+                                                        <i class="fas fa-trash-alt"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                        <!-- Puedes añadir más contenido al dashboard aquí si es necesario -->
+
+                        <!-- Sección de Configuración de Diseño (No tiene funcionalidad por el momento) -->
+
                     </div>
 
                     <!-- Events Tab Content -->
