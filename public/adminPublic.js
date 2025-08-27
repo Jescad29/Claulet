@@ -159,11 +159,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-editar-usuarios"
                         title="editarUsuarios" data-bs-toggle="modal"
-                        data-bs-target="#editUsersModal" data-evento-id="${usuario.id}"><i
+                        data-bs-target="#modalEditarUsuario" data-evento-id="${usuario.id}"><i
                             class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-password-usuarios"
                         title="password" data-bs-toggle="modal"
-                        data-bs-target="#passwordUsuariosModal"><i
+                        data-bs-target="#modalEditarPasswordUsuario"><i
                             class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
                         data-evento-id="${usuario.id}"

@@ -588,6 +588,78 @@
         </div>
     </div>
 
+    <!-- MODAL: Editar Usuario -->
+    <div class="modal fade" id="modalEditarUsuario" tabindex="-1" aria-labelledby="modalEditarUsuarioLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarUsuarioLabel">Editar Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-editar-usuarios" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="userEditName" class="form-label">Nombre</label>
+                            <input name="nombre" type="text" class="form-control" id="userEditName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEditEmail" class="form-label">Email</label>
+                            <input name="email" type="text" class="form-control" id="userEditEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEditRol" class="form-label">Rol</label>
+                            <select name="rol" id="userEditRol" required>
+                                <option value="">Selecciona</option>
+                                <option value="admin">admin</option>
+                                <option value="organizador">organizador</option>
+                                <option value="anfitrion">anfitrion</option>
+                            </select>
+                        </div>
+                        <!-- <div class="mb-3">
+                            <label for="userImagen" class="form-label">Subir Imagen/Logo</label>
+                            <input name="imagen" type="file" class="form-control" id="userImagen" required>
+                        </div> -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Editar Usuario</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- MODAL: Editar Contraseña Usuario -->
+    <div class="modal fade" id="modalEditarPasswordUsuario" tabindex="-1" aria-labelledby="modalEditarPasswordUsuarioLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarPasswordUsuarioLabel">Editar Contraseña Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-editar-password-usuarios" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="userEditPassword" class="form-label">Contraseña</label>
+                            <input name="password" type="password" class="form-control" id="userEditPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="userEditConfirmarPassword" class="form-label">Repetir Contraseña</label>
+                            <input name="userEditConfirmarPassword" type="password" class="form-control"
+                                id="userEditRepeatPassword" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Editar Contraseña</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL: Crear Evento -->
     <div class="modal fade" id="newEventModal" tabindex="-1" aria-labelledby="newEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
