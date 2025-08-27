@@ -135,6 +135,50 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Obtener todos los Usuarios.
+  axios.get("/claulet/admin/api/usuarios/todos").then((res) => { 
+    const usuarios = res.data; 
+    const tbody = document.querySelector("#tablaUsuarios tbody")
+    tbody.innerHTML = "";
+
+    try {
+      if (usuarios.length === 0) {
+        const tr = document.createElement("tr");
+        tr.innerHTML=`<td colspan="6" style="text-align:center;">No hay eventos</td>`;
+        tbody.appendChild(tr)
+        return
+      }
+
+      usuarios.forEach((usuario) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+                <td>${usuario.nombre}</td>
+                <td>${usuario.rol}</td>
+                <td>${usuario.email}</td>
+                <td>${usuario.cantidadEventos}</td>
+  
+                    <button class="btn btn-sm btn-outline-secondary me-1 btn-editar-usuarios"
+                        title="editarUsuarios" data-bs-toggle="modal"
+                        data-bs-target="#editUsersModal" data-evento-id="${usuario.id}"><i
+                            class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-outline-secondary me-1 btn-password-usuarios"
+                        title="password" data-bs-toggle="modal"
+                        data-bs-target="#passwordUsuariosModal"><i
+                            class="fas fa-key"></i></button>
+                    <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
+                        data-evento-id="${usuario.id}"
+                        title="Eliminar">
+                        <i class="fas fa-trash-alt"></i></button>
+                </td>
+                `;
+        tbody.appendChild(tr);
+      });
+    } catch (error) {
+      console.error(error);
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Error al cargar los invitados</td></tr>`;
+    }
+  });
+
   // LLenar formulario editar evento
   document
     .querySelector("#tablaEventos tbody")

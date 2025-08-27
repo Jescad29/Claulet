@@ -8,6 +8,8 @@ import shortid from 'shortid';
 import { application } from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { Sequelize } from "sequelize";
+
 
 // Para obtener __dirname en ES Modules:
 const __filename = fileURLToPath(import.meta.url);
@@ -26,11 +28,12 @@ const fileStorage = multer.diskStorage({
 
 // Middleware de subida
 const upload = multer({ storage: fileStorage }).single('imagen');
+
 // Mostrar login
 export const mostrarLogin = (req, res) => {
     res.render('auth/login');
 };
-// Obtener Usuarios
+// Obtener Usuarios Filtrados
 export const obtenerUsuarios = async(req, res) => {
     try {
         const organizadores = await Usuarios.findAll({
@@ -51,6 +54,42 @@ export const obtenerUsuarios = async(req, res) => {
         res.status(500).json({ error: 'Error obteniendo usuarios' });
     }
 }
+
+// Obtener Usuarios Completo
+export const obtenerUsuariosCompleto = async (req, res) => {
+  try {
+    const usuarios = await Usuarios.findAll({
+      attributes: [
+        "id",
+        "nombre",
+        "rol",
+        "email",
+        [
+          Sequelize.literal(`(
+            SELECT COUNT(*)
+            FROM "eventos" AS e
+            WHERE e."organizadorId" = "usuarios"."id"
+              OR e."anfitrionId" = "usuarios"."id"
+          )`),
+          "cantidadEventos",
+        ],
+      ],
+    });
+
+    const resultado = usuarios.map((usuario) => {
+      if (usuario.rol === "admin") {
+        return { ...usuario.toJSON(), cantidadEventos: 0 };
+      }
+      return usuario.toJSON();
+    });
+
+    res.json(resultado);
+  } catch (error) {
+    console.error("Error al obtener usuarios:", error);
+    res.status(500).json({ error: "Error al obtener usuarios" });
+  }
+};
+
 
 // Subir Imagen en el servidor
 export const subirImagen = (req, res, next) => {

@@ -4,6 +4,10 @@ import Invitados from "./Invitados.js";
 
 // Relaciones entre Eventos y Usuarios
 
+Usuarios.hasMany(Eventos, { as: "eventosOrganizados", foreignKey: "organizadorId" });
+
+Usuarios.hasMany(Eventos, { as: "eventosAnfitrion", foreignKey: "anfitrionId" });
+
 // Evento tiene un Organizador (Usuario con rol organizador)
 Eventos.belongsTo(Usuarios, { as: 'organizador', foreignKey: 'organizadorId' });
 
@@ -14,5 +18,6 @@ Eventos.belongsTo(Usuarios, { as: 'anfitrion', foreignKey: 'anfitrionId' });
 Eventos.hasMany(Invitados, { foreignKey: 'eventoId', onDelete: "CASCADE" });
 
 Invitados.belongsTo(Eventos, { foreignKey: 'eventoId', allowNull: false });
+
 
 export { Usuarios, Eventos, Invitados }
