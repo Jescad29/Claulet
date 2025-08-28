@@ -159,14 +159,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-editar-usuarios"
                         title="editarUsuarios" data-bs-toggle="modal"
-                        data-bs-target="#modalEditarUsuario" data-evento-id="${usuario.id}"><i
+                        data-bs-target="#modalEditarUsuario" data-usuario-id="${usuario.id}"><i
                             class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-password-usuarios"
                         title="password" data-bs-toggle="modal"
                         data-bs-target="#modalEditarPasswordUsuario"><i
                             class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
-                        data-evento-id="${usuario.id}"
+                        data-usuario-id="${usuario.id}"
                         title="Eliminar">
                         <i class="fas fa-trash-alt"></i></button>
                 </td>
@@ -176,6 +176,58 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error(error);
       tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">Error al cargar los invitados</td></tr>`;
+    }
+  });
+
+ 
+  // Llenar formulario editar Usuario
+  document
+    .querySelector("#tablaUsuarios tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-editar-usuarios");
+      if (!btn) return;
+      const usuarioId = btn.getAttribute("data-usuario-id");
+
+      try {
+        const res = await axios.get(
+          `/claulet/admin/api/editarUsuario/obtenerUsuario/${usuarioId}`
+        );
+        const usuario = res.data;
+        console.log(usuario);
+
+        // LLenar Modal usando name
+        document.querySelector("#modalEditarUsuario input[name='nombre']").value =
+          usuario.nombre || "";
+        document.querySelector("#modalEditarUsuario input[name='email']").value =
+          usuario.email|| "";
+        // document.querySelector("#modalEditarUsuario input[name='rol']").value =
+        //   usuario.rol || "";
+        document.querySelector("#modalEditarUsuario input[name='id']").value =
+          usuario.id || "";
+      } catch (error) {
+        console.error("Error al obtener usuario:", error);
+      }
+    });
+
+  // Editar Usuario 
+  const formEditarUsuario = document.getElementById("form-editar-usuarios")
+  
+  formEditarUsuario.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const datosEditarUsuario = Object.fromEntries(
+      new FormData(formEditarUsuario).entries()
+    );
+    
+    try {
+      const res = await axios.put(
+        `/claulet/admin/api/editarUsuario/${datosEditarUsuario.usuarioId}`,
+        datosEditarUsuario  
+      );
+      alert("Usuario Actualizado");
+      window.location.href = "/claulet/admin";
+    } catch (error) {
+      console.error("Error al editar el evento", error.response?.data || error);
+      alert("Error al editar el evento");
     }
   });
 
@@ -208,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ).value = evento.descripcion || "";
         document.querySelector("#editEventModal input[name='urlBase']").value =
           evento.urlBase;
-        document.querySelector("#editEventModal input[name='id']").value =
+        document.querySelector("#editEventModal input[name='usuarioId']").value =
           evento.id;
       } catch (err) {
         console.error("Error al obtener evento:", err);

@@ -599,6 +599,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="form-editar-usuarios" enctype="multipart/form-data">
+                        <input type="hidden" id="editUsuario" name="id">
                         <div class="mb-3">
                             <label for="userEditName" class="form-label">Nombre</label>
                             <input name="nombre" type="text" class="form-control" id="userEditName" required>
@@ -607,7 +608,7 @@
                             <label for="userEditEmail" class="form-label">Email</label>
                             <input name="email" type="text" class="form-control" id="userEditEmail" required>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label for="userEditRol" class="form-label">Rol</label>
                             <select name="rol" id="userEditRol" required>
                                 <option value="">Selecciona</option>
@@ -615,7 +616,7 @@
                                 <option value="organizador">organizador</option>
                                 <option value="anfitrion">anfitrion</option>
                             </select>
-                        </div>
+                        </div> -->
                         <!-- <div class="mb-3">
                             <label for="userImagen" class="form-label">Subir Imagen/Logo</label>
                             <input name="imagen" type="file" class="form-control" id="userImagen" required>
@@ -641,6 +642,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="form-editar-password-usuarios" enctype="multipart/form-data">
+                        <input type="hidden" id="editUsuario" name="id">
                         <div class="mb-3">
                             <label for="userEditPassword" class="form-label">Contraseña</label>
                             <input name="password" type="password" class="form-control" id="userEditPassword" required>

@@ -55,6 +55,7 @@ export const obtenerUsuarios = async(req, res) => {
     }
 }
 
+
 // Obtener Usuarios Completo
 export const obtenerUsuariosCompleto = async (req, res) => {
   try {
@@ -89,6 +90,45 @@ export const obtenerUsuariosCompleto = async (req, res) => {
     res.status(500).json({ error: "Error al obtener usuarios" });
   }
 };
+
+// Obtener Usuario
+export const obtenerUsuario = async (req, res) => { 
+
+  try {
+    const usuario = await Usuarios.findByPk(req.params.usuarioId);
+    if (!usuario) {
+      return res.status(404).json({error : "Usuario no encontrado"})
+    }
+    res.json(usuario);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener el usuario" });
+  }
+};
+
+export const editarUsuario = async (req, res) => {
+  console.log("📥 --- Datos recibidos en editarUsuario ---", req.body);
+  
+  try {
+    const { id, nombre, email } = req.body;
+    const usuario = await Usuarios.findByPk(id);
+
+    if (!usuario) {
+      return res.status(404).json({ msg: "Usuario no encontrado" })
+    }
+
+    // Actualizamos con los datos nuevos.
+    await usuario.update({
+      nombre,
+      email
+    })
+    return res.status(200).json({ msg: "Usuario actualizado correctamente", usuario });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Error al actualizar el Usuario" });
+  }
+};
+
 
 
 // Subir Imagen en el servidor
