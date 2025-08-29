@@ -260,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ).value = evento.descripcion || "";
         document.querySelector("#editEventModal input[name='urlBase']").value =
           evento.urlBase;
-        document.querySelector("#editEventModal input[name='usuarioId']").value =
+        document.querySelector("#editEventModal input[name='id']").value =
           evento.id;
       } catch (err) {
         console.error("Error al obtener evento:", err);
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await axios.put(
-        "/claulet/admin/api/editarEvento/${datosEditarEvento.id}",
+        `/claulet/admin/api/editarEvento/${datosEditarEvento.id}`,
         datosEditarEvento
       );
       alert("Evento Actualizado");
