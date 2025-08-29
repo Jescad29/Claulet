@@ -2,7 +2,7 @@ import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento } from "../controllers/eventos.Controller.js";
 import { obtenerInvitados, crearInvitado, importarInvitados, obtenerInvitado, editarInvitado, eliminarInvitado } from "../controllers/invitados.Controller.js";
-import { crearUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, subirImagen } from "../controllers/usuario.Controller.js";
+import { crearUsuario,borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, subirImagen } from "../controllers/usuario.Controller.js";
 import { upload } from "../middleware/upload.js";
 
 const router = express.Router();
@@ -14,6 +14,8 @@ router.post('/admin/api/usuarios', crearUsuario);
 
 router.get('/admin/api/editarUsuario/obtenerUsuario/:usuarioId', obtenerUsuario);
 router.put('/admin/api/editarUsuario/:usuarioId', editarUsuario);
+
+router.delete('/admin/api/editarUsuario/:usuarioId', borrarUsuario);
 
 router.get('/admin/api/usuarios/todos', obtenerUsuariosCompleto);
 // Eventos

@@ -231,6 +231,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Borrar Usuario
+  document
+    .querySelector("#tablaUsuarios tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-eliminar-usuario");
+      if (!btn) return;
+
+      // Pedir confirmacion borrar usuario
+      const confirmDelete = confirm("¿Estás seguro de eliminar este usuario?");
+      if (!confirmDelete) return;
+
+      // Obtener Id de usuario
+      const usuarioId = btn.getAttribute("data-usuario-id");
+
+      try {
+        await axios.delete(`/claulet/admin/api/editarUsuario/${usuarioId}`);
+        alert("Usuario eliminado correctamente");
+
+        // eliminar la fila del DOM sin recargar
+        const fila = btn.closest("tr");
+        if (fila) fila.remove();
+      } catch (error) {
+        console.error(
+          "Error al eliminar el Usuario",
+          error.response?.data || error
+        );
+        alert("Error al eliminar el usuario");
+      }
+    });
+
   // LLenar formulario editar evento
   document
     .querySelector("#tablaEventos tbody")

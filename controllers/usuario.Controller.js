@@ -55,7 +55,6 @@ export const obtenerUsuarios = async(req, res) => {
     }
 }
 
-
 // Obtener Usuarios Completo
 export const obtenerUsuariosCompleto = async (req, res) => {
   try {
@@ -129,7 +128,22 @@ export const editarUsuario = async (req, res) => {
   }
 };
 
+export const borrarUsuario = async (req, res) => {
+  console.log("Borrando usuario ... 🔥", req.params.usuarioId);
 
+  try {
+    const usuarioId = req.params.usuarioId;
+    const usuario = await Usuarios.findByPk(usuarioId);
+    if (!usuario) return res.status(400).json({ msg: "Usuario no encontrado" });
+
+    await usuario.destroy();
+
+    res.json({ msg: "Usuario eliminado correctamente" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ msg: "Error al eliminar el evento" });
+  }
+}
 
 // Subir Imagen en el servidor
 export const subirImagen = (req, res, next) => {
