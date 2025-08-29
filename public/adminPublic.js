@@ -88,10 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-invitados"
                         title="Gestionar Invitados">
                         <i class="fas fa-users"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary me-1 btn-contrasena"
-                        title="Contraseñas" data-bs-toggle="modal"
-                        data-bs-target="#passwordModal"><i
-                            class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar"
                         data-evento-id="${evento.id}"
                         title="Eliminar">
