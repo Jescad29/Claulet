@@ -136,17 +136,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Obtener todos los Usuarios.
-  axios.get("/claulet/admin/api/usuarios/todos").then((res) => { 
-    const usuarios = res.data; 
-    const tbody = document.querySelector("#tablaUsuarios tbody")
+  axios.get("/claulet/admin/api/usuarios/todos").then((res) => {
+    const usuarios = res.data;
+    const tbody = document.querySelector("#tablaUsuarios tbody");
     tbody.innerHTML = "";
 
     try {
       if (usuarios.length === 0) {
         const tr = document.createElement("tr");
-        tr.innerHTML=`<td colspan="6" style="text-align:center;">No hay eventos</td>`;
-        tbody.appendChild(tr)
-        return
+        tr.innerHTML = `<td colspan="6" style="text-align:center;">No hay eventos</td>`;
+        tbody.appendChild(tr);
+        return;
       }
 
       usuarios.forEach((usuario) => {
@@ -161,9 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         title="editarUsuarios" data-bs-toggle="modal"
                         data-bs-target="#modalEditarUsuario" data-usuario-id="${usuario.id}"><i
                             class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-outline-secondary me-1 btn-password-usuarios"
+                    <button class="btn btn-sm btn-outline-secondary me-1 btn-editarPassword-usuarios"
                         title="password" data-bs-toggle="modal"
-                        data-bs-target="#modalEditarPasswordUsuario"><i
+                        data-bs-target="#modalEditarPasswordUsuario" data-usuario-id="${usuario.id}"><i
                             class="fas fa-key"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar-usuario"
                         data-usuario-id="${usuario.id}"
@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
- 
   // Llenar formulario editar Usuario
   document
     .querySelector("#tablaUsuarios tbody")
@@ -196,10 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(usuario);
 
         // LLenar Modal usando name
-        document.querySelector("#modalEditarUsuario input[name='nombre']").value =
-          usuario.nombre || "";
-        document.querySelector("#modalEditarUsuario input[name='email']").value =
-          usuario.email|| "";
+        document.querySelector(
+          "#modalEditarUsuario input[name='nombre']"
+        ).value = usuario.nombre || "";
+        document.querySelector(
+          "#modalEditarUsuario input[name='email']"
+        ).value = usuario.email || "";
         // document.querySelector("#modalEditarUsuario input[name='rol']").value =
         //   usuario.rol || "";
         document.querySelector("#modalEditarUsuario input[name='id']").value =
@@ -209,19 +210,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-  // Editar Usuario 
-  const formEditarUsuario = document.getElementById("form-editar-usuarios")
-  
+  // Editar Usuario
+  const formEditarUsuario = document.getElementById("form-editar-usuarios");
+
   formEditarUsuario.addEventListener("submit", async (e) => {
     e.preventDefault();
     const datosEditarUsuario = Object.fromEntries(
       new FormData(formEditarUsuario).entries()
     );
-    
+
     try {
       const res = await axios.put(
         `/claulet/admin/api/editarUsuario/${datosEditarUsuario.usuarioId}`,
-        datosEditarUsuario  
+        datosEditarUsuario
       );
       alert("Usuario Actualizado");
       window.location.href = "/claulet/admin";
@@ -258,6 +259,57 @@ document.addEventListener("DOMContentLoaded", () => {
           error.response?.data || error
         );
         alert("Error al eliminar el usuario");
+      }
+    });
+
+  // Editar Password usuario
+  document
+    .querySelector("#tablaUsuarios tbody")
+    .addEventListener("click", async (e) => {
+      const btn = e.target.closest(".btn-editarPassword-usuarios");
+      if (!btn) return;
+
+      // Pedir confirmacion borrar usuario
+      const confirmDelete = confirm(
+        "¿Estás seguro de editar la contraseña de este usuario?"
+      );
+      if (!confirmDelete) return;
+
+      // Obtener Id de usuario
+      const usuarioId = btn.getAttribute("data-usuario-id");
+      document.querySelector("#editUsuario").value = usuarioId;
+      document.querySelector("#form-editar-password-usuarios").reset();
+    });
+
+  document
+    .querySelector("#form-editar-password-usuarios")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const usuarioId = document.querySelector("#editUsuario").value;
+      const password = document.querySelector("#userEditPassword").value;
+      const repetir = document.querySelector("#userEditRepeatPassword").value;
+
+      if (password !== repetir) {
+        return alert("Las contraseñas no coinciden ❌");
+      }
+
+      try {
+        await axios.put(
+          `/claulet/admin/api/editarPasswordUsuario/${usuarioId}`,
+          {
+            password: password,
+          }
+        );
+
+        alert("Contraseña cambiada correctamente ✅");
+        window.location.href = "/claulet/admin";
+      } catch (error) {
+        console.error(
+          "Error al cambiar la contraseña",
+          error.response?.data || error
+        );
+        alert("Error al cambiar la contraseña ❌");
       }
     });
 

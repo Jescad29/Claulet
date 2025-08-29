@@ -53,6 +53,11 @@ const Usuarios = db.define('usuarios', {
         beforeCreate(usuario) {
             usuario.password = bcrypt.hashSync(usuario.password, bcrypt.genSaltSync(10),
                 null);
+        },
+        beforeUpdate(usuario) {
+            if (usuario.changed("password")) {
+                usuario.password = bcrypt.hashSync(usuario.password, bcrypt.genSaltSync(10), null);
+            }
         }
     }
 });
