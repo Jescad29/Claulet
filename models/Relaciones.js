@@ -1,6 +1,7 @@
 import Usuarios from "./Usuarios.js";
 import Eventos from "./Eventos.js";
 import Invitados from "./Invitados.js";
+import Plantillas from "./Plantillas.js";
 
 // Relaciones entre Eventos y Usuarios
 
@@ -18,6 +19,15 @@ Eventos.belongsTo(Usuarios, { as: 'anfitrion', foreignKey: 'anfitrionId' });
 Eventos.hasMany(Invitados, { foreignKey: 'eventoId', onDelete: "CASCADE" });
 
 Invitados.belongsTo(Eventos, { foreignKey: 'eventoId', allowNull: false });
+
+// Relaciones entre Eventos y Plantillas
+// Una plantilla PDF por evento
+Plantillas.hasMany(Eventos, { as: 'eventosPDF', foreignKey: 'plantillaPdfId' });
+Eventos.belongsTo(Plantillas, { as: 'plantillaPdf', foreignKey: 'plantillaPdfId' });
+
+// Una plantilla Vista por evento
+Plantillas.hasMany(Eventos, { as: 'eventosVista', foreignKey: 'plantillaVistaId' });
+Eventos.belongsTo(Plantillas, { as: 'plantillaVista', foreignKey: 'plantillaVistaId' });
 
 
 export { Usuarios, Eventos, Invitados }

@@ -9,6 +9,8 @@ const router = express.Router();
 
 router.get('/admin', mostrarAdmin);
 
+// Admin Api Dashboard
+    
 // Usuarios
 router.post('/admin/api/usuarios', crearUsuario);
 

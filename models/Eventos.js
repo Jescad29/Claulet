@@ -69,6 +69,16 @@ const Eventos = db.define('eventos', {
         msg: 'Debe ser una URL válida'
       }
     }
+  },
+  plantillaPdfId: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    references: { model: 'plantillas', key: 'id' }
+  },
+  plantillaVistaId: {
+    type: Sequelize.INTEGER,
+    allowNull: true,
+    references: { model: 'plantillas', key: 'id' }
   }
 });
 
