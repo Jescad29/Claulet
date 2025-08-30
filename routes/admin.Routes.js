@@ -2,7 +2,8 @@ import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento } from "../controllers/eventos.Controller.js";
 import { obtenerInvitados, crearInvitado, importarInvitados, obtenerInvitado, editarInvitado, eliminarInvitado } from "../controllers/invitados.Controller.js";
-import { crearUsuario,borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, editarPasswordUsuario, subirImagen } from "../controllers/usuario.Controller.js";
+import { crearUsuario, borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, editarPasswordUsuario, subirImagen } from "../controllers/usuario.Controller.js";
+import { obtenerTotalesDashBoard } from "../controllers/admin.Controller.js";
 import { upload } from "../middleware/upload.js";
 
 const router = express.Router();
@@ -10,7 +11,7 @@ const router = express.Router();
 router.get('/admin', mostrarAdmin);
 
 // Admin Api Dashboard
-    
+router.get('/admin/api/dashboard', obtenerTotalesDashBoard);
 // Usuarios
 router.post('/admin/api/usuarios', crearUsuario);
 

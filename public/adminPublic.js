@@ -1,4 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Mostrar totales invitados, eventos, plantillas
+  function cargarTotales() {
+    axios
+      .get("/claulet/admin/api/dashboard")
+      .then((res) => {
+        const { totalEventos, totalInvitados, totalPlantillas } = res.data;
+
+        const cardEventos = document.getElementById("cardEventos");
+        const cardInvitados = document.getElementById("cardInvitados");
+        const cardPlantillas = document.getElementById("cardPlantillas");
+
+        if (cardEventos) cardEventos.textContent = totalEventos;
+        if (cardInvitados) cardInvitados.textContent = totalInvitados;
+        if (cardPlantillas) cardPlantillas.textContent = totalPlantillas;
+      })
+      .catch((err) => {
+        console.error("Error al cargar los totales:", err);
+
+        // Opcional: mostrar 0 en caso de error
+        const cardEventos = document.getElementById("cardEventos");
+        const cardInvitados = document.getElementById("cardInvitados");
+        const cardPlantillas = document.getElementById("cardPlantillas");
+
+        if (cardEventos) cardEventos.textContent = "0";
+        if (cardInvitados) cardInvitados.textContent = "0";
+        if (cardPlantillas) cardPlantillas.textContent = "0";
+      });
+  }
+
+  // Llamar a la función al cargar la página
+  cargarTotales();
+
   //Obtener Usuarios/Evento
 
   const btnnuevoEvento = document.getElementById("nuevoEvento");

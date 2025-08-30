@@ -30,4 +30,4 @@ Plantillas.hasMany(Eventos, { as: 'eventosVista', foreignKey: 'plantillaVistaId'
 Eventos.belongsTo(Plantillas, { as: 'plantillaVista', foreignKey: 'plantillaVistaId' });
 
 
-export { Usuarios, Eventos, Invitados }
+export { Usuarios, Eventos, Invitados, Plantillas }
