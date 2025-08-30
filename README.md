@@ -76,7 +76,7 @@ Claulet/
 - Creacion de vistas con sus respectivas rutas. (Admin, anfitrion, login, escaner y organizador)
 - Creacion de codigo qr para cada invitado.
 - Renderizado en de vista admin y tarjetas de totales en la base de datos.
-
+- Importacion de invitados desde archivos excel. 
 ---
 
 ## 🛠️ Instalación
