@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         data-bs-target="#editEventModal" data-evento-id="${evento.id}"><i
                             class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-outline-secondary me-1 btn-invitados"
-                        title="Gestionar Invitados">
+                        title="Gestionar Invitados" data-bs-toggle="modal" data-bs-target="#modalInvitadoAndAnfitrion" data-evento-id="${evento.id}">
                         <i class="fas fa-users"></i></button>
                     <button class="btn btn-sm btn-outline-danger btn-eliminar"
                         data-evento-id="${evento.id}"
@@ -430,6 +430,42 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Error al eliminar el evento");
       }
     });
+
+  // Consultar admins del evento (Organizador y anfitrion)
+  const modalInvitadoAnfitrion = document.getElementById("modalInvitadoAndAnfitrion");
+
+    modalInvitadoAnfitrion.addEventListener("show.bs.modal", async (event) => {
+    const button = event.relatedTarget; 
+    const eventoId = button.getAttribute("data-evento-id");
+
+    try {
+      // Llamada al backend con Axios
+      const res = await axios.get(
+        `/claulet/admin/api/evento/admins/${eventoId}`
+      );
+
+      const { organizador, anfitrion } = res.data;
+
+      // Mostrar el nombre del organizador
+      document.getElementById(
+        "nombreOrganizador"
+      ).textContent = `${organizador.nombre}`|| "Sin asignar";
+
+      // Mostrar el nombre del anfitrion
+      document.getElementById(
+        "nombreAnfitrion"
+      ).textContent = `${anfitrion.nombre}`|| "Sin asignar";
+
+
+    } catch (error) {
+      console.error("Error al obtener admins:", error);
+    }
+  });
+
+
+
+
+
 
   // Agregar un nuevo Invitado
   const selectEventGuests = document.getElementById("selectEventGuests");

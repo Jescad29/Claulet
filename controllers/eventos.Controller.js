@@ -96,6 +96,30 @@ export const obtenerEventos = async (req, res) => {
   }
 };
 
+// Obtener admins eventos
+export const obtenerAdmins = async (req, res) => {
+  console.log("Obteniendo admins ..... ... .. .");
+  try {
+    const evento = await Eventos.findByPk(req.params.eventoId, {
+      include: [
+        { model: Usuarios, as: "organizador", attributes: ["id", "nombre"] },
+        { model: Usuarios, as: "anfitrion", attributes: ["id", "nombre"] }
+      ]
+    });
+
+    if (!evento) {
+      return res.status(404).json({ error: "Evento no encontrado" });
+    }
+
+    res.json({
+      organizador: evento.organizador,
+      anfitrion: evento.anfitrion
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener administradores" });
+  }
+}
+
 // obtener un solo evento
 export const obtenerEvento = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import express from "express";
 import { mostrarAdmin } from "../controllers/admin.Controller.js";
-import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento } from "../controllers/eventos.Controller.js";
+import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento, obtenerAdmins } from "../controllers/eventos.Controller.js";
 import { obtenerInvitados, crearInvitado, importarInvitados, obtenerInvitado, editarInvitado, eliminarInvitado } from "../controllers/invitados.Controller.js";
 import { crearUsuario, borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, editarPasswordUsuario, subirImagen } from "../controllers/usuario.Controller.js";
 import { obtenerTotalesDashBoard } from "../controllers/admin.Controller.js";
@@ -27,6 +27,8 @@ router.get('/admin/api/crearEvento', obtenerUsuarios);
 router.get('/admin/api/obtenerEventos', obtenerEventos);
 
 router.get('/admin/api/editarEvento/:eventoId', obtenerEvento);
+router.get('/admin/api/evento/admins/:eventoId', obtenerAdmins);
+
 router.put('/admin/api/editarEvento/:eventoId', editarEvento);
 
 router.post('/admin/api/eventos', crearEvento);
