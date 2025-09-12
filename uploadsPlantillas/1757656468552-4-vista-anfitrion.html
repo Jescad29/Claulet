@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muro de Recuerdos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F1ED;
+            color: #3C3C3C;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        .profile-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid #D4A373;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: #795548;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 500;
+            color: #9C897A;
+            margin-bottom: 2rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            justify-items: center;
+            align-items: start;
+        }
+
+        .polaroid-card {
+            background-color: #FFFFFF;
+            padding: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            transform: rotate(calc(var(--rotation) * 1deg));
+        }
+
+        .polaroid-card:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .polaroid-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .polaroid-message {
+            font-size: 0.95rem;
+            line-height: 1.4;
+            color: #555;
+            margin-bottom: 0.75rem;
+        }
+
+        .polaroid-signature {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #D4A373;
+            text-align: right;
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .btn-download {
+            background-color: #795548;
+            color: #FFFFFF;
+            font-weight: 700;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            background-color: #5D4037;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="profile-section">
+            <img src="https://placehold.co/180x180/D4A373/FFF?text=Ana+y+Juan" alt="Foto de los anfitriones" class="profile-photo">
+            <h1>Nuestro Álbum de Deseos</h1>
+        </div>
+        <p class="subtitle">¡Gracias por ser parte de nuestro día especial! Aquí pueden encontrar un recuerdo de cada deseo y momento compartido.</p>
+    </header>
+
+    <main class="grid-container" id="memories-wall">
+        <!-- Las tarjetas se generarán aquí con JavaScript -->
+    </main>
+    
+    <div class="download-section">
+        <button id="download-btn" class="btn-download" onclick="alert('Simulando la descarga de un PDF con todos los recuerdos.');">
+            Descargar todos los recuerdos
+        </button>
+    </div>
+</div>
+
+<script>
+    const messagesData = [
+        { message: "Que su amor sea la mayor aventura de sus vidas. ¡Felicidades!", guest: "Familia García", photo: "https://placehold.co/400x300/D4A373/fff?text=Momento+1" },
+        { message: "Un día maravilloso para una pareja maravillosa. ¡Les deseamos un futuro lleno de felicidad!", guest: "Amigos del Colegio", photo: "https://placehold.co/400x300/A1887F/fff?text=Momento+2" },
+        { message: "Gracias por compartir este momento. Que cada año de matrimonio sea mejor que el anterior.", guest: "Tía Elena", photo: null },
+        { message: "¡Su amor es una verdadera inspiración! Muchísimas felicidades.", guest: "Carlos y Sofía", photo: "https://placehold.co/400x300/6B8E23/fff?text=Momento+3" },
+        { message: "Que su hogar esté lleno de risas, paz y mucho amor. ¡Los queremos!", guest: "Abuela Ana", photo: null },
+        { message: "Brindamos por el amor que los unió. ¡Qué vivan los novios!", guest: "Vecinos de la calle", photo: "https://placehold.co/400x300/2F4F4F/fff?text=Momento+4" },
+        { message: "Es un honor ser testigo de su felicidad. Les deseo lo mejor.", guest: "El Jefe", photo: null },
+        { message: "Siempre supimos que llegarían a este día. ¡Felicidades!", guest: "Primos", photo: "https://placehold.co/400x300/795548/fff?text=Momento+5" },
+        { message: "Que su historia sea un cuento de hadas sin final. ¡Un fuerte abrazo!", guest: "Los Viajeros", photo: null }
+    ];
+
+    const memoriesWall = document.getElementById('memories-wall');
+
+    function createPolaroidCard(data) {
+        const card = document.createElement('div');
+        card.className = "polaroid-card";
+        
+        // Rotación aleatoria
+        const randomRotation = Math.floor(Math.random() * 8) - 4; // Entre -4 y 4 grados
+        card.style.setProperty('--rotation', randomRotation);
+
+        if (data.photo) {
+            const photoImg = document.createElement('img');
+            photoImg.src = data.photo;
+            photoImg.alt = "Foto de recuerdo";
+            photoImg.classList.add('polaroid-image');
+            card.appendChild(photoImg);
+        }
+
+        const messageParagraph = document.createElement('p');
+        messageParagraph.classList.add('polaroid-message');
+        messageParagraph.textContent = data.message;
+        card.appendChild(messageParagraph);
+
+        const signatureParagraph = document.createElement('p');
+        signatureParagraph.classList.add('polaroid-signature');
+        signatureParagraph.textContent = `- ${data.guest}`;
+        card.appendChild(signatureParagraph);
+
+        return card;
+    }
+
+    messagesData.forEach(data => {
+        const card = createPolaroidCard(data);
+        memoriesWall.appendChild(card);
+    });
+</script>
+
+</body>
+</html>

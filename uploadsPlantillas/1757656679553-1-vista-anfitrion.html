@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Agradecimientos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #1a202c; /* Gris oscuro */
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background-color: #2d3748; /* Gris más claro */
+            color: #e2e8f0; /* Texto claro */
+            padding: 2rem;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        .card {
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            color: #e2e8f0;
+            padding: 1.5rem;
+        }
+        .message-card {
+            background-color: #2d3748;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Barra lateral - Información del evento -->
+    <div class="sidebar">
+        <div class="text-center mb-8">
+            <img src="https://placehold.co/150x150/f1c40f/1a202c?text=Novios" alt="Foto de los novios" class="w-36 h-36 rounded-full border-4 border-amber-500 mb-4 mx-auto">
+            <h1 class="text-2xl font-bold text-amber-400">Ana & Juan</h1>
+            <p class="text-sm text-gray-400">¡Gracias por ser parte de nuestra historia!</p>
+        </div>
+
+        <!-- Estadísticas -->
+        <div class="w-full">
+            <div class="card mb-4">
+                <p class="text-gray-400 text-sm mb-1">Deseos Recibidos</p>
+                <p id="wishes-count" class="text-4xl font-extrabold text-white">0</p>
+            </div>
+            <div class="card mb-4">
+                <p class="text-gray-400 text-sm mb-1">Mensajes Destacados</p>
+                <p class="text-4xl font-extrabold text-white">3</p>
+            </div>
+        </div>
+
+        <div class="mt-auto w-full">
+            <p class="text-sm text-center text-gray-500 mb-4">Toda la información de tus invitados en un solo lugar.</p>
+            <button class="w-full bg-amber-500 text-gray-900 font-bold py-3 px-4 rounded-lg hover:bg-amber-600 transition-colors duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                Descargar (PDF)
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenido Principal - Feed de Mensajes -->
+    <div class="main-content">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-gray-200">Últimos Mensajes</h2>
+            <span class="text-gray-400">Vista en vivo</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="messages-grid">
+            <!-- Los mensajes se cargarán dinámicamente aquí -->
+        </div>
+    </div>
+</div>
+
+<script>
+    const messagesData = [
+        { message: "Que su amor sea la mayor aventura de sus vidas. ¡Felicidades!", guest: "Familia García" },
+        { message: "Un día maravilloso para una pareja maravillosa. ¡Les deseamos un futuro lleno de felicidad!", guest: "Amigos del Colegio" },
+        { message: "Gracias por compartir este momento. Que cada año de matrimonio sea mejor que el anterior.", guest: "Tía Elena" },
+        { message: "¡Su amor es una verdadera inspiración! Muchísimas felicidades.", guest: "Carlos y Sofía" },
+        { message: "Que su hogar esté lleno de risas, paz y mucho amor. ¡Los queremos!", guest: "Abuela Ana" },
+        { message: "Brindamos por el amor que los unió. ¡Qué vivan los novios!", guest: "Vecinos de la calle" },
+        { message: "Es un honor ser testigo de su felicidad. Les deseo lo mejor.", guest: "El Jefe" },
+        { message: "Siempre supimos que llegarían a este día. ¡Felicidades!", guest: "Primos" },
+        { message: "Que su historia sea un cuento de hadas sin final. ¡Un fuerte abrazo!", guest: "Los Viajeros" }
+    ];
+
+    const messagesGrid = document.getElementById('messages-grid');
+    const wishesCountElement = document.getElementById('wishes-count');
+    let messagesShown = 0;
+
+    function createMessageCard(data) {
+        const card = document.createElement('div');
+        card.className = "message-card border border-gray-700 transition-all duration-300 transform hover:scale-105";
+        card.innerHTML = `
+            <p class="text-gray-200 text-lg mb-4 leading-snug">"${data.message}"</p>
+            <p class="text-right text-amber-500 font-medium">- ${data.guest}</p>
+        `;
+        return card;
+    }
+
+    function showNextMessage() {
+        if (messagesShown < messagesData.length) {
+            const messageData = messagesData[messagesShown];
+            const newCard = createMessageCard(messageData);
+            messagesGrid.appendChild(newCard);
+            
+            // Animación del contador de deseos
+            const count = parseInt(wishesCountElement.textContent) + 1;
+            wishesCountElement.textContent = count;
+
+            messagesShown++;
+            setTimeout(showNextMessage, 1500); // Muestra el siguiente mensaje después de 1.5 segundos
+        }
+    }
+
+    window.onload = function() {
+        showNextMessage();
+    };
+</script>
+
+</body>
+</html>

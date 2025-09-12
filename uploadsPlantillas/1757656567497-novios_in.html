@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buenos Deseos - Boda Ana y Juan</title>
+    <!-- Enlace a Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Enlace a Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fce4ec;
+            /* Un rosa muy suave, ideal para eventos */
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .container-main {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid #ff80ab;
+            /* Borde rosa más vibrante */
+        }
+
+        .event-image {
+            max-width: 180px;
+            border-radius: 50%;
+            border: 5px solid #ff80ab;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #c2185b;
+            /* Rosa oscuro para el título */
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #555;
+        }
+
+        .btn-download {
+            background-color: #ff80ab;
+            /* Rosa vibrante para el botón */
+            border-color: #ff80ab;
+            color: white;
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-download:hover {
+            background-color: #e0609b;
+            border-color: #e0609b;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .wishes-count {
+            margin-top: 25px;
+            font-size: 1rem;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-main">
+        <img src="https://placehold.co/180x180/ff80ab/ffffff?text=Novios" alt="Imagen del Evento" class="event-image">
+        <h1>¡Gracias por acompañarnos!</h1>
+        <p>Aquí pueden descargar todos los hermosos mensajes y buenos deseos que sus seres queridos han compartido para
+            este día tan especial.</p>
+
+        <button class="btn btn-download" onclick="alert('Simulando descarga de PDF...')">
+            <i class="fas fa-file-download me-2"></i> Descargar Buenos Deseos (PDF)
+        </button>
+
+        <p class="wishes-count">Deseos recibidos hasta ahora: <span class="fw-bold">112</span></p>
+    </div>
+
+    <!-- Bootstrap Bundle con Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
