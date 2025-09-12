@@ -365,7 +365,8 @@
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de Anfitrion - PDF</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion"><i
+                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion" id="nuevaPlantilla" data-bs-toggle="modal"
+                                data-bs-target="#nuevaPlantillaModal"><i
                                         class="fas fa-upload me-1"></i> Subir
                                     Nueva
                                     Plantilla</button>
@@ -425,10 +426,6 @@
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de anfitrion - Deseos</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-anfitrion"><i
-                                        class="fas fa-upload me-1"></i> Subir
-                                    Nueva
-                                    Plantilla</button>
                             </div>
                             <div class="card-body">
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -485,10 +482,6 @@
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de anfitrion - Admin</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-anfitrion"><i
-                                        class="fas fa-upload me-1"></i> Subir
-                                    Nueva
-                                    Plantilla</button>
                             </div>
                             <div class="card-body">
                                 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -1023,6 +1016,52 @@
                 <div class="modal-body text-center">
                     <h5 class="modal-title w-100 text-center fw-bold">Anfitrion</h5>
                     <p id="nombreAnfitrion" class="fw-semibold fs-5 text-capitalize"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- MODAL: Subir Plantilla -->
+    <div class="modal fade" id="nuevaPlantillaModal" tabindex="-1" aria-labelledby="nuevaPlantillaModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaPlantillaModalLabel">Subir nueva Plantilla</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-plantilla" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="plantillaName" class="form-label">Nombre de la Plantilla</label>
+                            <input name="nombre" type="text" class="form-control" id="plantillaName" placeholder="Plantilla floral" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="plantillaTipo" class="form-label">Tipo</label>
+                            <select name="tipo" id="plantillaTipo" required>
+                                <option value="">Selecciona</option>
+                                <option value="pdf">pdf</option>
+                                <option value="deseos">deseos</option>
+                                <option value="admin">admin</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="plantillaDescript" class="form-label">Detalles Plantilla</label>
+                            <textarea name="descripcion" type="text" class="form-control" id="plantillaDescript" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="plantillaVistaPrevia" class="form-label">Vista Previa</label>
+                            <input name="vista_previa" type="text" class="form-control" id="plantillaVistaPrevia" placeholder="URL vista previa">
+                        </div>
+                        <div class="mb-3">
+                            <label for="plantillaElegir" class="form-label">Elegir Plantilla</label>
+                            <input name="file" type="file" accept=".html" class="form-control" id="plantillaElegir" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Subir Plantilla</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

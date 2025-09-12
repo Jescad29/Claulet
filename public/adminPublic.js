@@ -463,10 +463,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-
-
-
-
   // Agregar un nuevo Invitado
   const selectEventGuests = document.getElementById("selectEventGuests");
   const formAgregarInvitado = document.getElementById("formAgregarInvitado");
@@ -756,6 +752,36 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Subir plantillas invitaciones
+  const formPlantilla = document.querySelector('#form-plantilla');
 
+  if (formPlantilla) {
+    formPlantilla.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const datosPlantilla= Object.fromEntries(
+        new FormData(formPlantilla).entries()
+      );
+
+      try {
+        const res = await axios.post(
+          "/claulet/admin/api/plantillas/import",
+          datosPlantilla,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+        alert("Plantilla Subida Correctamente");
+        window.location.href = "/claulet/admin";
+      } catch (err) {
+        if (err.response && err.response.status === 400) {
+          const primerError = err.response.data.errores[0].msg;
+          alert(primerError);
+        } else {
+          alert("Error desconocido al subir la plantilla, intenta más tarde");
+        }
+      }
+    });
+  }
   // Siguiente Formulario
 });

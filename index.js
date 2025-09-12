@@ -13,6 +13,7 @@ import { ExpressValidator } from 'express-validator'
 import { error } from 'console'
 import session from 'express-session';
 import { Usuarios, Eventos, Invitados } from './models/Relaciones.js';
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,6 +27,9 @@ db.sync({ alter: true }).then(() => console.log('DB Conectada')).catch((error) =
 
 // Crear la app
 const app = express()
+
+// Cors
+app.use(cors());
 
 //bodyParser
 app.use(bodyParser.json());

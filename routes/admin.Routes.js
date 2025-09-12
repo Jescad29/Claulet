@@ -1,10 +1,12 @@
 import express from "express";
-import { mostrarAdmin } from "../controllers/admin.Controller.js";
+import multer from "multer";
+import { mostrarAdmin, subirPlantillas } from "../controllers/admin.Controller.js";
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento, obtenerAdmins } from "../controllers/eventos.Controller.js";
 import { obtenerInvitados, crearInvitado, importarInvitados, obtenerInvitado, editarInvitado, eliminarInvitado } from "../controllers/invitados.Controller.js";
 import { crearUsuario, borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, editarPasswordUsuario, subirImagen } from "../controllers/usuario.Controller.js";
 import { obtenerTotalesDashBoard } from "../controllers/admin.Controller.js";
 import { upload } from "../middleware/upload.js";
+import { uploadPlantilla } from "../middleware/uploadPlantilla.js";
 
 const router = express.Router();
 
@@ -44,6 +46,9 @@ router.get('/admin/api/invitado/:invitadoId', obtenerInvitado)
 router.delete('/admin/api/invitado/:invitadoId', eliminarInvitado)
 router.put('/admin/api/invitado', editarInvitado)
 
-router.post('/admin/api/invitados/import',upload.single("file"), importarInvitados)
+router.post('/admin/api/invitados/import', upload.single("file"), importarInvitados)
+
+// Uploads
+router.post('/admin/api/plantillas/import', uploadPlantilla.single("file"), subirPlantillas)
 
 export default router

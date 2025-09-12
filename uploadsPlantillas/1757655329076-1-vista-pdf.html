@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Libro de Deseos de Boda</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
+
+        :root {
+            --color-fondo: #F5EFE7;
+            --color-primario: #333;
+            --color-secundario: #D4A373;
+            --color-acento: #A27B5C;
+            --sombra-suave: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background-color: var(--color-fondo);
+            color: var(--color-primario);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--color-secundario);
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: var(--color-acento);
+            font-style: italic;
+        }
+
+        /* Estilos del carrusel de rollo de película */
+        .carousel-container {
+            position: relative;
+            width: 750px;
+            height: 250px;
+            margin: 2rem auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: var(--sombra-suave);
+            background: #222;
+            padding: 10px;
+            
+            /* Máscara para el efecto de desvanecimiento */
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+            mask-image: linear-gradient(90deg, transparent 0%, black 15%, black 85%, transparent 100%);
+        }
+        
+        .carousel-track {
+            display: flex;
+            height: 100%;
+        }
+
+        .carousel-track img {
+            min-width: 240px;
+            height: 100%;
+            object-fit: cover;
+            border: 5px solid #444;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        /* Estilos del grid de mensajes */
+        .guestbook-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+            align-items: stretch;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--sombra-suave);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .quote-icon {
+            font-family: 'Dancing Script', cursive;
+            font-size: 5rem;
+            color: var(--color-fondo);
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            opacity: 0.8;
+            line-height: 1;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .signature {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: var(--color-secundario);
+            text-align: right;
+            padding-top: 1rem;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Nuestros Mejores Deseos</h1>
+            <p class="subtitle">Un recuerdo especial de todos los que nos acompañaron</p>
+
+            <!-- Contenedor del Carrusel de tipo rollo de película -->
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <!-- Las imágenes se cargarán con JavaScript -->
+                </div>
+            </div>
+        </header>
+
+        <main class="guestbook-grid" id="guestbook-messages">
+            <!-- Los mensajes se generarán aquí con JavaScript -->
+        </main>
+    </div>
+
+    <script>
+        const messagesData = [
+            {
+                message: "Que la felicidad que comparten hoy sea el inicio de una vida llena de alegría y amor eterno. ¡Felicidades!",
+                guest: "La Familia"
+            },
+            {
+                message: "Siempre supimos que llegarían a este día. Su amor es una inspiración. ¡Les deseamos toda la felicidad del mundo!",
+                guest: "Ana y Juan"
+            },
+            {
+                message: "Verlos tan felices nos llena el corazón. Que cada día de su matrimonio sea una nueva aventura juntos. ¡Todo nuestro cariño!",
+                guest: "Tía Clara"
+            },
+            {
+                message: "Que su hogar sea un refugio de paz, risas y comprensión. ¡Muchísimas felicidades por este hermoso paso que dan!",
+                guest: "Los Amigos del Colegio"
+            },
+            {
+                message: "Ver su amor florecer ha sido un privilegio. ¡Que su vida juntos sea un jardín de hermosos recuerdos!",
+                guest: "Pedro y Sofía"
+            },
+            {
+                message: "Un matrimonio no es solo un destino, sino un viaje. Que cada kilómetro que recorran juntos esté lleno de amor y respeto.",
+                guest: "Los Primos"
+            },
+        ];
+
+        const guestbookContainer = document.getElementById('guestbook-messages');
+        
+        // Datos de imágenes para el carrusel con un formato rectangular
+        const carouselImages = [
+            "https://placehold.co/400x250/D4A373/fff?text=Foto+Boda+1",
+            "https://placehold.co/400x250/A27B5C/fff?text=Foto+Boda+2",
+            "https://placehold.co/400x250/54574b/fff?text=Foto+Boda+3",
+            "https://placehold.co/400x250/A27B5C/fff?text=Foto+Boda+4",
+            "https://placehold.co/400x250/54574b/fff?text=Foto+Boda+5",
+            "https://placehold.co/400x250/D4A373/fff?text=Foto+Boda+6"
+        ];
+        
+        // Lógica del carrusel para un movimiento continuo
+        const carouselTrack = document.querySelector('.carousel-track');
+        let currentPosition = 0;
+        const scrollSpeed = 0.5; // Velocidad de desplazamiento en píxeles
+        const totalImageWidth = 250; // Ancho de la foto + margen (240 + 10)
+
+        // Duplicar las imágenes para el efecto continuo
+        const duplicatedImages = [...carouselImages];
+        const allImages = [...carouselImages, ...duplicatedImages];
+
+        // Cargar todas las imágenes en el carrusel
+        allImages.forEach(src => {
+            const img = document.createElement('img');
+            img.src = src;
+            carouselTrack.appendChild(img);
+        });
+
+        // Función de animación para el desplazamiento continuo
+        function animateScroll() {
+            currentPosition -= scrollSpeed;
+            // Si el carrusel se ha desplazado más allá del set original de imágenes, reinicia la posición
+            if (Math.abs(currentPosition) >= carouselImages.length * totalImageWidth) {
+                currentPosition = 0;
+            }
+            carouselTrack.style.transform = `translateX(${currentPosition}px)`;
+            requestAnimationFrame(animateScroll);
+        }
+        
+        // Iniciar la animación al cargar la página
+        window.onload = animateScroll;
+
+        // Lógica para crear las tarjetas de los mensajes
+        function createMessageCard(data) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            
+            // Icono decorativo de comillas
+            const quoteIcon = document.createElement('span');
+            quoteIcon.classList.add('quote-icon');
+            quoteIcon.textContent = '“';
+            card.appendChild(quoteIcon);
+
+            // Contenido del mensaje
+            const messageParagraph = document.createElement('p');
+            messageParagraph.classList.add('message');
+            messageParagraph.textContent = data.message;
+            card.appendChild(messageParagraph);
+
+            // Firma
+            const signatureParagraph = document.createElement('p');
+            signatureParagraph.classList.add('signature');
+            signatureParagraph.textContent = `- ${data.guest}`;
+            card.appendChild(signatureParagraph);
+
+            return card;
+        }
+
+        // Generar las tarjetas y añadirlas al DOM
+        messagesData.forEach(data => {
+            const card = createMessageCard(data);
+            guestbookContainer.appendChild(card);
+        });
+    </script>
+</body>
+</html>
