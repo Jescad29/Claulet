@@ -28,6 +28,7 @@ Claulet/
 │   ├── Relaciones.js
 │   └── Usuarios.js
 ├── middleware/
+│   ├── uploadPlantilla.js
 │   └── upload.js
 ├── views/                      
 │   ├── admin/
@@ -45,6 +46,7 @@ Claulet/
 │   ├── adminPublic.js
 │   └── usuarioSesion.js
 ├── uploads/
+├── uploadsPlantillas/
 ├── helpers/
 │   └── token.js
 └── package-lock.json
