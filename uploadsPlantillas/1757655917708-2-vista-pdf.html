@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muro de Deseos de Boda</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Parisienne&display=swap');
+
+        :root {
+            --color-fondo: #F8F9FA; /* Blanco muy suave */
+            --color-primario: #1D3557; /* Azul oscuro */
+            --color-secundario: #E8C372; /* Dorado claro */
+            --color-acento: #457B9D; /* Azul turquesa */
+            --sombra-suave: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-fondo);
+            color: var(--color-primario);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Parisienne', cursive;
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--color-primario);
+            margin: 0.5rem 0;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--color-acento);
+            font-weight: 400;
+        }
+
+        .couple-names {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--color-primario);
+            margin-top: 0.5rem;
+        }
+
+        /* Estilos del grid de post-its */
+        .post-it-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            justify-content: center;
+            align-items: start;
+        }
+
+        .post-it {
+            background-color: #fff;
+            padding: 1.5rem;
+            box-shadow: var(--sombra-suave);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            transform: rotate(calc(var(--rotation) * 1deg)); /* Rotación aleatoria */
+        }
+        
+        .post-it:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .post-it-message {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-it-signature {
+            font-style: italic;
+            font-size: 0.9rem;
+            text-align: right;
+            color: #6C757D;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Uniendo Sueños</h1>
+            <p class="subtitle">Mensajes de cariño para</p>
+            <p class="couple-names">Sofía y Javier</p>
+        </header>
+
+        <main class="post-it-grid" id="messages-wall">
+            <!-- Las tarjetas de post-it se generarán aquí con JavaScript -->
+        </main>
+    </div>
+
+    <script>
+        const messagesData = [
+            {
+                message: "Que su vida juntos sea como una melodía eterna y llena de armonía. ¡Felicidades!",
+                guest: "Familia Torres"
+            },
+            {
+                message: "No hay nada más bonito que ver a dos almas gemelas unirse. Les deseo un camino lleno de amor y complicidad.",
+                guest: "Elisa y Marcos"
+            },
+            {
+                message: "¡Que el amor los guíe siempre! A celebrar esta nueva etapa y los muchos años que vendrán.",
+                guest: "Pablo"
+            },
+            {
+                message: "Hoy es el primer día del resto de sus vidas. ¡Que sea el más feliz de todos! Les queremos mucho.",
+                guest: "Tía Patricia"
+            },
+            {
+                message: "Un verdadero cuento de hadas. Gracias por invitarnos a ser parte de su historia. ¡Los mejores deseos!",
+                guest: "Los amigos del trabajo"
+            },
+            {
+                message: "Que su vida juntos esté llena de risas, aventuras y de momentos inolvidables. ¡Felicidades!",
+                guest: "Daniela"
+            },
+            {
+                message: "Que su amor sea una luz que ilumine cada uno de sus días. ¡Felicidades, un abrazo!",
+                guest: "Mamá y Papá"
+            },
+        ];
+
+        const messagesWall = document.getElementById('messages-wall');
+        const colors = ["#FFE4B5", "#B0E0E6", "#E6E6FA", "#FAFAD2"]; // Colores de los post-its
+
+        // Función para crear una tarjeta de post-it
+        function createPostItCard(data) {
+            const card = document.createElement('div');
+            card.classList.add('post-it');
+            
+            const randomRotation = Math.floor(Math.random() * 8) - 4; // Rotación de -4 a 4 grados
+            card.style.setProperty('--rotation', randomRotation);
+            
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            card.style.backgroundColor = randomColor;
+
+            const messageParagraph = document.createElement('p');
+            messageParagraph.classList.add('post-it-message');
+            messageParagraph.textContent = data.message;
+
+            const signatureParagraph = document.createElement('p');
+            signatureParagraph.classList.add('post-it-signature');
+            signatureParagraph.textContent = `- ${data.guest}`;
+
+            card.appendChild(messageParagraph);
+            card.appendChild(signatureParagraph);
+
+            return card;
+        }
+
+        // Generar las tarjetas y añadirlas al DOM
+        messagesData.forEach(data => {
+            const card = createPostItCard(data);
+            messagesWall.appendChild(card);
+        });
+    </script>
+</body>
+</html>

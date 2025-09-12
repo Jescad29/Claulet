@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Álbum de Recuerdos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Caveat:wght@400;700&display=swap');
+
+        :root {
+            --color-fondo: #F5F5DC; /* Beige */
+            --color-primario: #2F4F4F; /* Gris Pizarra Oscuro */
+            --color-secundario: #6B8E23; /* Verde Oliva */
+            --color-acento: #8B4513; /* Marrón */
+            --sombra-suave: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Merriweather', serif;
+            background-color: var(--color-fondo);
+            color: var(--color-primario);
+            line-height: 1.6;
+            margin: 0;
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Merriweather', serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            color: var(--color-secundario);
+            margin: 0.5rem 0;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--color-acento);
+            font-weight: 400;
+        }
+
+        /* Contenedor de las páginas */
+        .page-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            justify-content: center;
+            align-items: start;
+            position: relative;
+        }
+
+        .page-card {
+            background-color: #fff;
+            padding: 2rem;
+            box-shadow: var(--sombra-suave);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, z-index 0.3s ease;
+            position: relative;
+            border: 1px solid #ccc;
+            transform: rotate(calc(var(--rotation) * 1deg)); /* Rotación aleatoria */
+        }
+        
+        .page-card:hover {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        /* Estilos para la foto dentro de la página */
+        .page-photo {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            border: 2px solid var(--color-acento);
+            margin-bottom: 1.5rem;
+        }
+
+        .page-message {
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-signature {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            text-align: right;
+            color: var(--color-acento);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Momentos Inolvidables</h1>
+            <p class="subtitle">Mensajes de nuestros seres queridos</p>
+        </header>
+
+        <main class="page-container" id="memories-album">
+            <!-- Las tarjetas de deseos se generarán aquí con JavaScript -->
+        </main>
+    </div>
+
+    <script>
+        const messagesData = [
+            {
+                message: "Que su amor florezca y crezca como un hermoso jardín. ¡Toda nuestra felicidad para ustedes!",
+                guest: "La Familia de Él",
+                photo: "https://placehold.co/400x300/6B8E23/fff?text=Foto+Feliz"
+            },
+            {
+                message: "Gracias por compartir este día tan mágico. Que cada nuevo amanecer les traiga más alegría que el anterior.",
+                guest: "Andrea y Luis",
+                photo: "https://placehold.co/400x300/8B4513/fff?text=Foto+Recuerdos"
+            },
+            {
+                message: "Su historia es un recordatorio de que el amor verdadero existe. ¡Felicidades, amigos!",
+                guest: "Los Colegas"
+            },
+            {
+                message: "Que el camino que inician juntos esté lleno de amor, paciencia y mucha diversión. Les queremos.",
+                guest: "Tíos y Primos",
+                photo: "https://placehold.co/400x300/2F4F4F/fff?text=Momento+Único"
+            },
+            {
+                message: "Un verdadero cuento de hadas. Gracias por invitarnos a ser parte de su historia. ¡Los mejores deseos!",
+                guest: "Amigos de la Infancia"
+            },
+            {
+                message: "Verlos tan felices nos da mucha alegría. Que su matrimonio sea tan hermoso como su día de boda.",
+                guest: "La Abuela",
+                photo: "https://placehold.co/400x300/6B8E23/fff?text=Para+Siempre"
+            },
+            {
+                message: "Que su vida juntos esté llena de risas, aventuras y de momentos inolvidables. ¡Felicidades!",
+                guest: "Tu Mejor Amiga"
+            },
+        ];
+
+        const memoriesAlbum = document.getElementById('memories-album');
+
+        // Función para crear una tarjeta de página de álbum
+        function createPageCard(data) {
+            const card = document.createElement('div');
+            card.classList.add('page-card');
+            
+            const randomRotation = Math.floor(Math.random() * 10) - 5; // Rotación de -5 a 5 grados
+            card.style.setProperty('--rotation', randomRotation);
+            
+            // Agrega la foto si está disponible
+            if (data.photo) {
+                const photoImg = document.createElement('img');
+                photoImg.src = data.photo;
+                photoImg.alt = "Foto de la boda";
+                photoImg.classList.add('page-photo');
+                card.appendChild(photoImg);
+            }
+
+            const messageParagraph = document.createElement('p');
+            messageParagraph.classList.add('page-message');
+            messageParagraph.textContent = data.message;
+
+            const signatureParagraph = document.createElement('p');
+            signatureParagraph.classList.add('page-signature');
+            signatureParagraph.textContent = `- ${data.guest}`;
+
+            card.appendChild(messageParagraph);
+            card.appendChild(signatureParagraph);
+
+            return card;
+        }
+
+        // Generar las tarjetas y añadirlas al DOM
+        messagesData.forEach(data => {
+            const card = createPageCard(data);
+            memoriesAlbum.appendChild(card);
+        });
+    </script>
+</body>
+</html>
