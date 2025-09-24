@@ -85,6 +85,50 @@
             background-color: #6f42c1;
             color: #ffffff;
         }
+
+        .card-fija {
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-fija img {
+            object-fit: cover;
+            height: 200px;
+            width: 100%;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .card-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card-body .btn {
+            border: none;
+            /* Sin bordes */
+            background: transparent;
+            /* Fondo transparente */
+            padding: 0.25rem 0.5rem;
+            display: inline-flex;
+            /* Para alinear iconos */
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .card-body .btn i {
+            font-size: 1rem;
+            /* Tamaño del icono */
+        }
+
+        .card-body .btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+            /* Hover solo sobre relleno del icono */
+        }
     </style>
 </head>
 
@@ -200,8 +244,7 @@
                                                 <td>
                                                     <button class="btn btn-sm btn-outline-secondary me-1 btn-editar"
                                                         title="editarUsuario" data-bs-toggle="modal"
-                                                        data-bs-target="#editarUsuario"><i
-                                                            class="fas fa-edit"></i>
+                                                        data-bs-target="#editarUsuario"><i class="fas fa-edit"></i>
                                                     </button>
 
                                                     <button
@@ -358,182 +401,50 @@
                     </div>
 
                     <!-- Templates Tab Content Plantillas -->
-
                     <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
 
-                        <!-- Plantillas Anfitrion PDF -->
+                        <!-- PDF -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de Anfitrion - PDF</h5>
-                                <button class="btn btn-primary btn-sm subir-plantilla-invitacion" id="nuevaPlantilla" data-bs-toggle="modal"
-                                data-bs-target="#nuevaPlantillaModal"><i
-                                        class="fas fa-upload me-1"></i> Subir
-                                    Nueva
-                                    Plantilla</button>
+                                <button class="btn btn-primary btn-sm" id="subirPlantillaPDF" data-bs-toggle="modal"
+                                    data-bs-target="#nuevaPlantillaModal">
+                                    <i class="fas fa-upload me-1"></i> Subir Nueva Plantilla
+                                </button>
                             </div>
                             <div class="card-body">
-                                <div class="row row-cols-1 row-cols-md-3 g-4">
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+1"
-                                                class="card-img-top" alt="Plantilla 1">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Clásica Elegante</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+2"
-                                                class="card-img-top" alt="Plantilla 2">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Moderna Minimalista</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+3"
-                                                class="card-img-top" alt="Plantilla 3">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Temática Floral</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="row row-cols-1 row-cols-md-3 g-4" id="contenedor-pdf">
+                                    <!-- Se cargan las plantillas PDF -->
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Plantillas Anfitriones Perfil Deseos -->
+                        <!-- Deseos -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Gestión de Plantillas de anfitrion - Deseos</h5>
+                                <h5 class="mb-0">Gestión de Plantillas de Anfitrion - Deseos</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row row-cols-1 row-cols-md-3 g-4">
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+1"
-                                                class="card-img-top" alt="Plantilla 1">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Clásica Elegante</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+2"
-                                                class="card-img-top" alt="Plantilla 2">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Moderna Minimalista</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+3"
-                                                class="card-img-top" alt="Plantilla 3">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Temática Floral</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="row row-cols-1 row-cols-md-3 g-4" id="contenedor-deseos">
+                                    <!-- Se cargan las plantillas Deseos -->
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Plantillas Anfitriones Perfil admin -->
+                        <!-- Admin -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Gestión de Plantillas de anfitrion - Admin</h5>
+                                <h5 class="mb-0">Gestión de Plantillas de Anfitrion - Admin</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row row-cols-1 row-cols-md-3 g-4">
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+1"
-                                                class="card-img-top" alt="Plantilla 1">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Clásica Elegante</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+2"
-                                                class="card-img-top" alt="Plantilla 2">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Moderna Minimalista</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card h-100">
-                                            <img src="https://placehold.co/300x200/e9ecef/555?text=Plantilla+3"
-                                                class="card-img-top" alt="Plantilla 3">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Temática Floral</h5>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Previsualizar"><i class="fas fa-eye"></i></button>
-                                                <button class="btn btn-sm btn-outline-secondary me-1"
-                                                    title="Editar HTML"><i class="fas fa-code"></i></button>
-                                                <button class="btn btn-sm btn-outline-danger" title="Eliminar"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="row row-cols-1 row-cols-md-3 g-4" id="contenedor-admin">
+                                    <!-- Se cargan las plantillas Admin -->
                                 </div>
                             </div>
                         </div>
+
                     </div>
+
 
                     <!-- Settings Tab Content -->
                     <div class="tab-pane fade" id="settings-tab" role="tabpanel" aria-labelledby="settings-link">
@@ -684,9 +595,9 @@
         </div>
     </div>
 
-        <!-- MODAL: Editar Contraseña Usuario -->
-    <div class="modal fade" id="modalEditarPasswordUsuario" tabindex="-1" aria-labelledby="modalEditarPasswordUsuarioLabel"
-        aria-hidden="true">
+    <!-- MODAL: Editar Contraseña Usuario -->
+    <div class="modal fade" id="modalEditarPasswordUsuario" tabindex="-1"
+        aria-labelledby="modalEditarPasswordUsuarioLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1000,12 +911,13 @@
     </div>
 
     <!-- MODAL: Mostrar anfitrion e invitado -->
-    <div class="modal fade" id="modalInvitadoAndAnfitrion" tabindex="-1" aria-labelledby="modalInvitadoAndAnfitrionLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="modalInvitadoAndAnfitrion" tabindex="-1"
+        aria-labelledby="modalInvitadoAndAnfitrionLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content p-4 text-center">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title w-100 text-center fw-bold" id="modalInvitadoAndAnfitrionLabel">Administradores del evento
+                    <h5 class="modal-title w-100 text-center fw-bold" id="modalInvitadoAndAnfitrionLabel">
+                        Administradores del evento
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
@@ -1021,7 +933,7 @@
         </div>
     </div>
 
-        <!-- MODAL: Subir Plantilla -->
+    <!-- MODAL: Subir Plantilla -->
     <div class="modal fade" id="nuevaPlantillaModal" tabindex="-1" aria-labelledby="nuevaPlantillaModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -1034,7 +946,8 @@
                     <form id="form-plantilla" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="plantillaName" class="form-label">Nombre de la Plantilla</label>
-                            <input name="nombre" type="text" class="form-control" id="plantillaName" placeholder="Plantilla floral" required>
+                            <input name="nombre" type="text" class="form-control" id="plantillaName"
+                                placeholder="Plantilla floral" required>
                         </div>
                         <div class="mb-3">
                             <label for="plantillaTipo" class="form-label">Tipo</label>
@@ -1047,15 +960,18 @@
                         </div>
                         <div class="mb-3">
                             <label for="plantillaDescript" class="form-label">Detalles Plantilla</label>
-                            <textarea name="descripcion" type="text" class="form-control" id="plantillaDescript" required></textarea>
+                            <textarea name="descripcion" type="text" class="form-control" id="plantillaDescript"
+                                required></textarea>
                         </div>
                         <div class="mb-3">
                             <label for="plantillaVistaPrevia" class="form-label">Vista Previa</label>
-                            <input name="vista_previa" type="text" class="form-control" id="plantillaVistaPrevia" placeholder="URL vista previa">
+                            <input name="vista_previa" type="text" class="form-control" id="plantillaVistaPrevia"
+                                placeholder="URL vista previa">
                         </div>
                         <div class="mb-3">
                             <label for="plantillaElegir" class="form-label">Elegir Plantilla</label>
-                            <input name="file" type="file" accept=".html" class="form-control" id="plantillaElegir" required>
+                            <input name="file" type="file" accept=".html" class="form-control" id="plantillaElegir"
+                                required>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

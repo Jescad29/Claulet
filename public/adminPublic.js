@@ -432,10 +432,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   // Consultar admins del evento (Organizador y anfitrion)
-  const modalInvitadoAnfitrion = document.getElementById("modalInvitadoAndAnfitrion");
+  const modalInvitadoAnfitrion = document.getElementById(
+    "modalInvitadoAndAnfitrion"
+  );
 
-    modalInvitadoAnfitrion.addEventListener("show.bs.modal", async (event) => {
-    const button = event.relatedTarget; 
+  modalInvitadoAnfitrion.addEventListener("show.bs.modal", async (event) => {
+    const button = event.relatedTarget;
     const eventoId = button.getAttribute("data-evento-id");
 
     try {
@@ -447,21 +449,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const { organizador, anfitrion } = res.data;
 
       // Mostrar el nombre del organizador
-      document.getElementById(
-        "nombreOrganizador"
-      ).textContent = `${organizador.nombre}`|| "Sin asignar";
+      document.getElementById("nombreOrganizador").textContent =
+        `${organizador.nombre}` || "Sin asignar";
 
       // Mostrar el nombre del anfitrion
-      document.getElementById(
-        "nombreAnfitrion"
-      ).textContent = `${anfitrion.nombre}`|| "Sin asignar";
-
-
+      document.getElementById("nombreAnfitrion").textContent =
+        `${anfitrion.nombre}` || "Sin asignar";
     } catch (error) {
       console.error("Error al obtener admins:", error);
     }
   });
-
 
   // Agregar un nuevo Invitado
   const selectEventGuests = document.getElementById("selectEventGuests");
@@ -752,12 +749,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Subir plantillas invitaciones
-  const formPlantilla = document.querySelector('#form-plantilla');
+  const formPlantilla = document.querySelector("#form-plantilla");
 
   if (formPlantilla) {
     formPlantilla.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const datosPlantilla= Object.fromEntries(
+      const datosPlantilla = Object.fromEntries(
         new FormData(formPlantilla).entries()
       );
 
@@ -767,8 +764,8 @@ document.addEventListener("DOMContentLoaded", () => {
           datosPlantilla,
           {
             headers: {
-              "Content-Type": "multipart/form-data"
-            }
+              "Content-Type": "multipart/form-data",
+            },
           }
         );
         alert("Plantilla Subida Correctamente");
@@ -783,5 +780,70 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  axios.get("/claulet/admin/api/plantillas").then((res) => {
+    const plantillas = res.data;
+
+    const contenedores = {
+      pdf: document.querySelector("#contenedor-pdf"),
+      deseos: document.querySelector("#contenedor-deseos"),
+      admin: document.querySelector("#contenedor-admin"),
+    };
+
+    // Limpiar contenedores
+    Object.values(contenedores).forEach((c) => (c.innerHTML = ""));
+
+    if (plantillas.length === 0) {
+      Object.values(contenedores).forEach((c) => {
+        c.innerHTML = `<p class="text-muted text-center">Aún no se suben plantillas.</p>`;
+      });
+      return;
+    }
+
+    plantillas.forEach((p) => {
+      const card = document.createElement("div");
+      card.classList.add("col");
+      card.innerHTML = `
+      <div class="card-fija card">
+        <img src="${p.vista_previa}" class="card-img-top" alt="${p.nombre}">
+        <div class="card-body text-center">
+          <h5 class="card-title">${p.nombre}</h5>
+  <div class="d-flex justify-content-center gap-1">
+    <button class="btn btn-ver" data-id="${p.id}" title="Previsualizar">
+      <i class="fas fa-eye"></i>
+    </button>
+    <button class="btn btn-editar" data-id="${p.id}" title="Editar HTML">
+      <i class="fas fa-code"></i>
+    </button>
+    <button class="btn btn-eliminar" data-id="${p.id}" title="Eliminar">
+      <i class="fas fa-trash-alt"></i>
+    </button>
+  </div>
+        </div>
+      </div>
+    `;
+
+      // Agregar al contenedor correspondiente según tipo
+      if (p.tipo === "pdf") contenedores.pdf.appendChild(card);
+      else if (p.tipo === "deseos") contenedores.deseos.appendChild(card);
+      else if (p.tipo === "admin") contenedores.admin.appendChild(card);
+    });
+  });
+
+  // Eliminar plantilla
+  document.addEventListener("click", async (e) => {
+    if (e.target.closest(".btn-eliminar")) {
+      const id = e.target.closest(".btn-eliminar").dataset.id;
+      if (confirm("¿Seguro que deseas eliminar esta plantilla?")) {
+        try {
+          await axios.delete(`/claulet/admin/api/plantillas/${id}`);
+          location.reload();
+        } catch (err) {
+          alert("Error al eliminar la plantilla");
+        }
+      }
+    }
+  });
+
   // Siguiente Formulario
 });

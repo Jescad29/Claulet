@@ -60,3 +60,24 @@ export const subirPlantillas = async (req, res) => {
         res.status(500).json({ error: "Error al crear la plantilla" });
     }
 }
+
+export const listarPlantillas = async (req, res) => {
+  try {
+    const plantillas = await Plantillas.findAll();
+    res.json(plantillas);
+  } catch (error) {
+    console.error("❌ Error al listar plantillas:", error);
+    res.status(500).json({ error: "Error al obtener plantillas" });
+  }
+};
+
+export const eliminarPlantilla = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Plantillas.destroy({ where: { id } });
+    res.json({ message: "Plantilla eliminada correctamente" });
+  } catch (error) {
+    console.error("❌ Error al eliminar plantilla:", error);
+    res.status(500).json({ error: "Error al eliminar la plantilla" });
+  }
+};
