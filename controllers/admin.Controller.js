@@ -1,4 +1,7 @@
 import { Usuarios, Eventos, Invitados, Plantillas } from "../models/Relaciones.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 
 export const mostrarAdmin = (req, res) => {
     res.render('admin/administrador')
@@ -74,10 +77,48 @@ export const listarPlantillas = async (req, res) => {
 export const eliminarPlantilla = async (req, res) => {
   try {
     const { id } = req.params;
-    await Plantillas.destroy({ where: { id } });
-    res.json({ message: "Plantilla eliminada correctamente" });
+    console.log("ID de plantilla a eliminar:", id); // <-- usar id
+
+    // Buscar la plantilla en la base de datos
+    const plantilla = await Plantillas.findByPk(id); // <-- usar id
+    if (!plantilla) {
+      console.log("❌ Plantilla no encontrada en la DB");
+      return res.status(404).json({ error: "Plantilla no encontrada" });
+    }
+    console.log("✅ Plantilla encontrada en DB:", plantilla.dataValues);
+
+    // Ruta absoluta del archivo en la raíz del proyecto
+    const archivoPath = path.join(process.cwd(), "uploadsPlantillas", plantilla.archivo);
+    console.log("Ruta absoluta del archivo:", archivoPath);
+
+    // Verificar si existe el archivo
+    fs.access(archivoPath, fs.constants.F_OK, async (err) => {
+      if (err) {
+        console.log("⚠️ Archivo no encontrado en uploadsPlantillas, se eliminará solo el registro");
+      } else {
+        console.log("Archivo encontrado, intentando eliminar...");
+        try {
+          fs.unlinkSync(archivoPath);
+          console.log("✅ Archivo eliminado correctamente");
+        } catch (err) {
+          console.error("❌ Error al eliminar el archivo:", err);
+          return res.status(500).json({ error: "Error al eliminar el archivo físico" });
+        }
+      }
+
+      // Eliminar registro de la base de datos
+      try {
+        await plantilla.destroy();
+        console.log("✅ Registro eliminado en la DB");
+        res.json({ message: "Plantilla eliminada correctamente" });
+      } catch (err) {
+        console.error("❌ Error al eliminar registro en la DB:", err);
+        res.status(500).json({ error: "Error al eliminar el registro en la DB" });
+      }
+    });
+
   } catch (error) {
-    console.error("❌ Error al eliminar plantilla:", error);
+    console.error("❌ Error general al eliminar plantilla:", error);
     res.status(500).json({ error: "Error al eliminar la plantilla" });
   }
 };

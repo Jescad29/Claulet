@@ -808,17 +808,17 @@ document.addEventListener("DOMContentLoaded", () => {
         <img src="${p.vista_previa}" class="card-img-top" alt="${p.nombre}">
         <div class="card-body text-center">
           <h5 class="card-title">${p.nombre}</h5>
-  <div class="d-flex justify-content-center gap-1">
-    <button class="btn btn-ver" data-id="${p.id}" title="Previsualizar">
-      <i class="fas fa-eye"></i>
-    </button>
-    <button class="btn btn-editar" data-id="${p.id}" title="Editar HTML">
-      <i class="fas fa-code"></i>
-    </button>
-    <button class="btn btn-eliminar" data-id="${p.id}" title="Eliminar">
-      <i class="fas fa-trash-alt"></i>
-    </button>
-  </div>
+          <div class="d-flex justify-content-center gap-1">
+            <button class="btn btn-ver" data-id="${p.id}" title="Previsualizar">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-Agregar-Evento" data-id="${p.id}" title="Editar HTML">
+              <i class="fas fa-code"></i>
+            </button>
+            <button class="btn btn-eliminar" data-id="${p.id}" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -830,20 +830,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Eliminar plantilla
-  document.addEventListener("click", async (e) => {
-    if (e.target.closest(".btn-eliminar")) {
-      const id = e.target.closest(".btn-eliminar").dataset.id;
-      if (confirm("¿Seguro que deseas eliminar esta plantilla?")) {
-        try {
-          await axios.delete(`/claulet/admin/api/plantillas/${id}`);
-          location.reload();
-        } catch (err) {
-          alert("Error al eliminar la plantilla");
-        }
-      }
+// Eliminar plantilla
+document.addEventListener("click", async (e) => {
+  const btnEliminar = e.target.closest(".btn-eliminar");
+  if (!btnEliminar) return;
+
+  console.log("Botón detectado para eliminar:", btnEliminar);
+  const id = btnEliminar.dataset.id || btnEliminar.getAttribute("data-id");
+  console.log("ID de plantilla a eliminar:", id);
+
+  if (!id) {
+    alert("No se encontró el ID de la plantilla.");
+    return;
+  }
+
+  if (confirm("¿Seguro que deseas eliminar esta plantilla?")) {
+    try {
+      const res = await axios.delete(`/claulet/admin/api/plantillas/${id}`);
+      console.log("Respuesta al eliminar plantilla:", res.data);
+      alert("✅ La plantilla se borró con éxito");
+      location.reload();
+    } catch (err) {
+      console.error("Error al eliminar plantilla:", err.response || err);
+      alert("Error al eliminar la plantilla");
     }
-  });
+  }
+});
+
 
   // Siguiente Formulario
 });

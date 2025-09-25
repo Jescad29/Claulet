@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed de Fotos y Deseos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Tema 1: Claulet Clásico */
+            --color-bg: #F8F9FA;
+            --color-text: #252525;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #212529;
+            --color-subtitle-text: #6C757D;
+            --color-stat-value: #212529;
+            --color-stat-label: #6C757D;
+            --color-guest-name: #252525;
+            --color-guest-message: #8C8C8C;
+            --color-btn-excel: #BDB9A6;
+            --color-btn-excel-hover: #A3A090;
+        }
+
+        /* Tema 2: Claulet Elegante */
+        body[data-theme="claulet-elegante"] {
+            --color-bg: #EAE3D2;
+            --color-text: #4A4A4A;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.1);
+            --color-header-text: #8B4513;
+            --color-subtitle-text: #A1887F;
+            --color-stat-value: #8B4513;
+            --color-stat-label: #A1887F;
+            --color-guest-name: #8B4513;
+            --color-guest-message: #A1887F;
+            --color-btn-excel: #B08E66;
+            --color-btn-excel-hover: #8D6E5D;
+        }
+
+        /* Tema 3: Claulet Oscuro */
+        body[data-theme="claulet-oscuro"] {
+            --color-bg: #222222;
+            --color-text: #F8F9FA;
+            --color-card-bg: #333333;
+            --color-card-shadow: rgba(0, 0, 0, 0.2);
+            --color-header-text: #FFD700;
+            --color-subtitle-text: #BDB76B;
+            --color-stat-value: #FFD700;
+            --color-stat-label: #BDB76B;
+            --color-guest-name: #FFD700;
+            --color-guest-message: #BDB76B;
+            --color-btn-excel: #FFD700;
+            --color-btn-excel-hover: #EBC800;
+        }
+
+        /* Tema 4: Claulet Contraste */
+        body[data-theme="claulet-contraste"] {
+            --color-bg: #333333;
+            --color-text: #fff;
+            --color-card-bg: #1c1c1c;
+            --color-card-shadow: rgba(0, 0, 0, 0.3);
+            --color-header-text: #E53935;
+            --color-subtitle-text: #B3B3B3;
+            --color-stat-value: #E53935;
+            --color-stat-label: #B3B3B3;
+            --color-guest-name: #E53935;
+            --color-guest-message: #B3B3B3;
+            --color-btn-excel: #B3B3B3;
+            --color-btn-excel-hover: #8F8F8F;
+        }
+
+        /* Tema 5: Claulet Natural */
+        body[data-theme="claulet-natural"] {
+            --color-bg: #EDF2F4;
+            --color-text: #2B2D42;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #2B2D42;
+            --color-subtitle-text: #8D99AE;
+            --color-stat-value: #2B2D42;
+            --color-stat-label: #8D99AE;
+            --color-guest-name: #2B2D42;
+            --color-guest-message: #8D99AE;
+            --color-btn-excel: #52637D;
+            --color-btn-excel-hover: #3E4B65;
+        }
+
+        /* Tema 6: Claulet Terracota */
+        body[data-theme="claulet-terracota"] {
+            --color-bg: #FEF7F5;
+            --color-text: #5A5255;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
+            --color-header-text: #D07B64;
+            --color-subtitle-text: #8C7873;
+            --color-stat-value: #D07B64;
+            --color-stat-label: #8C7873;
+            --color-guest-name: #D07B64;
+            --color-guest-message: #8C7873;
+            --color-btn-excel: #D07B64;
+            --color-btn-excel-hover: #B86550;
+        }
+        
+        /* Tema 7: Claulet Ceniza */
+        body[data-theme="claulet-ceniza"] {
+            --color-bg: #EAEAEF;
+            --color-text: #41444B;
+            --color-card-bg: #FFFFFF;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #41444B;
+            --color-subtitle-text: #868892;
+            --color-stat-value: #41444B;
+            --color-stat-label: #868892;
+            --color-guest-name: #41444B;
+            --color-guest-message: #868892;
+            --color-btn-excel: #7F848C;
+            --color-btn-excel-hover: #6D727A;
+        }
+
+        /* Tema 8: Claulet Moderno */
+        body[data-theme="claulet-moderno"] {
+            --color-bg: #F5F5F5;
+            --color-text: #212121;
+            --color-card-bg: #FFFFFF;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #212121;
+            --color-subtitle-text: #757575;
+            --color-stat-value: #212121;
+            --color-stat-label: #757575;
+            --color-guest-name: #212121;
+            --color-guest-message: #757575;
+            --color-btn-excel: #B0BEC5;
+            --color-btn-excel-hover: #90A4AE;
+        }
+        
+        /* Tema 9: Claulet Fino */
+        body[data-theme="claulet-fino"] {
+            --color-bg: #FDF9F3;
+            --color-text: #424242;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
+            --color-header-text: #D2AA5C;
+            --color-subtitle-text: #A1887F;
+            --color-stat-value: #D2AA5C;
+            --color-stat-label: #A1887F;
+            --color-guest-name: #D2AA5C;
+            --color-guest-message: #A1887F;
+            --color-btn-excel: #D2AA5C;
+            --color-btn-excel-hover: #C29F59;
+        }
+
+        /* Tema 10: Claulet Suave */
+        body[data-theme="claulet-suave"] {
+            --color-bg: #F8F4E3;
+            --color-text: #5A5A5A;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #A1887F;
+            --color-subtitle-text: #A1887F;
+            --color-stat-value: #A1887F;
+            --color-stat-label: #A1887F;
+            --color-guest-name: #A1887F;
+            --color-guest-message: #A1887F;
+            --color-btn-excel: #C2B3A3;
+            --color-btn-excel-hover: #B3A495;
+        }
+
+        /* Tema 11: Marino */
+        body[data-theme="marino"] {
+            --color-bg: #E3F2FD;
+            --color-text: #1976D2;
+            --color-card-bg: #BBDEFB;
+            --color-card-shadow: rgba(0, 0, 0, 0.1);
+            --color-header-text: #0D47A1;
+            --color-subtitle-text: #1976D2;
+            --color-stat-value: #0D47A1;
+            --color-stat-label: #1976D2;
+            --color-guest-name: #0D47A1;
+            --color-guest-message: #1976D2;
+            --color-btn-excel: #0D47A1;
+            --color-btn-excel-hover: #083363;
+        }
+
+        /* Tema 12: Primavera */
+        body[data-theme="primavera"] {
+            --color-bg: #F8BBD0;
+            --color-text: #8E24AA;
+            --color-card-bg: #FCE4EC;
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
+            --color-header-text: #D81B60;
+            --color-subtitle-text: #FF9800;
+            --color-stat-value: #D81B60;
+            --color-stat-label: #FF9800;
+            --color-guest-name: #D81B60;
+            --color-guest-message: #FF9800;
+            --color-btn-excel: #F48FB1;
+            --color-btn-excel-hover: #C2185B;
+        }
+
+        /* Tema 13: Urbano */
+        body[data-theme="urbano"] {
+            --color-bg: #212121;
+            --color-text: #E0E0E0;
+            --color-card-bg: #424242;
+            --color-card-shadow: rgba(0, 0, 0, 0.25);
+            --color-header-text: #FFEB3B;
+            --color-subtitle-text: #9E9E9E;
+            --color-stat-value: #FFEB3B;
+            --color-stat-label: #9E9E9E;
+            --color-guest-name: #FFEB3B;
+            --color-guest-message: #9E9E9E;
+            --color-btn-excel: #9E9E9E;
+            --color-btn-excel-hover: #757575;
+        }
+
+        /* Tema 14: Vino */
+        body[data-theme="vino"] {
+            --color-bg: #F5EFE7;
+            --color-text: #4E342E;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
+            --color-header-text: #5D4037;
+            --color-subtitle-text: #8D6E63;
+            --color-stat-value: #5D4037;
+            --color-stat-label: #8D6E63;
+            --color-guest-name: #5D4037;
+            --color-guest-message: #8D6E63;
+            --color-btn-excel: #880E4F;
+            --color-btn-excel-hover: #4A1429;
+        }
+
+        /* Tema 15: Bosque */
+        body[data-theme="bosque"] {
+            --color-bg: #E8F5E9;
+            --color-text: #1B5E20;
+            --color-card-bg: #fff;
+            --color-card-shadow: rgba(0, 0, 0, 0.05);
+            --color-header-text: #2E7D32;
+            --color-subtitle-text: #66BB6A;
+            --color-stat-value: #2E7D32;
+            --color-stat-label: #66BB6A;
+            --color-guest-name: #2E7D32;
+            --color-guest-message: #66BB6A;
+            --color-btn-excel: #2E7D32;
+            --color-btn-excel-hover: #1B5E20;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+        }
+        .top-bar {
+            background-color: var(--color-card-bg);
+            color: var(--color-text);
+        }
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+        .stat-card {
+            background-color: var(--color-card-bg);
+            box-shadow: 0 4px 6px var(--color-card-shadow);
+            padding: 10px; /* Nuevo padding */
+            border-radius: 10px; /* Borde redondeado */
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-stat-value);
+        }
+        .stat-label {
+            color: var(--color-stat-label);
+            font-weight: 500;
+        }
+        .timeline-container {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline-container:before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #E2E8F0;
+        }
+        .timeline-card {
+            background-color: var(--color-card-bg);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px var(--color-card-shadow);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .timeline-card:before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 1.5rem;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-stat-label);
+            border-radius: 50%;
+        }
+        .guest-name {
+            font-family: 'Caveat', cursive;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--color-guest-name);
+        }
+        .guest-message {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--color-guest-message);
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body data-theme="claulet-clasico">
+
+<!-- Franja superior -->
+<div class="top-bar shadow-md py-4 px-6 flex justify-between items-center">
+    <div class="flex items-center space-x-2">
+        <img src="https://placehold.co/40x40/E5E7EB/A1A1AA?text=Logo" alt="Logo del evento" class="h-10">
+    </div>
+    <div class="flex items-center space-x-4">
+        <div class="text-sm">
+            Bienvenida, Claudy
+        </div>
+        <select id="theme-selector" class="px-3 py-1 rounded-md text-sm border border-gray-300">
+            <option value="claulet-clasico">Claulet Clásico</option>
+            <option value="claulet-elegante">Claulet Elegante</option>
+            <option value="claulet-oscuro">Claulet Oscuro</option>
+            <option value="claulet-contraste">Claulet Contraste</option>
+            <option value="claulet-natural">Claulet Natural</option>
+            <option value="claulet-terracota">Claulet Terracota</option>
+            <option value="claulet-ceniza">Claulet Ceniza</option>
+            <option value="claulet-moderno">Claulet Moderno</option>
+            <option value="claulet-fino">Claulet Fino</option>
+            <option value="claulet-suave">Claulet Suave</option>
+            <option value="marino">Marino</option>
+            <option value="primavera">Primavera</option>
+            <option value="urbano">Urbano</option>
+            <option value="vino">Vino</option>
+            <option value="bosque">Bosque</option>
+        </select>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold mb-2" style="color: var(--color-header-text);">Panel para Organizadores</h1>
+        <p class="text-gray-500" style="color: var(--color-subtitle-text);">Administra los mensajes y la información del evento.</p>
+    </header>
+
+    <!-- Sección de estadísticas -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div class="stat-card">
+            <div class="stat-value">155</div>
+            <div class="stat-label">Total Invitados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-green-500">120</div>
+            <div class="stat-label">Confirmados</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-yellow-500">30</div>
+            <div class="stat-label">Pendientes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value text-red-500">5</div>
+            <div class="stat-label">Declinados</div>
+        </div>
+    </div>
+
+    <!-- Sección de filtros y acciones -->
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+        <div class="relative w-full md:w-1/3">
+            <input type="text" id="guest-search" placeholder="Buscar invitado por nombre..." class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+        </div>
+        <div class="relative w-full md:w-1/3">
+            <select id="event-filter" class="w-full px-4 py-2 border rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white pr-8">
+                <option value="all">Todos los eventos</option>
+                <option value="boda">Boda</option>
+                <option value="cena">Cena Pre-boda</option>
+            </select>
+        </div>
+        <div class="flex gap-2 w-full md:w-auto">
+            <button class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors w-1/2 md:w-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z"/></svg>
+                Exportar Excel
+            </button>
+        </div>
+    </div>
+
+    <!-- Contenedor del feed de fotos -->
+    <div class="flex overflow-x-scroll gap-6 py-6" id="photo-feed">
+        <!-- Las tarjetas se generarán aquí con JavaScript -->
+    </div>
+</div>
+
+<script>
+    const guestData = [
+        { id: 1, name: "Maria Garcia", message: "¡Felicidades a los novios! Les deseo lo mejor.", event: "boda", status: "confirmado", phone: "5215512345678", photo: "https://placehold.co/400x400/C0C0C0/333333?text=Maria" },
+        { id: 2, name: "Carlos Lopez", message: "Muchas felicidades, ¡qué viva el amor!", event: "cena", status: "confirmado", phone: "5215587654321", photo: "https://placehold.co/400x400/808080/FFFFFF?text=Carlos" },
+        { id: 3, name: "Sofia Martinez", message: "Lamentablemente no podré asistir. ¡Felicidades a ambos!", event: "boda", status: "declinado", phone: "5215598765432", photo: "https://placehold.co/400x400/D3D3D3/000000?text=Sofia" },
+        { id: 4, name: "Jorge Perez", message: "Que su amor dure para siempre.", event: "boda", status: "confirmado", phone: "5215511223344", photo: "https://placehold.co/400x400/A9A9A9/FFFFFF?text=Jorge" },
+        { id: 5, name: "Laura Ramirez", message: "Un abrazo fuerte para ambos.", event: "boda", status: "pendiente", phone: "5215555667788", photo: "https://placehold.co/400x400/878787/FFFFFF?text=Laura" },
+        { id: 6, name: "Daniel Vargas", message: "Les deseo una vida llena de felicidad.", event: "cena", status: "pendiente", phone: "5215599887766", photo: "https://placehold.co/400x400/C0C0C0/333333?text=Daniel" },
+    ];
+
+    const photoFeed = document.getElementById('photo-feed');
+    const eventFilter = document.getElementById('event-filter');
+    const guestSearchInput = document.getElementById('guest-search');
+    const themeSelector = document.getElementById('theme-selector');
+
+    const themes = ["claulet-clasico", "claulet-elegante", "claulet-oscuro", "claulet-contraste", "claulet-natural", "claulet-terracota", "claulet-ceniza", "claulet-moderno", "claulet-fino", "claulet-suave", "marino", "primavera", "urbano", "vino", "bosque"];
+
+    function applyTheme(themeName) {
+        document.body.setAttribute('data-theme', themeName);
+    }
+
+    themeSelector.addEventListener('change', (e) => {
+        applyTheme(e.target.value);
+    });
+    
+    function getStatusClass(status) {
+        switch(status) {
+            case 'confirmado':
+                return 'text-green-500';
+            case 'pendiente':
+                return 'text-yellow-500';
+            case 'declinado':
+                return 'text-red-500';
+            default:
+                return 'text-gray-500';
+        }
+    }
+    
+    function renderGuests(guests) {
+        photoFeed.innerHTML = '';
+        guests.forEach(guest => {
+            const card = document.createElement('div');
+            card.className = "relative w-80 flex-shrink-0 bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 group cursor-pointer";
+            
+            card.innerHTML = `
+                <img src="${guest.photo}" alt="Foto de ${guest.name}" class="w-full h-auto rounded-t-lg">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="font-bold text-gray-900">${guest.name}</div>
+                        <span class="text-xs font-semibold uppercase ${getStatusClass(guest.status)}">
+                            ${guest.status}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-4">${guest.message}</p>
+                    <div class="flex justify-end space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button onclick="deleteMessage(${guest.id})" class="w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Eliminar deseo">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 112 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
+                        </button>
+                        <button onclick="sendWhatsApp(${guest.phone})" class="w-8 h-8 rounded-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center transition-colors" title="Enviar mensaje de WhatsApp">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 15a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v8z"></path><path d="M10 16V8M14 16V8"></path><path d="M12 16v-8" /></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            photoFeed.appendChild(card);
+        });
+    }
+
+    function filterAndSearch() {
+        const event = eventFilter.value;
+        const searchTerm = guestSearchInput.value.toLowerCase();
+
+        const filteredGuests = guestData.filter(guest => {
+            const matchesEvent = event === 'all' || guest.event === event;
+            const matchesSearch = guest.name.toLowerCase().includes(searchTerm) || guest.message.toLowerCase().includes(searchTerm);
+            return matchesEvent && matchesSearch;
+        });
+
+        renderGuests(filteredGuests);
+    }
+    
+    function deleteMessage(id) {
+      if (confirm('Este es un demo. Se simularía la eliminación del deseo con el ID: ' + id)) {
+        // Lógica de eliminación real iría aquí.
+      }
+    }
+
+    function sendWhatsApp(phone) {
+      const message = encodeURIComponent("¡Hola! Muchas gracias por tus buenos deseos en nuestra boda. Nos alegramos de que hayas estado con nosotros.");
+      const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+    eventFilter.addEventListener('change', filterAndSearch);
+    guestSearchInput.addEventListener('input', filterAndSearch);
+    
+    window.onload = function() {
+        filterAndSearch();
+    };
+</script>
+
+</body>
+</html>
