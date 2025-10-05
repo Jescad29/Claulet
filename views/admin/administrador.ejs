@@ -402,7 +402,6 @@
 
                     <!-- Templates Tab Content Plantillas -->
                     <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
-
                         <!-- PDF -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
@@ -977,6 +976,34 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Subir Plantilla</button>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Añadir Plantilla a Evento -->
+    <div class="modal fade" id="asignarPlantillaModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Asignar plantilla a un evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-asignar-plantilla">
+                        <input type="hidden" id="plantillaId" name="plantillaId">
+                        <input type="hidden" id="tipoPlantilla" name="tipoPlantilla">
+
+                        <div class="mb-3">
+                            <label for="eventoId" class="form-label">Selecciona evento</label>
+                            <select id="selectEventoPlantilla" name="eventoId" class="form-control">
+                                <option value="">Selecciona un evento</option>
+                                <!-- Aquí se llenan los eventos dinámicamente -->
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Asignar</button>
                     </form>
                 </div>
             </div>

@@ -4,7 +4,7 @@ import { mostrarAdmin, subirPlantillas } from "../controllers/admin.Controller.j
 import { crearEvento, obtenerEventos, obtenerEvento, editarEvento, eliminarEvento, obtenerAdmins } from "../controllers/eventos.Controller.js";
 import { obtenerInvitados, crearInvitado, importarInvitados, obtenerInvitado, editarInvitado, eliminarInvitado } from "../controllers/invitados.Controller.js";
 import { crearUsuario, borrarUsuario, obtenerUsuario, editarUsuario, obtenerUsuarios, obtenerUsuariosCompleto, editarPasswordUsuario, subirImagen } from "../controllers/usuario.Controller.js";
-import { obtenerTotalesDashBoard, eliminarPlantilla, listarPlantillas } from "../controllers/admin.Controller.js";
+import { obtenerTotalesDashBoard, eliminarPlantilla, listarPlantillas, asignarPlantillaEvento } from "../controllers/admin.Controller.js";
 import { upload } from "../middleware/upload.js";
 import { uploadPlantilla } from "../middleware/uploadPlantilla.js";
 
@@ -61,5 +61,12 @@ router.get('/admin/api/plantillas', listarPlantillas);
 
 // Eliminar plantilla
 router.delete('/admin/api/plantillas/:id', eliminarPlantilla);
+
+// Obtener eventos Plantilla
+
+router.get('/admin/api/obtenerEventosPlantilla', obtenerEventos);
+
+// Asignar plantilla evento
+router.put('/admin/plantillas-evento/:eventoId', asignarPlantillaEvento);
 
 export default router

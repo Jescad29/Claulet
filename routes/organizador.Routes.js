@@ -2,7 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.get('/organizador', (req, res) => {
+router.get('/organizador/:organizadorId', (req, res) => {
     res.render('organizador/organizador')
 });
 

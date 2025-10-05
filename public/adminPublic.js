@@ -818,6 +818,9 @@ document.addEventListener("DOMContentLoaded", () => {
             <button class="btn btn-eliminar" data-id="${p.id}" title="Eliminar">
               <i class="fas fa-trash-alt"></i>
             </button>
+            <button class="btn btn-asignar-plantilla" data-id="${p.id}"  data-tipo-plantilla="${p.tipo}" data-bs-toggle="modal" data-bs-target="#asignarPlantillaModal" title="Asignar a evento">
+              <i class="fas fa-link"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -830,33 +833,99 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-// Eliminar plantilla
-document.addEventListener("click", async (e) => {
-  const btnEliminar = e.target.closest(".btn-eliminar");
-  if (!btnEliminar) return;
+  // Eliminar plantilla
+  document.addEventListener("click", async (e) => {
+    const btnEliminar = e.target.closest(".btn-eliminar");
+    if (!btnEliminar) return;
 
-  console.log("Botón detectado para eliminar:", btnEliminar);
-  const id = btnEliminar.dataset.id || btnEliminar.getAttribute("data-id");
-  console.log("ID de plantilla a eliminar:", id);
+    console.log("Botón detectado para eliminar:", btnEliminar);
+    const id = btnEliminar.dataset.id || btnEliminar.getAttribute("data-id");
+    console.log("ID de plantilla a eliminar:", id);
 
-  if (!id) {
-    alert("No se encontró el ID de la plantilla.");
-    return;
-  }
-
-  if (confirm("¿Seguro que deseas eliminar esta plantilla?")) {
-    try {
-      const res = await axios.delete(`/claulet/admin/api/plantillas/${id}`);
-      console.log("Respuesta al eliminar plantilla:", res.data);
-      alert("✅ La plantilla se borró con éxito");
-      location.reload();
-    } catch (err) {
-      console.error("Error al eliminar plantilla:", err.response || err);
-      alert("Error al eliminar la plantilla");
+    if (!id) {
+      alert("No se encontró el ID de la plantilla.");
+      return;
     }
-  }
+
+    if (confirm("¿Seguro que deseas eliminar esta plantilla?")) {
+      try {
+        const res = await axios.delete(`/claulet/admin/api/plantillas/${id}`);
+        console.log("Respuesta al eliminar plantilla:", res.data);
+        alert("✅ La plantilla se borró con éxito");
+        location.reload();
+      } catch (err) {
+        console.error("Error al eliminar plantilla:", err.response || err);
+        alert("Error al eliminar la plantilla");
+      }
+    }
+  });
+
+ // Listener para cuando se abre el modal "asignarPlantillaModal"
+const asignarPlantillaModal = document.getElementById('asignarPlantillaModal');
+const plantillaIdInput = document.getElementById('plantillaId');
+const tipoPlantillaInput = document.getElementById('tipoPlantilla');
+
+asignarPlantillaModal.addEventListener('show.bs.modal', (e) => {
+    // Obtiene el botón que activó el modal
+    const button = e.relatedTarget; 
+
+    // Obtiene los datos de los atributos data-* del botón
+    const plantillaId = button.getAttribute('data-id');
+    const plantillaTipo = button.getAttribute('data-tipo-plantilla');
+
+    // Asigna los valores a los inputs del formulario
+    plantillaIdInput.value = plantillaId;
+    tipoPlantillaInput.value = plantillaTipo;
+
+    console.log(`Modal abierto para la Plantilla ID: ${plantillaId} y Tipo: ${plantillaTipo}`);
 });
 
+// Llenar select con eventos - Plantilla
+const selectEventGuestsPlantilla = document.getElementById(
+    "selectEventoPlantilla"
+);
 
+axios.get("/claulet/admin/api/obtenerEventosPlantilla").then((res) => {
+    res.data.forEach((evento) => {
+        const option = document.createElement("option");
+        option.value = evento.id;
+        option.textContent = evento.nombre;
+        selectEventGuestsPlantilla.appendChild(option);
+    });
+});
+
+const formAsignarPlantilla = document.querySelector(
+    "#form-asignar-plantilla"
+);
+
+if (formAsignarPlantilla) {
+    formAsignarPlantilla.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Obtener todos los datos del formulario, incluyendo el input oculto y el select
+        const datosEventoPlantilla = Object.fromEntries(
+            new FormData(formAsignarPlantilla).entries()
+        );
+
+        // Opcional: Para verificar que los datos se están obteniendo correctamente
+        console.log("Datos a enviar:", datosEventoPlantilla);
+
+        const { eventoId } = datosEventoPlantilla; // Extraer el eventoId para la URL
+
+        try {
+            const res = await axios.put(
+                `/claulet/admin/plantillas-evento/${eventoId}`,
+                datosEventoPlantilla
+            );
+
+            alert("Plantilla asignada a evento correctamente");
+            window.location.href = "/claulet/admin";
+
+        } catch (error) {
+            console.error("Error al asignar plantilla:", error);
+            alert("Error al asignar la plantilla");
+        }
+    });
+}
   // Siguiente Formulario
 });

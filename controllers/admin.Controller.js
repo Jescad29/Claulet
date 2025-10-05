@@ -122,3 +122,54 @@ export const eliminarPlantilla = async (req, res) => {
     res.status(500).json({ error: "Error al eliminar la plantilla" });
   }
 };
+
+export const asignarPlantillaEvento = async (req, res) => {
+  console.log("Asignando plantilla a evento... ");
+
+  try {
+    // 1. Obtiene todos los datos que tu formulario está enviando
+    // Ahora recibimos eventoId, plantillaId y el tipo de plantilla
+    const { eventoId, plantillaId, tipoPlantilla } = req.body; 
+
+    // Opcional: Para verificar lo que estás recibiendo
+    console.log(`Datos recibidos: eventoId: ${eventoId}, plantillaId: ${plantillaId}, tipoPlantilla: ${tipoPlantilla}`);
+
+    // 2. Busca el evento por su ID en la base de datos
+    const evento = await Eventos.findByPk(eventoId);
+
+    // Si el evento no existe, devuelve un error 404
+    if (!evento) {
+      return res.status(404).json({ msg: "Evento no encontrado" });
+    }
+    
+    // 3. Valida el tipo de plantilla para evitar errores o vulnerabilidades
+    // Usamos un mapa para convertir el tipo de frontend a los nombres de las columnas de la DB
+    const columnasPlantilla = {
+        pdf: 'plantillaPdfId',
+        deseos: 'plantillaDeseosId',
+        admin: 'plantillaAdminId'
+    };
+    
+    const columnaAActualizar = columnasPlantilla[tipoPlantilla];
+
+    // Si el tipo de plantilla no es uno de los esperados, devuelve un error 400
+    if (!columnaAActualizar) {
+      return res.status(400).json({ msg: "Tipo de plantilla no válido" });
+    }
+
+    // 4. Crea un objeto para la actualización con la clave dinámica
+    const datosActualizacion = {};
+    datosActualizacion[columnaAActualizar] = plantillaId;
+
+    // 5. Actualiza el registro del evento en la base de datos
+    await evento.update(datosActualizacion);
+    
+    // 6. Envía una respuesta de éxito
+    return res.status(200).json({ msg: "Plantilla asignada al evento correctamente", evento });
+
+  } catch (error) {
+    console.error("❌ Error al asignar la plantilla:", error);
+    return res.status(500).json({ msg: "Error interno del servidor" });
+  }
+};
+

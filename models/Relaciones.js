@@ -29,5 +29,10 @@ Eventos.belongsTo(Plantillas, { as: 'plantillaPdf', foreignKey: 'plantillaPdfId'
 Plantillas.hasMany(Eventos, { as: 'eventosVista', foreignKey: 'plantillaVistaId' });
 Eventos.belongsTo(Plantillas, { as: 'plantillaVista', foreignKey: 'plantillaVistaId' });
 
+// Evento tiene una plantilla de Deseos
+Eventos.belongsTo(Plantillas, { as: 'plantillaDeseos', foreignKey: 'plantillaDeseosId' });
+
+// Evento tiene una plantilla Admin/Anfitrión
+Eventos.belongsTo(Plantillas, { as: 'plantillaAdmin', foreignKey: 'plantillaAdminId' });
 
 export { Usuarios, Eventos, Invitados, Plantillas }
