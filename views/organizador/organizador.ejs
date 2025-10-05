@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -102,7 +103,7 @@
             --color-btn-excel: #D07B64;
             --color-btn-excel-hover: #B86550;
         }
-        
+
         /* Tema 7: Claulet Ceniza */
         body[data-theme="claulet-ceniza"] {
             --color-bg: #EAEAEF;
@@ -134,7 +135,7 @@
             --color-btn-excel: #B0BEC5;
             --color-btn-excel-hover: #90A4AE;
         }
-        
+
         /* Tema 9: Claulet Fino */
         body[data-theme="claulet-fino"] {
             --color-bg: #FDF9F3;
@@ -262,40 +263,49 @@
             --color-btn-excel: #1DB954;
             --color-btn-excel-hover: #1ed760;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--color-bg);
             color: var(--color-text);
         }
+
         .top-bar {
             background-color: var(--color-card-bg);
             color: var(--color-text);
         }
+
         .dashboard-container {
             max-width: 1000px;
             margin: 2rem auto;
             padding: 1rem;
         }
+
         .stat-card {
             background-color: var(--color-card-bg);
             box-shadow: 0 4px 6px var(--color-card-shadow);
-            padding: 10px; /* Nuevo padding */
-            border-radius: 10px; /* Borde redondeado */
+            padding: 10px;
+            /* Nuevo padding */
+            border-radius: 10px;
+            /* Borde redondeado */
         }
+
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
             color: var(--color-stat-value);
         }
+
         .stat-label {
             color: var(--color-stat-label);
             font-weight: 500;
         }
+
         .timeline-container {
             position: relative;
             padding-left: 50px;
         }
+
         .timeline-container:before {
             content: '';
             position: absolute;
@@ -305,6 +315,7 @@
             width: 2px;
             background-color: #E2E8F0;
         }
+
         .timeline-card {
             background-color: var(--color-card-bg);
             padding: 1.5rem;
@@ -313,6 +324,7 @@
             margin-bottom: 2rem;
             position: relative;
         }
+
         .timeline-card:before {
             content: '';
             position: absolute;
@@ -323,12 +335,14 @@
             background-color: var(--color-stat-label);
             border-radius: 50%;
         }
+
         .guest-name {
             font-family: 'Caveat', cursive;
             font-size: 1.75rem;
             font-weight: 700;
             color: var(--color-guest-name);
         }
+
         .guest-message {
             font-size: 1rem;
             font-style: italic;
@@ -336,6 +350,7 @@
             margin-top: 0.5rem;
             margin-bottom: 1rem;
         }
+
         .guest-details {
             font-size: 0.9rem;
             color: #6C757D;
@@ -350,100 +365,114 @@
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
+
             .timeline-container:before {
                 left: 0;
                 display: none;
             }
+
             .timeline-card:before {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body data-theme="claulet-clasico">
 
-<!-- Franja superior -->
-<div class="top-bar shadow-md py-4 px-6 flex justify-between items-center">
-    <div class="flex items-center space-x-2">
-        <img src="https://placehold.co/40x40/E5E7EB/A1A1AA?text=Logo" alt="Logo del evento" class="h-10">
-    </div>
-    <div class="flex items-center space-x-4">
-        <div class="text-sm">
-            Bienvenida, <%= usuario.nombre %> 👋
+    <!-- Franja superior -->
+    <div class="top-bar shadow-md py-4 px-6 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <img src="https://placehold.co/40x40/E5E7EB/A1A1AA?text=Logo" alt="Logo del evento" class="h-10">
         </div>
-        <select id="theme-selector" class="px-3 py-1 rounded-md text-sm border border-gray-300">
-            <option value="claulet-clasico">Claulet Clásico</option>
-            <option value="claulet-elegante">Claulet Elegante</option>
-            <option value="claulet-oscuro">Claulet Oscuro</option>
-            <option value="claulet-contraste">Claulet Contraste</option>
-            <option value="claulet-natural">Claulet Natural</option>
-            <option value="claulet-terracota">Claulet Terracota</option>
-            <option value="claulet-ceniza">Claulet Ceniza</option>
-            <option value="claulet-moderno">Claulet Moderno</option>
-            <option value="claulet-fino">Claulet Fino</option>
-            <option value="claulet-suave">Claulet Suave</option>
-            <option value="marino">Marino</option>
-            <option value="primavera">Primavera</option>
-            <option value="urbano">Urbano</option>
-            <option value="vino">Vino</option>
-            <option value="bosque">Bosque</option>
-            <option value="spotify">Spotify</option>
-        </select>
-    </div>
-</div>
-
-<div class="dashboard-container">
-    <header class="mb-8">
-        <h1 class="text-3xl font-bold mb-2" style="color: var(--color-header-text);">Panel para Organizadores</h1>
-        <p class="text-gray-500" style="color: var(--color-subtitle-text);">Administra los mensajes y la información del evento.</p>
-    </header>
-
-    <!-- Sección de estadísticas -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div class="stat-card">
-            <div class="stat-value">155</div>
-            <div class="stat-label">Total Invitados</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value text-green-500">120</div>
-            <div class="stat-label">Confirmados</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value text-yellow-500">30</div>
-            <div class="stat-label">Pendientes</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-value text-red-500">5</div>
-            <div class="stat-label">Declinados</div>
-        </div>
-    </div>
-
-    <!-- Sección de filtros y acciones -->
-    <div class="flex flex-col md:flex-row gap-4 mb-6">
-        <div class="relative w-full md:w-1/3">
-            <input type="text" id="guest-search" placeholder="Buscar invitado por nombre..." class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
-        </div>
-        <div class="relative w-full md:w-1/3">
-            <select id="event-filter" class="w-full px-4 py-2 border rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white pr-8">
-                <option value="all">Todos los eventos</option>
-                <option value="boda">Boda</option>
-                <option value="cena">Cena Pre-boda</option>
+        <div class="flex items-center space-x-4">
+            <div class="text-sm">
+                Bienvenida, <%= usuario.nombre %> 👋
+            </div>
+            <select id="theme-selector" class="px-3 py-1 rounded-md text-sm border border-gray-300">
+                <option value="claulet-clasico">Claulet Clásico</option>
+                <option value="claulet-elegante">Claulet Elegante</option>
+                <option value="claulet-oscuro">Claulet Oscuro</option>
+                <option value="claulet-contraste">Claulet Contraste</option>
+                <option value="claulet-natural">Claulet Natural</option>
+                <option value="claulet-terracota">Claulet Terracota</option>
+                <option value="claulet-ceniza">Claulet Ceniza</option>
+                <option value="claulet-moderno">Claulet Moderno</option>
+                <option value="claulet-fino">Claulet Fino</option>
+                <option value="claulet-suave">Claulet Suave</option>
+                <option value="marino">Marino</option>
+                <option value="primavera">Primavera</option>
+                <option value="urbano">Urbano</option>
+                <option value="vino">Vino</option>
+                <option value="bosque">Bosque</option>
+                <option value="spotify">Spotify</option>
             </select>
         </div>
-        <div class="flex gap-2 w-full md:w-auto">
-            <button class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors w-1/2 md:w-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z"/></svg>
-                Exportar Excel
-            </button>
+    </div>
+
+    <div class="dashboard-container">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold mb-2" style="color: var(--color-header-text);">Panel para Organizadores</h1>
+            <p class="text-gray-500" style="color: var(--color-subtitle-text);">Administra los mensajes y la información
+                del evento.</p>
+        </header>
+
+        <!-- Sección de estadísticas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card">
+                <div class="stat-value">155</div>
+                <div class="stat-label">Total Invitados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value text-green-500">120</div>
+                <div class="stat-label">Confirmados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value text-yellow-500">30</div>
+                <div class="stat-label">Pendientes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value text-red-500">5</div>
+                <div class="stat-label">Declinados</div>
+            </div>
+        </div>
+
+        <!-- Sección de filtros y acciones -->
+        <div class="flex flex-col md:flex-row gap-4 mb-6">
+            <div class="relative w-full md:w-1/3">
+                <input type="text" id="guest-search" placeholder="Buscar invitado por nombre..."
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div class="relative w-full md:w-1/3">
+                <select id="event-filter"
+                    class="w-full px-4 py-2 border rounded-md appearance-none focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white pr-8">
+                    <option value="all">Todos los eventos</option>
+                    <option value="boda">Boda</option>
+                    <option value="cena">Cena Pre-boda</option>
+                </select>
+            </div>
+            <div class="flex gap-2 w-full md:w-auto">
+                <button
+                    class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors w-1/2 md:w-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20"
+                        fill="currentColor">
+                        <path
+                            d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z" />
+                    </svg>
+                    Exportar Excel
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenedor de la línea de tiempo -->
+        <div class="timeline-container" id="timeline-feed">
+            <!-- Las tarjetas se generarán aquí con JavaScript -->
         </div>
     </div>
 
-    <!-- Contenedor de la línea de tiempo -->
-    <div class="timeline-container" id="timeline-feed">
-        <!-- Las tarjetas se generarán aquí con JavaScript -->
-    </div>
-</div>
+    <script src="/organizadorPublic.js"></script>
 
+</body>
 <script>
     const guestData = [
         { id: 1, name: "Maria Garcia", message: "¡Felicidades a los novios! Les deseo lo mejor.", event: "boda", status: "confirmado", phone: "5215512345678", mesa: 5, seccion: "Familia de la novia", tipo: "Principal" },
@@ -468,9 +497,9 @@
     themeSelector.addEventListener('change', (e) => {
         applyTheme(e.target.value);
     });
-    
+
     function getStatusClass(status) {
-        switch(status) {
+        switch (status) {
             case 'confirmado':
                 return 'text-green-500';
             case 'pendiente':
@@ -481,7 +510,7 @@
                 return 'text-gray-500';
         }
     }
-    
+
     function renderGuests(guests) {
         timelineFeed.innerHTML = '';
         guests.forEach(guest => {
@@ -525,26 +554,27 @@
 
         renderGuests(filteredGuests);
     }
-    
+
     function deleteMessage(id) {
-      if (confirm('Este es un demo. Se simularía la eliminación del deseo con el ID: ' + id)) {
-        // La lógica de eliminación real iría aquí.
-      }
+        if (confirm('Este es un demo. Se simularía la eliminación del deseo con el ID: ' + id)) {
+            // La lógica de eliminación real iría aquí.
+        }
     }
 
     function sendWhatsApp(phone) {
-      const message = encodeURIComponent("¡Hola! Muchas gracias por tus buenos deseos en nuestra boda. Nos alegramos de que hayas estado con nosotros.");
-      const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
-      window.open(whatsappUrl, '_blank');
+        const message = encodeURIComponent("¡Hola! Muchas gracias por tus buenos deseos en nuestra boda. Nos alegramos de que hayas estado con nosotros.");
+        const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+        window.open(whatsappUrl, '_blank');
     }
 
     eventFilter.addEventListener('change', filterAndSearch);
     guestSearchInput.addEventListener('input', filterAndSearch);
-    
-    window.onload = function() {
+
+    window.onload = function () {
         filterAndSearch();
     };
 </script>
 
 </body>
+
 </html>

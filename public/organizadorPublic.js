@@ -1,0 +1,1 @@
+// alert("organizadorPublic conectado correctamente")
