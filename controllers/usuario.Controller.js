@@ -261,6 +261,7 @@ export const iniciarSesion = async (req, res, next) => {
       ok: true,
       msg: "Inicio de sesión exitoso",
       rol: usuario.rol,
+      usuarioId: usuario.id,
     });
   } catch (err) {
     console.error(err);

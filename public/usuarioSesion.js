@@ -15,9 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (rol === 'admin') {
                         window.location.href = '/claulet/admin';
                     } else if (rol === 'organizador') {
-                        window.location.href = '/claulet/organizador';
+                        window.location.href = '/claulet/organizador/${res.data.usuarioId}';
                     } else if (rol === 'anfitrion') {
-                        window.location.href = '/claulet/anfitrion';
+                        window.location.href = '/claulet/anfitrion/${res.data.usuarioId}';
                     } else {
                         alert('Rol no encontrado')
                     }
