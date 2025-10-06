@@ -11,16 +11,21 @@ export const datosOrganizador = async (req, res) => {
 
     if (!usuario) {
       return res.redirect('/claulet/login');
-    }
+      }
+      
+          // Traer los eventos de ese organizador
+    const eventos = await Eventos.findAll({
+      where: { organizadorId: usuario.id },
+      attributes: ["id", "nombre"], // solo lo necesario
+      raw: true
+    });
 
-    res.render('organizador/organizador', { usuario });
+      res.render('organizador/organizador', { usuario, eventos});
+      
+      console.log(usuario)
+      console.log(eventos)
   } catch (error) {
     console.error("❌ Error obteniendo usuario:", error);
     res.redirect('/claulet/login');
   }
-}
-
-// Obtiene los eventos que tiene el organizador
-export const obtenerEventosOrganizador = async (req, res) => {
-    console.log("Obteniendo los eeventos del organizador ... ... .. .. . .")
 }

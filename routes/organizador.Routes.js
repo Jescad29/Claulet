@@ -1,5 +1,5 @@
 import express from "express";
-import { datosOrganizador, obtenerEventosOrganizador } from "../controllers/organizador.Controller.js";
+import { datosOrganizador   } from "../controllers/organizador.Controller.js";
 
 const router = express.Router();
 
@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/organizador/:organizadorId', datosOrganizador);
 
 // obtiene todos los eventos del organizador
-router.get('/organizador/api/eventos', obtenerEventosOrganizador); 
+// router.get('/organizador/api/eventos', obtenerEventosOrganizador); 
 
 
 export default router
