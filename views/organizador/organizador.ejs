@@ -420,19 +420,31 @@
         <!-- Sección de estadísticas -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
             <div class="stat-card">
-                <div class="stat-value">155</div>
+                <!-- ✅ CAMBIO: De 155 a <%= stats.total %> -->
+                <div class="stat-value">
+                    <%= stats.total %>
+                </div>
                 <div class="stat-label">Total Invitados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value text-green-500">120</div>
+                <!-- ✅ CAMBIO: De 120 a <%= stats.confirmados %> -->
+                <div class="stat-value text-green-500">
+                    <%= stats.confirmados %>
+                </div>
                 <div class="stat-label">Confirmados</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value text-yellow-500">30</div>
+                <!-- ✅ CAMBIO: De 30 a <%= stats.pendientes %> -->
+                <div class="stat-value text-yellow-500">
+                    <%= stats.pendientes %>
+                </div>
                 <div class="stat-label">Pendientes</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value text-red-500">5</div>
+                <!-- ✅ CAMBIO: De 5 a <%= stats.declinados %> -->
+                <div class="stat-value text-red-500">
+                    <%= stats.declinados %>
+                </div>
                 <div class="stat-label">Declinados</div>
             </div>
         </div>
@@ -449,29 +461,88 @@
                     <option value="all">Todos los eventos</option>
                     <% eventos.forEach(evento=> { %>
                         <option value="<%= evento.id %>">
-                        <%= evento.nombre %>
+                            <%= evento.nombre %>
                         </option>
-                    <% }) %>
+                        <% }) %>
                 </select>
             </div>
+
+            <!-- Bonton exportar excel -->
+            <!-- organizador.ejs -->
+
             <div class="flex gap-2 w-full md:w-auto">
-                <button
+                <!-- ✅ MODIFICADO: Agregar evento click -->
+                <button id="export-excel-btn"
                     class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-md transition-colors w-1/2 md:w-auto">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" viewBox="0 0 20 20"
                         fill="currentColor">
-                        <path
-                            d="M10 2a8 8 0 100 16 8 8 0 000-16zM8 9a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zm3 0a1 1 0 00-1 1v2a1 1 0 102 0v-2a1 1 0 00-1-1zM5 13a1 1 0 100 2h10a1 1 0 100-2H5z" />
+                        <path fill-rule="evenodd"
+                            d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
-                    Exportar Excel
+                    <span id="export-btn-text">Exportar Excel</span>
                 </button>
             </div>
         </div>
 
         <!-- Contenedor de la línea de tiempo -->
         <div class="timeline-container" id="timeline-feed">
-            <!-- Las tarjetas se generarán aquí con JavaScript -->
+            <% eventos.forEach(evento=> { %>
+                <h2 class="text-xl font-bold mb-2 mt-4 event-title" data-event-id="<%= evento.id %>">
+                    <%= evento.nombre %>
+                </h2>
+
+                <% if (evento.invitados && evento.invitados.length> 0) { %>
+                    <% evento.invitados.forEach(guest=> { %>
+                        <!-- ✅ NUEVO: Agregamos data-event-id y data-guest-name para filtrado -->
+                        <div class="timeline-card mb-4 p-4 border rounded-md shadow-sm" data-event-id="<%= evento.id %>"
+                            data-guest-name="<%= guest.nombre.toLowerCase() %> <%= guest.apellidos.toLowerCase() %>"
+                            data-guest-status="<%= guest.estado ? guest.estado.toLowerCase() : 'pendiente' %>">
+
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                                <div class="guest-name font-semibold text-lg">
+                                    <%= guest.nombre %>
+                                        <%= guest.apellidos %>
+                                </div>
+                                <div class="flex space-x-2 items-center mt-2 md:mt-0">
+                                    <span class="text-xs font-semibold uppercase 
+                <%= guest.estado === 'confirmado' ? 'text-green-500' : 
+                    guest.estado === 'pendiente' ? 'text-yellow-500' : 'text-red-500' %>">
+                                        <%= guest.estado %>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="guest-message text-gray-700 mb-1">
+                                <%= guest.deseo || '' %>
+                            </div>
+
+                            <div class="guest-details text-sm text-gray-500">
+                                <% let detalles=[]; if (guest.comentarios) detalles.push(`Comentarios:
+                                    ${guest.comentarios}`); if (guest.seccion) detalles.push(`Sección:
+                                    ${guest.seccion}`); if (guest.tipo) detalles.push(`Tipo: ${guest.tipo}`); %>
+                                    <%= detalles.join(' | ') %>
+          </div>
         </div>
+      <% }) %>
+    <% } else { %>
+      <p class="text-gray-400 mb-4 no-guests-message" data-event-id="<%= evento.id %>">
+        No hay invitados para este evento.
+      </p>
+    <% } %>
+  <% }) %>
+</div>
+
+
     </div>
+
+    <script>
+        // ✅ Pasar datos del servidor al JavaScript
+        window.ORGANIZADOR_DATA = {
+            usuarioId: '<%= usuario.id %>',
+            usuarioNombre: ' <%=usuario.nombre %>'
+        };
+    </script>
 
     <script src="/organizadorPublic.js"></script>
 

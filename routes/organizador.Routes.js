@@ -1,13 +1,12 @@
 import express from "express";
-import { datosOrganizador   } from "../controllers/organizador.Controller.js";
+import { datosOrganizador, exportarExcel } from "../controllers/organizador.Controller.js";
 
 const router = express.Router();
 
 // Trae los datos del organizador 
 router.get('/organizador/:organizadorId', datosOrganizador);
 
-// obtiene todos los eventos del organizador
-// router.get('/organizador/api/eventos', obtenerEventosOrganizador); 
-
+// ✅ NUEVO: Ruta para exportar a Excel
+router.get('/organizador/:organizadorId/exportar', exportarExcel);
 
 export default router

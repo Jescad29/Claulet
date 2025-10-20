@@ -196,3 +196,275 @@
 // window.onload = function () {
 //   filterAndSearch();
 // };
+
+// public/organizadorPublic.js
+
+document.addEventListener("DOMContentLoaded", function () {
+  // ========================================
+  // 1. BÚSQUEDA POR NOMBRE DE INVITADO
+  // ========================================
+
+  const searchInput = document.getElementById("guest-search");
+  const eventFilter = document.getElementById("event-filter");
+
+  /**
+   * Función para filtrar invitados
+   * - Combina búsqueda de texto + filtro de evento
+   * - Se ejecuta cada vez que cambia alguno de los dos filtros
+   */
+  function filterGuests() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    const selectedEventId = eventFilter.value;
+
+    // Obtener todas las tarjetas de invitados
+    const guestCards = document.querySelectorAll(".timeline-card");
+
+    // Obtener todos los títulos de eventos
+    const eventTitles = document.querySelectorAll(".event-title");
+
+    // Obtener mensajes de "no hay invitados"
+    const noGuestsMessages = document.querySelectorAll(".no-guests-message");
+
+    // Objeto para rastrear si cada evento tiene invitados visibles
+    const eventHasVisibleGuests = {};
+
+    // ----------------------------------------
+    // Filtrar tarjetas de invitados
+    // ----------------------------------------
+    guestCards.forEach((card) => {
+      const guestName = card.getAttribute("data-guest-name");
+      const eventId = card.getAttribute("data-event-id");
+
+      // Inicializar contador si no existe
+      if (!eventHasVisibleGuests[eventId]) {
+        eventHasVisibleGuests[eventId] = 0;
+      }
+
+      // Condiciones para mostrar la tarjeta:
+      // 1. El evento seleccionado es "all" O coincide con el evento de la tarjeta
+      // 2. El término de búsqueda está vacío O está incluido en el nombre del invitado
+      const matchesEvent =
+        selectedEventId === "all" || selectedEventId === eventId;
+      const matchesSearch = searchTerm === "" || guestName.includes(searchTerm);
+
+      if (matchesEvent && matchesSearch) {
+        card.style.display = "block";
+        eventHasVisibleGuests[eventId]++;
+      } else {
+        card.style.display = "none";
+      }
+    });
+
+    // ----------------------------------------
+    // Mostrar/ocultar títulos de eventos
+    // ----------------------------------------
+    eventTitles.forEach((title) => {
+      const eventId = title.getAttribute("data-event-id");
+
+      // Si el filtro es "all", mostrar todos los títulos
+      // Si se seleccionó un evento específico, solo mostrar ese
+      if (selectedEventId === "all") {
+        // Mostrar título solo si tiene invitados visibles
+        title.style.display =
+          eventHasVisibleGuests[eventId] > 0 ? "block" : "none";
+      } else {
+        title.style.display = selectedEventId === eventId ? "block" : "none";
+      }
+    });
+
+    // ----------------------------------------
+    // Mostrar/ocultar mensajes de "no hay invitados"
+    // ----------------------------------------
+    noGuestsMessages.forEach((message) => {
+      const eventId = message.getAttribute("data-event-id");
+
+      // Mostrar mensaje solo si:
+      // 1. El evento está seleccionado (o es "all")
+      // 2. No hay invitados visibles para ese evento
+      const shouldShow =
+        (selectedEventId === "all" || selectedEventId === eventId) &&
+        eventHasVisibleGuests[eventId] === 0;
+
+      message.style.display = shouldShow ? "block" : "none";
+    });
+
+    // ----------------------------------------
+    // Mensaje si no hay resultados en absoluto
+    // ----------------------------------------
+    const totalVisible = Object.values(eventHasVisibleGuests).reduce(
+      (a, b) => a + b,
+      0
+    );
+
+    // Obtener o crear mensaje de "sin resultados"
+    let noResultsMessage = document.getElementById("no-results-message");
+
+    if (
+      totalVisible === 0 &&
+      (searchTerm !== "" || selectedEventId !== "all")
+    ) {
+      // Si no existe el mensaje, crearlo
+      if (!noResultsMessage) {
+        noResultsMessage = document.createElement("div");
+        noResultsMessage.id = "no-results-message";
+        noResultsMessage.className = "text-center text-gray-500 py-8";
+        noResultsMessage.innerHTML = `
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <p class="text-lg font-semibold">No se encontraron resultados</p>
+          <p class="text-sm mt-2">Intenta con otro término de búsqueda o selecciona otro evento</p>
+        `;
+        document.getElementById("timeline-feed").appendChild(noResultsMessage);
+      }
+      noResultsMessage.style.display = "block";
+    } else {
+      // Ocultar mensaje si hay resultados
+      if (noResultsMessage) {
+        noResultsMessage.style.display = "none";
+      }
+    }
+  }
+
+  // ========================================
+  // EXPORTAR A EXCEL
+  // ========================================
+
+  const exportBtn = document.getElementById("export-excel-btn");
+  const exportBtnText = document.getElementById("export-btn-text");
+
+  if (exportBtn) {
+    exportBtn.addEventListener("click", async function () {
+      exportBtn.disabled = true;
+      exportBtn.classList.add("opacity-50", "cursor-not-allowed");
+      exportBtnText.textContent = "Generando Excel...";
+
+      try {
+        const organizadorId = window.ORGANIZADOR_DATA.usuarioId;
+
+        // ✅ CORRECCIÓN: Agregar el prefijo /claulet
+        const exportUrl = `/claulet/organizador/${organizadorId}/exportar`;
+
+        console.log("📊 Exportando datos del organizador:", organizadorId);
+        console.log("🔗 URL de exportación:", exportUrl);
+
+        const response = await fetch(exportUrl, {
+          method: "GET",
+          credentials: "same-origin",
+        });
+
+        console.log(
+          "📡 Respuesta del servidor:",
+          response.status,
+          response.statusText
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+
+        const blob = await response.blob();
+        console.log("📦 Blob recibido:", blob.size, "bytes");
+
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+
+        const contentDisposition = response.headers.get("Content-Disposition");
+        let filename = "invitados.xlsx";
+
+        if (contentDisposition) {
+          const filenameMatch = contentDisposition.match(/filename="?(.+?)"?$/);
+          if (filenameMatch) {
+            filename = filenameMatch[1];
+          }
+        }
+
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+
+        exportBtnText.textContent = "✓ Descargado";
+        exportBtn.classList.remove("bg-emerald-500", "hover:bg-emerald-600");
+        exportBtn.classList.add("bg-green-500");
+
+        setTimeout(() => {
+          exportBtnText.textContent = "Exportar Excel";
+          exportBtn.classList.remove("bg-green-500");
+          exportBtn.classList.add("bg-emerald-500", "hover:bg-emerald-600");
+        }, 2000);
+
+        console.log("✅ Archivo descargado correctamente:", filename);
+      } catch (error) {
+        console.error("❌ Error al exportar:", error);
+
+        exportBtnText.textContent = "✗ Error al exportar";
+        exportBtn.classList.remove("bg-emerald-500", "hover:bg-emerald-600");
+        exportBtn.classList.add("bg-red-500");
+
+        alert(
+          `Error al generar el archivo Excel.\n\nDetalle: ${error.message}\n\nPor favor, intenta de nuevo.`
+        );
+
+        setTimeout(() => {
+          exportBtnText.textContent = "Exportar Excel";
+          exportBtn.classList.remove("bg-red-500");
+          exportBtn.classList.add("bg-emerald-500", "hover:bg-emerald-600");
+        }, 2000);
+      } finally {
+        exportBtn.disabled = false;
+        exportBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      }
+    });
+  }
+  // ========================================
+  // 2. EVENT LISTENERS
+  // ========================================
+
+  /**
+   * Escuchar cambios en el input de búsqueda
+   * - 'input' se dispara con cada letra que escribes
+   * - Más responsive que 'change' (que solo se dispara al perder el foco)
+   */
+  if (searchInput) {
+    searchInput.addEventListener("input", filterGuests);
+  }
+
+  /**
+   * Escuchar cambios en el select de eventos
+   */
+  if (eventFilter) {
+    eventFilter.addEventListener("change", filterGuests);
+  }
+
+  // ========================================
+  // 3. CAMBIO DE TEMA
+  // ========================================
+
+  /**
+   * Persistir el tema seleccionado en localStorage
+   * y aplicarlo al cargar la página
+   */
+  const themeSelector = document.getElementById("theme-selector");
+
+  // Cargar tema guardado al iniciar
+  const savedTheme = localStorage.getItem("claulet-theme") || "claulet-clasico";
+  document.body.setAttribute("data-theme", savedTheme);
+  if (themeSelector) {
+    themeSelector.value = savedTheme;
+  }
+
+  // Escuchar cambios de tema
+  if (themeSelector) {
+    themeSelector.addEventListener("change", function () {
+      const selectedTheme = this.value;
+      document.body.setAttribute("data-theme", selectedTheme);
+      localStorage.setItem("claulet-theme", selectedTheme);
+    });
+  }
+});
