@@ -86,7 +86,7 @@ Claulet/
 1. Clona el repositorio
 
 ```bash
-git clone https://github.com/HubCde/twoClaulet
+https://github.com/Jescad29/Claulet.git
 cd claulet
 ```
 
