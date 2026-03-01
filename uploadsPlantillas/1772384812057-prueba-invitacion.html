@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Invitación de prueba</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            background-color: #f9f0ff;
+        }
+        h1 { color: #6a0dad; }
+        .datos {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 400px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎉 ¡Hola, {{nombre}} {{apellidos}}!</h1>
+    <p>Estás invitado a un evento especial</p>
+
+    <div class="datos">
+        <p><strong>Evento:</strong> {{evento}}</p>
+        <p><strong>Fecha:</strong> {{fecha}}</p>
+        <p><strong>Hora:</strong> {{hora}}</p>
+        <p><strong>Lugar:</strong> {{lugar}}</p>
+        <p><strong>Pases:</strong> {{pases}}</p>
+        <p><strong>Mesa/Sección:</strong> {{seccion}}</p>
+    </div>
+
+    <!-- FORMULARIO CLAULET — Solo pega esto donde quieras -->
+    <div style="margin-top: 30px;">
+        <form id="claulet-form">
+            <textarea 
+                id="claulet-deseo" 
+                placeholder="Escribe un deseo para los anfitriones..."
+                style="width:300px; height:80px; padding:10px; border-radius:8px; border:1px solid #ccc;">
+            </textarea>
+            <br><br>
+            <button type="button" onclick="clauletResponder('confirmado')"
+                style="background:#27ae60; color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; margin:5px;">
+                ✅ Confirmo mi asistencia
+            </button>
+            <button type="button" onclick="clauletResponder('declinado')"
+                style="background:#e74c3c; color:white; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; margin:5px;">
+                ❌ No podré asistir
+            </button>
+            <p id="claulet-mensaje" style="margin-top:15px; font-weight:bold;"></p>
+        </form>
+    </div>
+
+</body>
+</html>

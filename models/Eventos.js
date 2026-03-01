@@ -64,11 +64,11 @@ const Eventos = db.define('eventos', {
   urlBase: {
     type: Sequelize.STRING(255),
     allowNull: true,
-    validate: {
-      isUrl: {
-        msg: 'Debe ser una URL válida'
-      }
-    }
+    // validate: {
+    //   isUrl: {
+    //     msg: 'Debe ser una URL válida'
+    //   }
+    // }
   },
   plantillaPdfId: {
     type: Sequelize.INTEGER,

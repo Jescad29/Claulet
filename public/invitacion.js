@@ -8,6 +8,61 @@
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
+
+    // Generar QR si el invitado ya confirmó
+    // El controlador inyecta #claulet-qr-container solo cuando estado === 'confirmado'
+    const qrContainer = document.getElementById('claulet-qr-container');
+
+    if (qrContainer) {
+        // La URL actual del invitado es su propio link personalizado
+        const urlActual = window.location.href;
+
+        // Cargar la librería QRCode dinámicamente si no está disponible
+        const generarQR = () => {
+            const canvas = document.createElement('canvas');
+            qrContainer.appendChild(canvas);
+
+            QRCode.toCanvas(canvas, urlActual, { width: 200, margin: 1 }, function(error) {
+                if (error) {
+                    qrContainer.innerHTML = '<p style="color:#e74c3c;">Error al generar QR</p>';
+                    console.error('Error generando QR:', error);
+                    return;
+                }
+
+                // Agregar botón de descarga debajo del QR
+                const btnDescargar = document.createElement('a');
+                btnDescargar.textContent = '⬇️ Descargar QR';
+                btnDescargar.href = canvas.toDataURL('image/png');
+                btnDescargar.download = 'mi-qr-invitacion.png';
+                btnDescargar.style.cssText = `
+                    display: block;
+                    margin-top: 12px;
+                    background: white;
+                    color: #27ae60;
+                    font-weight: bold;
+                    font-size: 0.85rem;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    text-decoration: none;
+                    cursor: pointer;
+                `;
+
+                // Insertar el botón después del canvas dentro del contenedor
+                qrContainer.appendChild(btnDescargar);
+            });
+        };
+
+        // Verificar si QRCode ya está cargado, si no, cargarlo primero
+        if (typeof QRCode === 'undefined') {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js';
+            script.onload = generarQR;
+            document.head.appendChild(script);
+        } else {
+            generarQR();
+        }
+    }
+
     // Si no hay token en la URL, algo esta mal
     if (!token) {
         const msg = document.getElementById('claulet-mensaje');

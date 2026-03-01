@@ -45,7 +45,7 @@ export const mostrarInvitacion = async (req, res) => {
             return res.status(404).send('<h2>Invitado no encontrado.</h2>');
         }
 
-        const evento = invitado.Evento;
+        const evento = invitado.evento;
 
         // 5. Verificar que el evento tenga una plantilla de invitacion asignada
         if (!evento || !evento.plantillaVista) {
@@ -82,12 +82,62 @@ export const mostrarInvitacion = async (req, res) => {
             .replace(/\{\{seccion\}\}/g, invitado.seccion || '')
             .replace(/\{\{comentarios\}\}/g, invitado.comentarios || '');
 
-        // 9. Inyectar el script del sistema justo antes del </body>
-        // El diseñador NO necesita incluir este script, el sistema lo agrega automaticamente
+        // 9. Si ya respondió, inyectar banner informativo y ocultar el formulario
+        let bannerHtml = '';
+
+        if (invitado.estado === 'confirmado') {
+            const mensajePases = invitado.pases > 1 
+                ? `Puedes ingresar con <strong>${invitado.pases - 1} acompañante(s)</strong>.`
+                : 'Tu entrada es <strong>personal</strong>.';
+
+            bannerHtml = `
+            <div id="claulet-banner-confirmado" style="
+                background: #27ae60; color: white;
+                padding: 20px; text-align: center;
+                font-family: Arial, sans-serif;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                <p style="font-size:1.1rem; font-weight:bold; margin:0 0 6px 0;">
+                    ✅ ¡Asistencia confirmada, ${invitado.nombre}!
+                </p>
+                <p style="font-size:0.9rem; margin:0 0 16px 0;">
+                    ${mensajePases} Muestra este QR en la entrada.
+                </p>
+                <!-- Aquí se genera el QR desde invitacion.js -->
+                <div id="claulet-qr-container" style="
+                    display:inline-block;
+                    background:white;
+                    padding:12px;
+                    border-radius:10px;">
+                </div>
+                <p style="font-size:0.75rem; margin:12px 0 0 0; opacity:0.85;">
+                    Guarda este link para el día del evento 👆
+                </p>
+            </div>
+            <div style="margin-top: 20px;"></div>`;
+
+        } else if (invitado.estado === 'declinado') {
+            bannerHtml = `
+            <div id="claulet-banner-declinado" style="
+                position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
+                background: #e74c3c; color: white;
+                padding: 14px 20px; text-align: center;
+                font-family: Arial, sans-serif; font-size: 1rem; font-weight: bold;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+                ❌ Indicaste que no podrás asistir. Si cambiaste de opinión, usa el formulario abajo.
+            </div>
+            <div style="margin-top: 52px;"></div>`;
+        }
+
+        // Inyectar el banner justo después del <body>
+        if (bannerHtml) {
+            html = html.replace('<body>', `<body>\n${bannerHtml}`);
+        }
+
+        // 10. Inyectar el script del sistema justo antes del </body>
         const scriptSistema = `<script src="/invitacion.js"></script>`;
         html = html.replace('</body>', `${scriptSistema}\n</body>`);
 
-        // 10. Servir el HTML resultante
+        // 11. Servir el HTML resultante
         res.setHeader('Content-Type', 'text/html');
         res.send(html);
 

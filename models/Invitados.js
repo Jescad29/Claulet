@@ -62,6 +62,10 @@ const Invitados = db.define('invitados', {
     allowNull: false,
     defaultValue: 'pendiente'
   },
+  ingresado: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   deseo: {
     type: Sequelize.STRING(255),
     allowNull: true,

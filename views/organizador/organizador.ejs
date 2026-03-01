@@ -522,7 +522,41 @@
                                     ${guest.comentarios}`); if (guest.seccion) detalles.push(`Sección:
                                     ${guest.seccion}`); if (guest.tipo) detalles.push(`Tipo: ${guest.tipo}`); %>
                                     <%= detalles.join(' | ') %>
-          </div>
+                            </div>
+                            <!-- Botones de acción WhatsApp -->
+                            <div class="flex gap-2 mt-3 flex-wrap">
+
+                                <!-- Botón Enviar Invitación — visible para TODOS -->
+                                <% 
+                                    const telefonoLimpio = (guest.codigo_pais || '+52').replace('+', '') + (guest.telefono || '');
+                                    const mensajeInvitacion = encodeURIComponent(
+                                        `Hola ${guest.nombre}, te enviamos tu invitación personalizada 🎉\n${guest.url_personalizada || ''}`
+                                    );
+                                %>
+                                <% if (guest.telefono && guest.url_personalizada) { %>
+                                    <a href="https://wa.me/<%= telefonoLimpio %>?text=<%= mensajeInvitacion %>"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">
+                                        📨 Enviar invitación
+                                    </a>
+                                <% } %>
+
+                                <!-- Botón Enviar QR — visible SOLO para confirmados -->
+                                <% if (guest.estado === 'confirmado' && guest.telefono && guest.url_personalizada) { %>
+                                    <%
+                                        const acompanantes = guest.pases > 1 ? `Puedes ingresar con ${guest.pases - 1} acompañante(s).` : 'Tu entrada es personal.';
+                                        const mensajeQR = encodeURIComponent(
+                                            `Hola ${guest.nombre} ✅ Tu asistencia fue confirmada.\n${acompanantes}\nPresenta este link en la entrada: ${guest.url_personalizada}`
+                                        );
+                                    %>
+                                    <a href="https://wa.me/<%= telefonoLimpio %>?text=<%= mensajeQR %>"
+                                        target="_blank"
+                                        class="inline-flex items-center gap-1 text-xs font-semibold px-3 py-1 rounded-full bg-green-100 text-green-700 hover:bg-green-200 transition-colors">
+                                        🎟️ Enviar QR
+                                    </a>
+                                <% } %>
+
+                            </div>
         </div>
       <% }) %>
     <% } else { %>

@@ -145,6 +145,7 @@ export const asignarPlantillaEvento = async (req, res) => {
     // 3. Valida el tipo de plantilla para evitar errores o vulnerabilidades
     // Usamos un mapa para convertir el tipo de frontend a los nombres de las columnas de la DB
     const columnasPlantilla = {
+        invitacion: 'plantillaVistaId',
         pdf: 'plantillaPdfId',
         deseos: 'plantillaDeseosId',
         admin: 'plantillaAdminId'
