@@ -785,6 +785,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const plantillas = res.data;
 
     const contenedores = {
+      invitacion: document.querySelector("#contenedor-invitacion"),
       pdf: document.querySelector("#contenedor-pdf"),
       deseos: document.querySelector("#contenedor-deseos"),
       admin: document.querySelector("#contenedor-admin"),
@@ -827,7 +828,8 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
       // Agregar al contenedor correspondiente según tipo
-      if (p.tipo === "pdf") contenedores.pdf.appendChild(card);
+      if (p.tipo === "invitacion") contenedores.invitacion.appendChild(card);
+      else if (p.tipo === "pdf") contenedores.pdf.appendChild(card);
       else if (p.tipo === "deseos") contenedores.deseos.appendChild(card);
       else if (p.tipo === "admin") contenedores.admin.appendChild(card);
     });

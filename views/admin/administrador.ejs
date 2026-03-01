@@ -402,14 +402,27 @@
 
                     <!-- Templates Tab Content Plantillas -->
                     <div class="tab-pane fade" id="templates-tab" role="tabpanel" aria-labelledby="templates-link">
+
+                        <!-- Invitacion -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Plantillas de Invitación</h5>
+                                <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#nuevaPlantillaModal">
+                                    <i class="fas fa-upload me-1"></i> Subir Nueva Plantilla
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="row row-cols-1 row-cols-md-3 g-4" id="contenedor-invitacion">
+                                    <!-- Se cargan las plantillas de invitacion -->
+                                </div>
+                            </div>
+                        </div>
+
                         <!-- PDF -->
                         <div class="card mb-4">
                             <div class="card-header bg-white d-flex justify-content-between align-items-center">
                                 <h5 class="mb-0">Gestión de Plantillas de Anfitrion - PDF</h5>
-                                <button class="btn btn-primary btn-sm" id="subirPlantillaPDF" data-bs-toggle="modal"
-                                    data-bs-target="#nuevaPlantillaModal">
-                                    <i class="fas fa-upload me-1"></i> Subir Nueva Plantilla
-                                </button>
                             </div>
                             <div class="card-body">
                                 <div class="row row-cols-1 row-cols-md-3 g-4" id="contenedor-pdf">
@@ -952,6 +965,7 @@
                             <label for="plantillaTipo" class="form-label">Tipo</label>
                             <select name="tipo" id="plantillaTipo" required>
                                 <option value="">Selecciona</option>
+                                <option value="invitacion">invitacion</option>
                                 <option value="pdf">pdf</option>
                                 <option value="deseos">deseos</option>
                                 <option value="admin">admin</option>

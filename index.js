@@ -3,6 +3,7 @@ import adminRoutes from './routes/admin.Routes.js'
 import anfitrionRoutes from './routes/anfitrion.Routes.js'
 import organizadorRoutes from './routes/organizador.Routes.js'
 import escanerRoutes from './routes/escaner.Routes.js'
+import invitacionRoutes from './routes/invitacion.Routes.js'
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -57,6 +58,7 @@ app.use('/claulet', adminRoutes);
 app.use('/claulet', anfitrionRoutes);
 app.use('/claulet', organizadorRoutes);
 app.use('/claulet', escanerRoutes);
+app.use('/claulet', invitacionRoutes);
 
 // Definir puerto y arrancar proyecto
 const port = 3000;
